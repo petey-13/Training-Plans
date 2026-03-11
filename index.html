@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sub-3:00 Marathon Plan · Dec 12, 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Clash+Display:wght@400;500;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f2ec;
+  --ink: #1a1612;
+  --mid: #6b6358;
+  --faint: #e8e3da;
+  --rule: #d4cfc6;
+
+  --phase-base: #2d6a4f;
+  --phase-build: #1d4e89;
+  --phase-specific: #9b2226;
+  --phase-taper: #6d3d14;
+  --phase-race: #1a1612;
+
+  --c-intervals: #e63946;
+  --c-tempo: #f4a261;
+  --c-long: #1d4e89;
+  --c-easy: #2d6a4f;
+  --c-recovery: #9b7eca;
+
+  --card-bg: #ffffff;
+  --shadow: 0 2px 12px rgba(26,22,18,0.08);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Syne', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+/* ── HERO ── */
+.hero {
+  background: var(--ink);
+  color: var(--bg);
+  padding: 60px 48px 48px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '3:00';
+  position: absolute;
+  right: -20px;
+  top: -30px;
+  font-size: 240px;
+  font-weight: 800;
+  opacity: 0.04;
+  color: white;
+  line-height: 1;
+  letter-spacing: -10px;
+  pointer-events: none;
+}
+
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  opacity: 0.5;
+  margin-bottom: 20px;
+}
+
+.hero h1 {
+  font-size: clamp(36px, 6vw, 72px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -2px;
+  margin-bottom: 8px;
+}
+
+.hero h1 em {
+  font-style: normal;
+  color: #e8d5a3;
+}
+
+.hero-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  opacity: 0.5;
+  margin-top: 16px;
+  margin-bottom: 36px;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 0;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 28px;
+  flex-wrap: wrap;
+}
+
+.stat {
+  padding: 0 36px 0 0;
+  margin-right: 36px;
+  border-right: 1px solid rgba(255,255,255,0.1);
+}
+.stat:last-child { border-right: none; }
+
+.stat-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0.4;
+  margin-bottom: 6px;
+}
+
+.stat-value {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+/* ── PACES BAR ── */
+.paces-bar {
+  background: #241f1a;
+  padding: 16px 48px;
+  display: flex;
+  gap: 32px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.pace-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: rgba(245,242,236,0.6);
+}
+
+.pace-swatch {
+  width: 10px; height: 10px;
+  border-radius: 2px;
+}
+
+.pace-item strong {
+  color: rgba(245,242,236,0.9);
+}
+
+/* ── PHASE NAV ── */
+.phase-nav {
+  display: flex;
+  gap: 0;
+  padding: 0 48px;
+  background: var(--faint);
+  border-bottom: 1px solid var(--rule);
+  overflow-x: auto;
+}
+
+.phase-btn {
+  padding: 14px 20px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: var(--mid);
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.phase-btn:hover { color: var(--ink); }
+.phase-btn.active { color: var(--ink); border-bottom-color: var(--ink); }
+
+/* ── CONTENT ── */
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 48px 80px;
+}
+
+/* ── PHASE SECTION ── */
+.phase-section { display: none; }
+.phase-section.visible { display: block; }
+
+.phase-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--ink);
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.phase-title-group {}
+
+.phase-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 6px;
+}
+
+.phase-title {
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  line-height: 1;
+}
+
+.phase-meta {
+  text-align: right;
+}
+
+.phase-dates {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--mid);
+  margin-bottom: 6px;
+}
+
+.phase-focus {
+  font-size: 14px;
+  color: var(--mid);
+  max-width: 280px;
+  text-align: right;
+  line-height: 1.5;
+}
+
+/* ── BLOCKS GRID ── */
+.blocks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+/* ── BLOCK CARD ── */
+.block-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.block-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 32px rgba(26,22,18,0.12);
+}
+
+.block-card.recovery-card {
+  background: #faf8ff;
+  border-color: #d4c9f0;
+}
+
+.block-card.race-card {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+
+.block-head {
+  padding: 16px 20px 14px;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.recovery-card .block-head { border-bottom-color: #d4c9f0; }
+.race-card .block-head { border-bottom-color: rgba(255,255,255,0.1); }
+
+.block-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 4px;
+}
+
+.race-card .block-num { color: rgba(245,242,236,0.5); }
+
+.block-name {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.block-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 4px 9px;
+  border-radius: 20px;
+}
+
+.badge-build { background: #dbeafe; color: #1d4e89; }
+.badge-recovery { background: #ede9fe; color: #6d28d9; }
+.badge-race { background: rgba(232,213,163,0.2); color: #e8d5a3; }
+.badge-peak { background: #fde8e8; color: #9b2226; }
+.badge-taper { background: #fef3c7; color: #92400e; }
+
+.block-dates {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--mid);
+  padding: 8px 20px;
+  background: var(--faint);
+  border-bottom: 1px solid var(--rule);
+}
+
+.recovery-card .block-dates { background: #f3f0ff; border-bottom-color: #d4c9f0; }
+.race-card .block-dates { background: rgba(255,255,255,0.05); border-bottom-color: rgba(255,255,255,0.1); color: rgba(245,242,236,0.5); }
+
+.workouts-list { padding: 12px 20px 18px; }
+
+.wk {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--faint);
+  display: flex;
+  gap: 12px;
+}
+
+.recovery-card .wk { border-bottom-color: #ede9fe; }
+.race-card .wk { border-bottom-color: rgba(255,255,255,0.07); }
+.wk:last-child { border-bottom: none; padding-bottom: 0; }
+
+.wk-bar {
+  width: 3px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  align-self: stretch;
+  min-height: 36px;
+}
+
+.wk-content {}
+
+.wk-day {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 3px;
+}
+
+.race-card .wk-day { color: rgba(245,242,236,0.4); }
+
+.wk-title {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.wk-detail {
+  font-size: 11.5px;
+  color: var(--mid);
+  line-height: 1.5;
+}
+
+.race-card .wk-detail { color: rgba(245,242,236,0.6); }
+
+.wk-pace {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 7px;
+  border-radius: 3px;
+  margin-top: 4px;
+}
+
+.pace-i { background: rgba(230,57,70,0.1); color: var(--c-intervals); }
+.pace-t { background: rgba(244,162,97,0.15); color: #c47a30; }
+.pace-l { background: rgba(29,78,137,0.1); color: var(--c-long); }
+.pace-e { background: rgba(45,106,79,0.1); color: var(--c-easy); }
+.pace-r { background: rgba(155,126,202,0.15); color: #7c5cbf; }
+
+.block-footer {
+  padding: 10px 20px;
+  background: var(--faint);
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.recovery-card .block-footer { background: #f3f0ff; border-top-color: #d4c9f0; }
+.race-card .block-footer { background: rgba(255,255,255,0.05); border-top-color: rgba(255,255,255,0.1); }
+
+.footer-miles {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--mid);
+}
+
+.race-card .footer-miles { color: rgba(245,242,236,0.5); }
+
+.footer-miles strong {
+  font-size: 15px;
+  color: var(--ink);
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+}
+
+.race-card .footer-miles strong { color: #e8d5a3; }
+
+/* ── PHASE OVERVIEW ── */
+.phase-overview {
+  background: var(--card-bg);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 28px;
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.overview-item { }
+.overview-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 4px;
+}
+
+.overview-val {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.overview-divider {
+  width: 1px;
+  align-self: stretch;
+  background: var(--rule);
+}
+
+/* scrollbar */
+::-webkit-scrollbar { height: 4px; }
+::-webkit-scrollbar-track { background: var(--faint); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 4px; }
+
+@media (max-width: 700px) {
+  .hero { padding: 40px 24px 36px; }
+  .paces-bar { padding: 12px 24px; }
+  .phase-nav { padding: 0 24px; }
+  .content { padding: 28px 24px 60px; }
+  .hero-stats { gap: 20px; }
+  .stat { padding-right: 20px; margin-right: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Marathon Training Plan · Full Season</div>
+  <h1>Road to<br><em>Sub 3:00</em></h1>
+  <div class="hero-sub">Mar 16, 2026 → Dec 12, 2026 · 39 Weeks · 3 Runs + 3 Rides/Week</div>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-label">Goal Time</div>
+      <div class="stat-value">Sub 3:00</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Goal Pace</div>
+      <div class="stat-value">6:52/mi</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Race Date</div>
+      <div class="stat-value">Dec 12</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Weeks Out</div>
+      <div class="stat-value">39 Wks</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Phases</div>
+      <div class="stat-value">5 Phases</div>
+    </div>
+  </div>
+</div>
+
+<!-- PACES -->
+<div class="paces-bar">
+  <div class="pace-item"><div class="pace-swatch" style="background:var(--c-intervals)"></div> Intervals <strong>6:20–6:35</strong></div>
+  <div class="pace-item"><div class="pace-swatch" style="background:var(--c-tempo)"></div> Tempo <strong>6:40–6:55</strong></div>
+  <div class="pace-item"><div class="pace-swatch" style="background:var(--c-long)"></div> Long Run <strong>8:00–8:45</strong></div>
+  <div class="pace-item"><div class="pace-swatch" style="background:var(--c-easy)"></div> Easy <strong>8:30–9:30</strong></div>
+  <div class="pace-item"><div class="pace-swatch" style="background:var(--c-recovery)"></div> Recovery <strong>9:30–10:30</strong></div>
+</div>
+
+<!-- PHASE NAV -->
+<div class="phase-nav">
+  <button class="phase-btn active" onclick="showPhase('base1')">Phase 1 · Base I</button>
+  <button class="phase-btn" onclick="showPhase('base2')">Phase 2 · Base II</button>
+  <button class="phase-btn" onclick="showPhase('build')">Phase 3 · Build</button>
+  <button class="phase-btn" onclick="showPhase('specific')">Phase 4 · Specific</button>
+  <button class="phase-btn" onclick="showPhase('taper')">Phase 5 · Taper & Race</button>
+</div>
+
+<div class="content">
+
+<!-- ══════════════════════════════════════════════
+     PHASE 1 · BASE I (Weeks 1–8, Mar 16–May 10)
+════════════════════════════════════════════════ -->
+<div id="base1" class="phase-section visible">
+  <div class="phase-header">
+    <div class="phase-title-group">
+      <div class="phase-eyebrow">Phase 1 · Weeks 1–8</div>
+      <div class="phase-title">Base I<br>Aerobic Foundation</div>
+    </div>
+    <div class="phase-meta">
+      <div class="phase-dates">Mar 16 – May 10, 2026</div>
+      <div class="phase-focus">Build consistent run volume, protect the aerobic engine you built through Ironman. Mileage climbs from 28 → 38 mpw.</div>
+    </div>
+  </div>
+
+  <div class="phase-overview">
+    <div class="overview-item"><div class="overview-label">Mileage Range</div><div class="overview-val">28–38 mi/wk</div></div>
+    <div class="overview-divider"></div>
+    <div class="overview-item"><div class="overview-label">Key Session</div><div class="overview-val">Long Run (14–18 mi)</div></div>
+    <div class="overview-divider"></div>
+    <div class="overview-item"><div class="overview-label">Quality Work</div><div class="overview-val">800m repeats + easy tempo</div></div>
+    <div class="overview-divider"></div>
+    <div class="overview-item"><div class="overview-label">Riding</div><div class="overview-val">3×/wk — 2 endurance, 1 sweet spot</div></div>
+    <div class="overview-divider"></div>
+    <div class="overview-item"><div class="overview-label">Focus</div><div class="overview-val">Aerobic base. Easy runs EASY. No hero efforts.</div></div>
+  </div>
+
+  <div class="blocks-grid">
+
+    <!-- W1 -->
+    <div class="block-card">
+      <div class="block-head">
+        <div><div class="block-num">Week 01 · Mar 16–22</div><div class="block-name">Foundation</div></div>
+        <span class="block-badge badge-build">Build</span>
+      </div>
+      <div class="block-dates">Mar 16 – Mar 22</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-intervals)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">6×800m Intervals</div><div class="wk-detail">2mi warm-up · 6×800m (90 sec jog recovery) · 1.5mi cool-down</div><span class="wk-pace pace-i">6:25–6:35/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-easy)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">Medium Long Run</div><div class="wk-detail">10 miles easy · last 2mi at marathon pace</div><span class="wk-pace pace-e">8:30–9:00/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-long)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Long Run — 16 mi</div><div class="wk-detail">Easy aerobic effort. Fuel every 30–35 min. No pace pressure.</div><span class="wk-pace pace-l">8:15–8:45/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>28</strong> run miles</div></div>
+    </div>
+
+    <!-- W2 -->
+    <div class="block-card">
+      <div class="block-head">
+        <div><div class="block-num">Week 02 · Mar 23–29</div><div class="block-name">Tempo Push</div></div>
+        <span class="block-badge badge-build">Build</span>
+      </div>
+      <div class="block-dates">Mar 23 – Mar 29</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-tempo)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">Tempo Run — 5 mi</div><div class="wk-detail">2mi warm-up · 5mi tempo · 1.5mi cool-down</div><span class="wk-pace pace-t">6:40–6:55/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-easy)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">Medium Long Run</div><div class="wk-detail">12 miles easy · miles 9–11 at marathon pace</div><span class="wk-pace pace-e">8:30/mi → 6:52/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-long)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Long Run — 18 mi</div><div class="wk-detail">Easy, steady aerobic effort throughout</div><span class="wk-pace pace-l">8:00–8:30/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>32</strong> run miles</div></div>
+    </div>
+
+    <!-- W3 -->
+    <div class="block-card">
+      <div class="block-head">
+        <div><div class="block-num">Week 03 · Mar 30–Apr 5</div><div class="block-name">Peak Load</div></div>
+        <span class="block-badge badge-build">Build</span>
+      </div>
+      <div class="block-dates">Mar 30 – Apr 5</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-intervals)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">5×1 Mile Repeats</div><div class="wk-detail">2mi warm-up · 5×1 mile (2 min recovery) · 1.5mi cool-down</div><span class="wk-pace pace-i">6:20–6:35/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-easy)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">Progression Run</div><div class="wk-detail">12 miles · 4-mile progression in middle: 8:30 → 7:30/mi</div><span class="wk-pace pace-e">8:30 → 7:30/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-long)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Long Run w/ Pace — 20 mi</div><div class="wk-detail">Miles 1–15 easy · miles 15–19 at marathon pace · mile 20 easy</div><span class="wk-pace pace-l">Easy → 6:52/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>36</strong> run miles</div></div>
+    </div>
+
+    <!-- W4 RECOVERY -->
+    <div class="block-card recovery-card">
+      <div class="block-head">
+        <div><div class="block-num">Week 04 · Apr 6–12</div><div class="block-name">Recovery</div></div>
+        <span class="block-badge badge-recovery">Recovery</span>
+      </div>
+      <div class="block-dates">Apr 6 – Apr 12</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-recovery)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">Easy + Strides</div><div class="wk-detail">6 miles easy · 6×20-sec strides at end</div><span class="wk-pace pace-r">9:00–10:00/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-recovery)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">Easy Run</div><div class="wk-detail">6 miles, fully easy. No watch targets. Run by feel.</div><span class="wk-pace pace-r">9:30–10:30/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-recovery)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Easy Long — 8 mi</div><div class="wk-detail">Very easy. Cut to 6 if legs still heavy. Absorption week.</div><span class="wk-pace pace-r">9:00–9:45/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>20</strong> run miles</div></div>
+    </div>
+
+    <!-- W5 -->
+    <div class="block-card">
+      <div class="block-head">
+        <div><div class="block-num">Week 05 · Apr 13–19</div><div class="block-name">Reload</div></div>
+        <span class="block-badge badge-build">Build</span>
+      </div>
+      <div class="block-dates">Apr 13 – Apr 19</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-intervals)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">8×800m Intervals</div><div class="wk-detail">2mi warm-up · 8×800m (75 sec recovery) · 1.5mi cool-down</div><span class="wk-pace pace-i">6:20–6:30/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-easy)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">Medium Long Run</div><div class="wk-detail">11 miles easy, steady</div><span class="wk-pace pace-e">8:30–9:00/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-long)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Long Run — 17 mi</div><div class="wk-detail">Easy aerobic. Fuel practice. Comfortable throughout.</div><span class="wk-pace pace-l">8:15–8:45/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>30</strong> run miles</div></div>
+    </div>
+
+    <!-- W6 -->
+    <div class="block-card">
+      <div class="block-head">
+        <div><div class="block-num">Week 06 · Apr 20–26</div><div class="block-name">Tempo Extension</div></div>
+        <span class="block-badge badge-build">Build</span>
+      </div>
+      <div class="block-dates">Apr 20 – Apr 26</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-tempo)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">Tempo Run — 6 mi</div><div class="wk-detail">2mi warm-up · 6mi tempo · 1.5mi cool-down</div><span class="wk-pace pace-t">6:40–6:50/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-easy)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">Medium Long Run</div><div class="wk-detail">12 miles · miles 10–12 at marathon pace</div><span class="wk-pace pace-e">8:30/mi → 6:52/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-long)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Long Run — 19 mi</div><div class="wk-detail">Easy. Keep it honest even if you feel good.</div><span class="wk-pace pace-l">8:00–8:30/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>33</strong> run miles</div></div>
+    </div>
+
+    <!-- W7 -->
+    <div class="block-card">
+      <div class="block-head">
+        <div><div class="block-num">Week 07 · Apr 27–May 3</div><div class="block-name">Volume Peak</div></div>
+        <span class="block-badge badge-build">Build</span>
+      </div>
+      <div class="block-dates">Apr 27 – May 3</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-intervals)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">6×1 Mile Repeats</div><div class="wk-detail">2mi warm-up · 6×1 mile (90 sec recovery) · 1.5mi cool-down</div><span class="wk-pace pace-i">6:20–6:30/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-easy)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">Progression MLR</div><div class="wk-detail">13 miles: first 8 easy, miles 8–12 progressive to 7:15, mile 13 easy</div><span class="wk-pace pace-e">8:30 → 7:15/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-long)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Long Run — 22 mi</div><div class="wk-detail">Easy throughout. Biggest long run yet. Focus on fueling execution.</div><span class="wk-pace pace-l">8:15–8:45/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>38</strong> run miles</div></div>
+    </div>
+
+    <!-- W8 RECOVERY -->
+    <div class="block-card recovery-card">
+      <div class="block-head">
+        <div><div class="block-num">Week 08 · May 4–10</div><div class="block-name">Recovery</div></div>
+        <span class="block-badge badge-recovery">Recovery</span>
+      </div>
+      <div class="block-dates">May 4 – May 10</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-recovery)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">Easy + Strides</div><div class="wk-detail">6 miles easy · 6×20-sec strides</div><span class="wk-pace pace-r">9:00–10:00/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-recovery)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">Easy Run</div><div class="wk-detail">6 miles by feel. No data pressure.</div><span class="wk-pace pace-r">9:30–10:30/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-recovery)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Easy Long — 10 mi</div><div class="wk-detail">Very relaxed. Let weeks 5–7 sink in.</div><span class="wk-pace pace-r">9:00–9:30/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>22</strong> run miles</div></div>
+    </div>
+
+  </div><!-- /blocks-grid -->
+</div><!-- /phase1 -->
+
+
+<!-- ══════════════════════════════════════════════
+     PHASE 2 · BASE II (Weeks 9–16, May 11–Jul 5)
+════════════════════════════════════════════════ -->
+<div id="base2" class="phase-section">
+  <div class="phase-header">
+    <div class="phase-title-group">
+      <div class="phase-eyebrow">Phase 2 · Weeks 9–16</div>
+      <div class="phase-title">Base II<br>Strength & Volume</div>
+    </div>
+    <div class="phase-meta">
+      <div class="phase-dates">May 11 – Jul 6, 2026</div>
+      <div class="phase-focus">Increase weekly mileage to 42–48 mpw. Introduce longer tempo runs and marathon-pace segments inside long runs. Consider a tune-up half marathon in June.</div>
+    </div>
+  </div>
+
+  <div class="phase-overview">
+    <div class="overview-item"><div class="overview-label">Mileage Range</div><div class="overview-val">38–48 mi/wk</div></div>
+    <div class="overview-divider"></div>
+    <div class="overview-item"><div class="overview-label">Key Session</div><div class="overview-val">Long Run w/ MP segments</div></div>
+    <div class="overview-divider"></div>
+    <div class="overview-item"><div class="overview-label">Quality Work</div><div class="overview-val">Cruise intervals + longer tempo</div></div>
+    <div class="overview-divider"></div>
+    <div class="overview-item"><div class="overview-label">Race Tune-Up</div><div class="overview-val">Half marathon in mid-June (target ~1:25–1:28)</div></div>
+    <div class="overview-divider"></div>
+    <div class="overview-item"><div class="overview-label">Riding</div><div class="overview-val">Maintain 3×/wk · protect FTP ~270–280w</div></div>
+  </div>
+
+  <div class="blocks-grid">
+
+    <div class="block-card">
+      <div class="block-head"><div><div class="block-num">Week 09 · May 11–17</div><div class="block-name">Reload</div></div><span class="block-badge badge-build">Build</span></div>
+      <div class="block-dates">May 11 – May 17</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-tempo)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">Cruise Intervals</div><div class="wk-detail">2mi WU · 4×2 miles at tempo (60 sec recovery) · 1.5mi CD</div><span class="wk-pace pace-t">6:40–6:50/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-easy)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">Medium Long Run</div><div class="wk-detail">12 miles easy</div><span class="wk-pace pace-e">8:30–9:00/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-long)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Long Run — 18 mi</div><div class="wk-detail">Easy. Miles 14–17 at marathon goal pace.</div><span class="wk-pace pace-l">Easy → 6:52/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>32</strong> run miles</div></div>
+    </div>
+
+    <div class="block-card">
+      <div class="block-head"><div><div class="block-num">Week 10 · May 18–24</div><div class="block-name">Mileage Push</div></div><span class="block-badge badge-build">Build</span></div>
+      <div class="block-dates">May 18 – May 24</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-intervals)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">1K Repeats</div><div class="wk-detail">2mi WU · 8×1000m (90 sec recovery) · 1.5mi CD</div><span class="wk-pace pace-i">6:10–6:25/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-easy)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">MLR w/ Surge</div><div class="wk-detail">14 miles: miles 10–13 at marathon goal pace</div><span class="wk-pace pace-e">8:30/mi → 6:52/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-long)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Long Run — 20 mi</div><div class="wk-detail">Easy, conversational. No heroics.</div><span class="wk-pace pace-l">8:15–8:45/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>38</strong> run miles</div></div>
+    </div>
+
+    <div class="block-card">
+      <div class="block-head"><div><div class="block-num">Week 11 · May 25–31</div><div class="block-name">Long Tempo</div></div><span class="block-badge badge-build">Build</span></div>
+      <div class="block-dates">May 25 – May 31</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-tempo)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">Long Tempo — 8 mi</div><div class="wk-detail">2mi WU · 8 miles at tempo · 1.5mi CD. Hardest workout of this block.</div><span class="wk-pace pace-t">6:45–6:55/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-easy)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">Medium Long Run</div><div class="wk-detail">13 miles easy, aerobic</div><span class="wk-pace pace-e">8:30–9:00/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-long)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Long Run — 22 mi</div><div class="wk-detail">Easy, steady. Miles 18–21 optional at marathon pace if feeling great.</div><span class="wk-pace pace-l">8:15–8:45/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>43</strong> run miles</div></div>
+    </div>
+
+    <div class="block-card recovery-card">
+      <div class="block-head"><div><div class="block-num">Week 12 · Jun 1–7</div><div class="block-name">Recovery</div></div><span class="block-badge badge-recovery">Recovery</span></div>
+      <div class="block-dates">Jun 1 – Jun 7</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-recovery)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">Easy + Strides</div><div class="wk-detail">7 miles easy · 8×20-sec strides</div><span class="wk-pace pace-r">9:00–10:00/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-recovery)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">Easy Run</div><div class="wk-detail">7 miles easy, no pace targets</div><span class="wk-pace pace-r">9:30–10:00/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-recovery)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Easy Long — 12 mi</div><div class="wk-detail">Relaxed effort. Feel the freshness returning.</div><span class="wk-pace pace-r">9:00–9:30/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>26</strong> run miles</div></div>
+    </div>
+
+    <div class="block-card">
+      <div class="block-head"><div><div class="block-num">Week 13 · Jun 8–14</div><div class="block-name">Pre-Race Tune-Up</div></div><span class="block-badge badge-build">Build</span></div>
+      <div class="block-dates">Jun 8 – Jun 14</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-intervals)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">Sharpener</div><div class="wk-detail">2mi WU · 4×1 mile at 5K effort · 1.5mi CD. Keep it sharp, not deep.</div><span class="wk-pace pace-i">6:10–6:20/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-easy)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">Easy Run</div><div class="wk-detail">8 miles, easy. Save legs for Saturday.</div><span class="wk-pace pace-e">9:00–9:30/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-long)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">⭐ Half Marathon Tune-Up</div><div class="wk-detail">Race a half marathon. Target 1:25–1:28. This is your fitness test.</div><span class="wk-pace pace-i">~6:30–6:44/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>28</strong> run miles</div></div>
+    </div>
+
+    <div class="block-card">
+      <div class="block-head"><div><div class="block-num">Week 14 · Jun 15–21</div><div class="block-name">Post-Race Rebuild</div></div><span class="block-badge badge-build">Build</span></div>
+      <div class="block-dates">Jun 15 – Jun 21</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-easy)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">Easy Shakeout</div><div class="wk-detail">8 miles easy. Let race soreness clear.</div><span class="wk-pace pace-e">9:00–9:30/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-tempo)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">Tempo Return</div><div class="wk-detail">2mi WU · 5mi tempo · 1.5mi CD</div><span class="wk-pace pace-t">6:40–6:55/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-long)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Long Run — 20 mi</div><div class="wk-detail">Easy. Back to business. Miles 17–19 at marathon pace if fresh.</div><span class="wk-pace pace-l">8:15–8:45/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>36</strong> run miles</div></div>
+    </div>
+
+    <div class="block-card">
+      <div class="block-head"><div><div class="block-num">Week 15 · Jun 22–28</div><div class="block-name">Volume Peak II</div></div><span class="block-badge badge-build">Build</span></div>
+      <div class="block-dates">Jun 22 – Jun 28</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-intervals)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">2K Repeats</div><div class="wk-detail">2mi WU · 5×2K (2 min recovery) · 1.5mi CD</div><span class="wk-pace pace-i">6:15–6:25/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-easy)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">MLR w/ Surge</div><div class="wk-detail">14 miles: miles 11–13 at marathon goal pace</div><span class="wk-pace pace-e">8:30/mi → 6:52/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-long)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Long Run — 22 mi</div><div class="wk-detail">Easy aerobic. Highest mileage week of Base II.</div><span class="wk-pace pace-l">8:15–8:45/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>42</strong> run miles</div></div>
+    </div>
+
+    <div class="block-card recovery-card">
+      <div class="block-head"><div><div class="block-num">Week 16 · Jun 29–Jul 6</div><div class="block-name">Recovery</div></div><span class="block-badge badge-recovery">Recovery</span></div>
+      <div class="block-dates">Jun 29 – Jul 6</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-recovery)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">Easy + Strides</div><div class="wk-detail">7 miles easy · 8×20-sec strides</div><span class="wk-pace pace-r">9:00–10:00/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-recovery)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">Easy Run</div><div class="wk-detail">7 miles easy, conversational</div><span class="wk-pace pace-r">9:30–10:00/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-recovery)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Easy Long — 12 mi</div><div class="wk-detail">Relaxed. No pace targets. Enjoy summer running.</div><span class="wk-pace pace-r">9:00–9:30/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>26</strong> run miles</div></div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     PHASE 3 · BUILD (Weeks 17–24, Jul 7–Aug 30)
+════════════════════════════════════════════════ -->
+<div id="build" class="phase-section">
+  <div class="phase-header">
+    <div class="phase-title-group">
+      <div class="phase-eyebrow">Phase 3 · Weeks 17–24</div>
+      <div class="phase-title">Build<br>Lactate & Power</div>
+    </div>
+    <div class="phase-meta">
+      <div class="phase-dates">Jul 7 – Aug 30, 2026</div>
+      <div class="phase-focus">Raise lactate threshold. Longer, harder tempo work. Mileage 44–52 mpw. Long runs regularly touch 22–24 miles with marathon-pace finishes.</div>
+    </div>
+  </div>
+
+  <div class="phase-overview">
+    <div class="overview-item"><div class="overview-label">Mileage Range</div><div class="overview-val">42–52 mi/wk</div></div>
+    <div class="overview-divider"></div>
+    <div class="overview-item"><div class="overview-label">Key Session</div><div class="overview-val">22–24 mi long runs w/ MP finish</div></div>
+    <div class="overview-divider"></div>
+    <div class="overview-item"><div class="overview-label">Quality Work</div><div class="overview-val">Longer tempo, 1200m/mile repeats</div></div>
+    <div class="overview-divider"></div>
+    <div class="overview-item"><div class="overview-label">Riding</div><div class="overview-val">3×/wk · reduce sweet spot · protect legs</div></div>
+    <div class="overview-divider"></div>
+    <div class="overview-item"><div class="overview-label">Mental Focus</div><div class="overview-val">Learn to run comfortable at 6:52. It should start feeling familiar.</div></div>
+  </div>
+
+  <div class="blocks-grid">
+
+    <div class="block-card">
+      <div class="block-head"><div><div class="block-num">Week 17 · Jul 7–13</div><div class="block-name">Build Entry</div></div><span class="block-badge badge-build">Build</span></div>
+      <div class="block-dates">Jul 7 – Jul 13</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-tempo)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">Tempo — 7 mi</div><div class="wk-detail">2mi WU · 7mi continuous tempo · 1.5mi CD</div><span class="wk-pace pace-t">6:40–6:50/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-easy)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">MLR w/ Pace</div><div class="wk-detail">14 miles: miles 11–13 at marathon goal pace</div><span class="wk-pace pace-e">8:30/mi → 6:52/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-long)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Long Run — 20 mi</div><div class="wk-detail">Easy, steady. Re-establish long run feel after recovery week.</div><span class="wk-pace pace-l">8:15–8:45/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>36</strong> run miles</div></div>
+    </div>
+
+    <div class="block-card">
+      <div class="block-head"><div><div class="block-num">Week 18 · Jul 14–20</div><div class="block-name">Repeat Ladders</div></div><span class="block-badge badge-build">Build</span></div>
+      <div class="block-dates">Jul 14 – Jul 20</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-intervals)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">Ladder Workout</div><div class="wk-detail">2mi WU · 400, 800, 1200, 1600, 1200, 800, 400m (equal recovery) · 1.5mi CD</div><span class="wk-pace pace-i">6:10–6:30/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-easy)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">Medium Long Run</div><div class="wk-detail">13 miles easy</div><span class="wk-pace pace-e">8:30–9:00/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-long)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Long Run — 22 mi</div><div class="wk-detail">Easy. Miles 18–21 at marathon goal pace. Final mile easy cooldown.</div><span class="wk-pace pace-l">Easy → 6:52/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>40</strong> run miles</div></div>
+    </div>
+
+    <div class="block-card">
+      <div class="block-head"><div><div class="block-num">Week 19 · Jul 21–27</div><div class="block-name">Threshold Block</div></div><span class="block-badge badge-peak">Peak</span></div>
+      <div class="block-dates">Jul 21 – Jul 27</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-tempo)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">Broken Tempo</div><div class="wk-detail">2mi WU · 3×3 miles at tempo (2 min recovery) · 1.5mi CD</div><span class="wk-pace pace-t">6:38–6:50/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-easy)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">MLR w/ Surge</div><div class="wk-detail">15 miles: miles 12–14 at marathon pace</div><span class="wk-pace pace-e">8:30/mi → 6:52/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-long)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Long Run — 24 mi</div><div class="wk-detail">Easy throughout. This is your longest run of the season. Purely aerobic — no pace work today.</div><span class="wk-pace pace-l">8:30–9:00/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>45</strong> run miles</div></div>
+    </div>
+
+    <div class="block-card recovery-card">
+      <div class="block-head"><div><div class="block-num">Week 20 · Jul 28–Aug 3</div><div class="block-name">Recovery</div></div><span class="block-badge badge-recovery">Recovery</span></div>
+      <div class="block-dates">Jul 28 – Aug 3</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-recovery)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">Easy + Strides</div><div class="wk-detail">7 miles easy · 8×20-sec strides</div><span class="wk-pace pace-r">9:00–10:00/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-recovery)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">Easy Run</div><div class="wk-detail">7 miles easy. You just ran 24 miles. Earn the rest.</div><span class="wk-pace pace-r">9:30–10:00/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-recovery)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Easy Long — 12 mi</div><div class="wk-detail">Very easy, social pace. No heart rate targets.</div><span class="wk-pace pace-r">9:00–9:30/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>26</strong> run miles</div></div>
+    </div>
+
+    <div class="block-card">
+      <div class="block-head"><div><div class="block-num">Week 21 · Aug 4–10</div><div class="block-name">Power Reload</div></div><span class="block-badge badge-build">Build</span></div>
+      <div class="block-dates">Aug 4 – Aug 10</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-intervals)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">1200m Repeats</div><div class="wk-detail">2mi WU · 7×1200m (2 min recovery) · 1.5mi CD</div><span class="wk-pace pace-i">6:10–6:22/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-easy)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">MLR w/ Pace</div><div class="wk-detail">14 miles: miles 11–13 at marathon goal pace</div><span class="wk-pace pace-e">8:30/mi → 6:52/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-long)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Long Run — 20 mi</div><div class="wk-detail">Comfortable. Miles 16–19 at marathon pace.</div><span class="wk-pace pace-l">Easy → 6:52/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>38</strong> run miles</div></div>
+    </div>
+
+    <div class="block-card">
+      <div class="block-head"><div><div class="block-num">Week 22 · Aug 11–17</div><div class="block-name">Double Quality</div></div><span class="block-badge badge-peak">Peak</span></div>
+      <div class="block-dates">Aug 11 – Aug 17</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-tempo)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">Tempo — 9 mi</div><div class="wk-detail">2mi WU · 9 miles continuous · 1.5mi CD. Season-best tempo.</div><span class="wk-pace pace-t">6:42–6:52/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-easy)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">MLR — 15 mi</div><div class="wk-detail">Miles 12–14 at marathon goal pace</div><span class="wk-pace pace-e">8:30/mi → 6:52/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-long)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Long Run — 22 mi</div><div class="wk-detail">Easy. High mileage week — trust the training not the legs.</div><span class="wk-pace pace-l">8:15–8:45/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>48</strong> run miles</div></div>
+    </div>
+
+    <div class="block-card">
+      <div class="block-head"><div><div class="block-num">Week 23 · Aug 18–24</div><div class="block-name">Peak Mileage</div></div><span class="block-badge badge-peak">Peak</span></div>
+      <div class="block-dates">Aug 18 – Aug 24</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-intervals)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">Mile Repeats</div><div class="wk-detail">2mi WU · 7×1 mile (90 sec recovery) · 1.5mi CD</div><span class="wk-pace pace-i">6:18–6:28/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-easy)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">MLR — 15 mi</div><div class="wk-detail">Easy miles 1–12, miles 12–14 at marathon pace</div><span class="wk-pace pace-e">8:30/mi → 6:52/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-long)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Long Run — 22 mi</div><div class="wk-detail">Miles 1–17 easy · miles 17–21 at marathon goal pace · 1 mi easy. Peak workout of the season.</div><span class="wk-pace pace-l">Easy → 6:52/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>52</strong> run miles</div></div>
+    </div>
+
+    <div class="block-card recovery-card">
+      <div class="block-head"><div><div class="block-num">Week 24 · Aug 25–31</div><div class="block-name">Recovery</div></div><span class="block-badge badge-recovery">Recovery</span></div>
+      <div class="block-dates">Aug 25 – Aug 31</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-recovery)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">Easy + Strides</div><div class="wk-detail">7 miles easy · 8×20-sec strides</div><span class="wk-pace pace-r">9:00–10:00/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-recovery)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">Easy Run</div><div class="wk-detail">7 miles easy. Absorb a massive 3-week block.</div><span class="wk-pace pace-r">9:30–10:00/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-recovery)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Easy Long — 12 mi</div><div class="wk-detail">Comfortable. Feel good going into Phase 4.</div><span class="wk-pace pace-r">9:00–9:30/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>26</strong> run miles</div></div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     PHASE 4 · SPECIFIC (Weeks 25–36, Sep 1–Nov 22)
+════════════════════════════════════════════════ -->
+<div id="specific" class="phase-section">
+  <div class="phase-header">
+    <div class="phase-title-group">
+      <div class="phase-eyebrow">Phase 4 · Weeks 25–36</div>
+      <div class="phase-title">Specific<br>Race Simulation</div>
+    </div>
+    <div class="phase-meta">
+      <div class="phase-dates">Sep 1 – Nov 22, 2026</div>
+      <div class="phase-focus">Marathon-specific training. 6:52 pace becomes second nature. Long runs simulate race conditions. Second tune-up half marathon in October.</div>
+    </div>
+  </div>
+
+  <div class="phase-overview">
+    <div class="overview-item"><div class="overview-label">Mileage Range</div><div class="overview-val">44–52 mi/wk</div></div>
+    <div class="overview-divider"></div>
+    <div class="overview-item"><div class="overview-label">Key Session</div><div class="overview-val">Marathon-pace long runs</div></div>
+    <div class="overview-divider"></div>
+    <div class="overview-item"><div class="overview-label">Quality Work</div><div class="overview-val">MP intervals, race-pace tempo</div></div>
+    <div class="overview-divider"></div>
+    <div class="overview-item"><div class="overview-label">Race Tune-Up</div><div class="overview-val">Half marathon in Oct (target sub-1:22)</div></div>
+    <div class="overview-divider"></div>
+    <div class="overview-item"><div class="overview-label">Riding</div><div class="overview-val">Scale back to 2×/wk easy — legs are priority</div></div>
+  </div>
+
+  <div class="blocks-grid">
+
+    <div class="block-card">
+      <div class="block-head"><div><div class="block-num">Week 25 · Sep 1–7</div><div class="block-name">Specific Entry</div></div><span class="block-badge badge-peak">Specific</span></div>
+      <div class="block-dates">Sep 1 – Sep 7</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-tempo)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">MP Intervals</div><div class="wk-detail">2mi WU · 5×2 miles at marathon pace (90 sec jog) · 1.5mi CD</div><span class="wk-pace pace-t">6:52/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-easy)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">MLR — 14 mi</div><div class="wk-detail">Easy miles · miles 11–13 at marathon pace</div><span class="wk-pace pace-e">8:30/mi → 6:52/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-long)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Long Run — 20 mi</div><div class="wk-detail">Miles 1–14 easy · miles 14–19 at marathon pace · 1 mi easy</div><span class="wk-pace pace-l">Easy → 6:52/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>38</strong> run miles</div></div>
+    </div>
+
+    <div class="block-card">
+      <div class="block-head"><div><div class="block-num">Week 26 · Sep 8–14</div><div class="block-name">Sustained MP</div></div><span class="block-badge badge-peak">Specific</span></div>
+      <div class="block-dates">Sep 8 – Sep 14</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-intervals)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">Sub-Threshold Repeats</div><div class="wk-detail">2mi WU · 6×1 mile at 6:40 (90 sec recovery) · 1.5mi CD</div><span class="wk-pace pace-i">6:38–6:45/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-easy)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">Progression — 15 mi</div><div class="wk-detail">Miles 1–10 easy · miles 10–14 at marathon pace · 1 mi easy</div><span class="wk-pace pace-e">Easy → 6:52/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-long)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Long Run — 22 mi</div><div class="wk-detail">Easy. Race nutrition protocol. Consistent effort.</div><span class="wk-pace pace-l">8:15–8:45/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>44</strong> run miles</div></div>
+    </div>
+
+    <div class="block-card">
+      <div class="block-head"><div><div class="block-num">Week 27 · Sep 15–21</div><div class="block-name">Race Simulation</div></div><span class="block-badge badge-peak">Specific</span></div>
+      <div class="block-dates">Sep 15 – Sep 21</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-tempo)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">Negative Split Tempo</div><div class="wk-detail">2mi WU · 10 miles: first 5 at 7:05, second 5 at 6:45 · 1.5mi CD</div><span class="wk-pace pace-t">7:05 → 6:45/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-easy)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">MLR — 14 mi</div><div class="wk-detail">Miles 11–13 at marathon goal pace</div><span class="wk-pace pace-e">8:30/mi → 6:52/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-long)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Long Run — 20 mi</div><div class="wk-detail">Miles 1–12 easy · miles 12–19 at marathon pace · 1 mi easy. Full race-feel effort.</div><span class="wk-pace pace-l">Easy → 6:52/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>46</strong> run miles</div></div>
+    </div>
+
+    <div class="block-card recovery-card">
+      <div class="block-head"><div><div class="block-num">Week 28 · Sep 22–28</div><div class="block-name">Recovery</div></div><span class="block-badge badge-recovery">Recovery</span></div>
+      <div class="block-dates">Sep 22 – Sep 28</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-recovery)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">Easy + Strides</div><div class="wk-detail">7 miles easy · 8×20-sec strides</div><span class="wk-pace pace-r">9:00–10:00/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-recovery)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">Easy Run</div><div class="wk-detail">7 miles easy. Mental reset before final push.</div><span class="wk-pace pace-r">9:30–10:00/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-recovery)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Easy Long — 12 mi</div><div class="wk-detail">Relaxed. Race legs are earned now.</div><span class="wk-pace pace-r">9:00–9:30/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>26</strong> run miles</div></div>
+    </div>
+
+    <div class="block-card">
+      <div class="block-head"><div><div class="block-num">Week 29 · Sep 29–Oct 5</div><div class="block-name">Pre-Race Block</div></div><span class="block-badge badge-peak">Specific</span></div>
+      <div class="block-dates">Sep 29 – Oct 5</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-intervals)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">Sharpener</div><div class="wk-detail">2mi WU · 5×1 mile at 5K pace · 1.5mi CD. Freshen the legs.</div><span class="wk-pace pace-i">6:05–6:15/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-easy)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">Easy Run</div><div class="wk-detail">8 miles easy. Save energy for the weekend.</div><span class="wk-pace pace-e">9:00–9:30/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-long)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">⭐ Half Marathon #2</div><div class="wk-detail">Race a half. Target sub-1:22. This should feel controlled and strong.</div><span class="wk-pace pace-i">~6:15–6:25/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>28</strong> run miles</div></div>
+    </div>
+
+    <div class="block-card">
+      <div class="block-head"><div><div class="block-num">Week 30 · Oct 6–12</div><div class="block-name">Post-Race Reload</div></div><span class="block-badge badge-peak">Specific</span></div>
+      <div class="block-dates">Oct 6 – Oct 12</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-easy)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">Easy Shakeout</div><div class="wk-detail">8 miles easy. Flush race legs.</div><span class="wk-pace pace-e">9:00–9:30/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-tempo)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">MP Tempo</div><div class="wk-detail">2mi WU · 8 miles at marathon pace · 1.5mi CD</div><span class="wk-pace pace-t">6:52/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-long)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Long Run — 20 mi</div><div class="wk-detail">Miles 14–19 at marathon goal pace. Confidence builder.</div><span class="wk-pace pace-l">Easy → 6:52/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>38</strong> run miles</div></div>
+    </div>
+
+    <div class="block-card">
+      <div class="block-head"><div><div class="block-num">Week 31 · Oct 13–19</div><div class="block-name">Final Peak</div></div><span class="block-badge badge-peak">Peak</span></div>
+      <div class="block-dates">Oct 13 – Oct 19</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-intervals)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">1600m Repeats</div><div class="wk-detail">2mi WU · 6×1600m (2 min recovery) · 1.5mi CD</div><span class="wk-pace pace-i">6:15–6:25/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-easy)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">MLR — 16 mi</div><div class="wk-detail">Miles 13–15 at marathon pace</div><span class="wk-pace pace-e">Easy → 6:52/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-long)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Long Run — 22 mi</div><div class="wk-detail">Miles 1–14 easy · miles 14–21 at marathon pace · 1 mi easy. Your hardest run of the season.</div><span class="wk-pace pace-l">Easy → 6:52/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>50</strong> run miles</div></div>
+    </div>
+
+    <div class="block-card recovery-card">
+      <div class="block-head"><div><div class="block-num">Week 32 · Oct 20–26</div><div class="block-name">Recovery</div></div><span class="block-badge badge-recovery">Recovery</span></div>
+      <div class="block-dates">Oct 20 – Oct 26</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-recovery)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">Easy + Strides</div><div class="wk-detail">8 miles easy · 8×20-sec strides</div><span class="wk-pace pace-r">9:00–10:00/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-recovery)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">Easy Run</div><div class="wk-detail">8 miles easy. Recovery from the hardest block.</div><span class="wk-pace pace-r">9:30–10:00/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-recovery)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Easy Long — 14 mi</div><div class="wk-detail">Comfortable, relaxed. The hard work is done.</div><span class="wk-pace pace-r">9:00–9:30/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>30</strong> run miles</div></div>
+    </div>
+
+    <div class="block-card">
+      <div class="block-head"><div><div class="block-num">Week 33 · Oct 27–Nov 2</div><div class="block-name">Sharpening</div></div><span class="block-badge badge-peak">Specific</span></div>
+      <div class="block-dates">Oct 27 – Nov 2</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-tempo)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">MP Intervals</div><div class="wk-detail">2mi WU · 4×3 miles at marathon pace (2 min recovery) · 1.5mi CD</div><span class="wk-pace pace-t">6:52/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-easy)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">MLR — 14 mi</div><div class="wk-detail">Miles 11–13 at marathon pace</div><span class="wk-pace pace-e">Easy → 6:52/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-long)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Long Run — 20 mi</div><div class="wk-detail">Miles 12–18 at marathon pace. Run it like race day.</div><span class="wk-pace pace-l">Easy → 6:52/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>44</strong> run miles</div></div>
+    </div>
+
+    <div class="block-card">
+      <div class="block-head"><div><div class="block-num">Week 34 · Nov 3–9</div><div class="block-name">Confidence Block</div></div><span class="block-badge badge-peak">Specific</span></div>
+      <div class="block-dates">Nov 3 – Nov 9</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-intervals)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">Sub-MP Repeats</div><div class="wk-detail">2mi WU · 5×2 miles at 6:40 (90 sec recovery) · 1.5mi CD</div><span class="wk-pace pace-i">6:38–6:45/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-easy)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">MLR — 14 mi</div><div class="wk-detail">Miles 11–13 at marathon pace. This should feel easy by now.</div><span class="wk-pace pace-e">Easy → 6:52/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-long)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Long Run — 18 mi</div><div class="wk-detail">Miles 1–10 easy · miles 10–17 at marathon pace · 1 mi easy. Start of taper soon.</div><span class="wk-pace pace-l">Easy → 6:52/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>44</strong> run miles</div></div>
+    </div>
+
+    <div class="block-card">
+      <div class="block-head"><div><div class="block-num">Week 35 · Nov 10–16</div><div class="block-name">Final Long</div></div><span class="block-badge badge-peak">Specific</span></div>
+      <div class="block-dates">Nov 10 – Nov 16</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-tempo)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">Race Pace Tempo</div><div class="wk-detail">2mi WU · 8 miles at marathon goal pace · 1.5mi CD</div><span class="wk-pace pace-t">6:52/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-easy)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">Easy MLR</div><div class="wk-detail">12 miles easy. Let legs recover before final big run.</div><span class="wk-pace pace-e">8:30–9:00/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-long)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Final Long Run — 20 mi</div><div class="wk-detail">Last 20+ miler. Easy effort all the way through. Celebrate — the hard work is complete.</div><span class="wk-pace pace-l">8:30–9:00/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>42</strong> run miles</div></div>
+    </div>
+
+    <div class="block-card recovery-card">
+      <div class="block-head"><div><div class="block-num">Week 36 · Nov 17–23</div><div class="block-name">Recovery</div></div><span class="block-badge badge-recovery">Recovery</span></div>
+      <div class="block-dates">Nov 17 – Nov 23</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-recovery)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">Easy + Strides</div><div class="wk-detail">7 miles easy · 8×20-sec strides</div><span class="wk-pace pace-r">9:00–10:00/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-recovery)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">Easy Run</div><div class="wk-detail">7 miles easy. You're entering taper. The hay is in the barn.</div><span class="wk-pace pace-r">9:30–10:00/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-recovery)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Easy Long — 12 mi</div><div class="wk-detail">Comfortable. Last easy long before taper begins fully.</div><span class="wk-pace pace-r">9:00–9:30/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>26</strong> run miles</div></div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     PHASE 5 · TAPER & RACE (Weeks 37–39+, Nov 23–Dec 12)
+════════════════════════════════════════════════ -->
+<div id="taper" class="phase-section">
+  <div class="phase-header">
+    <div class="phase-title-group">
+      <div class="phase-eyebrow">Phase 5 · Weeks 37–39</div>
+      <div class="phase-title">Taper<br>& Race Day</div>
+    </div>
+    <div class="phase-meta">
+      <div class="phase-dates">Nov 24 – Dec 12, 2026</div>
+      <div class="phase-focus">Trust the process. Reduce mileage sharply. Keep intensity but cut volume. Arrive at the start line fresh, confident, and ready.</div>
+    </div>
+  </div>
+
+  <div class="phase-overview">
+    <div class="overview-item"><div class="overview-label">Mileage Range</div><div class="overview-val">32 → 20 → race</div></div>
+    <div class="overview-divider"></div>
+    <div class="overview-item"><div class="overview-label">Key Principle</div><div class="overview-val">Cut volume, maintain intensity</div></div>
+    <div class="overview-divider"></div>
+    <div class="overview-item"><div class="overview-label">Taper Madness</div><div class="overview-val">Expected — heavy legs = aerobic adaptation, not fatigue</div></div>
+    <div class="overview-divider"></div>
+    <div class="overview-item"><div class="overview-label">Riding</div><div class="overview-val">2 very easy spins max. No intensity.</div></div>
+    <div class="overview-divider"></div>
+    <div class="overview-item"><div class="overview-label">Goal</div><div class="overview-val">Arrive fresh. Execute 6:52/mi. Negative split the back half.</div></div>
+  </div>
+
+  <div class="blocks-grid">
+
+    <div class="block-card">
+      <div class="block-head"><div><div class="block-num">Week 37 · Nov 24–30</div><div class="block-name">Taper Week 1</div></div><span class="block-badge badge-taper">Taper</span></div>
+      <div class="block-dates">Nov 24 – Nov 30</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-tempo)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">MP Intervals</div><div class="wk-detail">2mi WU · 3×3 miles at marathon pace (2 min recovery) · 1.5mi CD. Shorter, sharper.</div><span class="wk-pace pace-t">6:52/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-easy)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">Easy Run</div><div class="wk-detail">8 miles easy. Feeling sluggish is normal — trust it.</div><span class="wk-pace pace-e">9:00–9:30/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-long)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Long Run — 16 mi</div><div class="wk-detail">Easy throughout. Last proper long run. Miles 13–15 at marathon pace if legs feel good.</div><span class="wk-pace pace-l">8:30–9:00/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>32</strong> run miles</div></div>
+    </div>
+
+    <div class="block-card">
+      <div class="block-head"><div><div class="block-num">Week 38 · Dec 1–7</div><div class="block-name">Taper Week 2</div></div><span class="block-badge badge-taper">Taper</span></div>
+      <div class="block-dates">Dec 1 – Dec 7</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-intervals)"></div><div class="wk-content"><div class="wk-day">Tuesday</div><div class="wk-title">Sharpener</div><div class="wk-detail">2mi WU · 4×1 mile (90 sec recovery) · 1.5mi CD. Keep the pop in the legs.</div><span class="wk-pace pace-i">6:30–6:45/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-easy)"></div><div class="wk-content"><div class="wk-day">Thursday</div><div class="wk-title">Easy Run</div><div class="wk-detail">6 miles easy with 6×20-sec strides at the end.</div><span class="wk-pace pace-e">9:00–9:30/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-long)"></div><div class="wk-content"><div class="wk-day">Saturday</div><div class="wk-title">Shakeout — 10 mi</div><div class="wk-detail">Easy. Miles 7–9 at marathon pace just to feel the rhythm. Short and clean.</div><span class="wk-pace pace-l">Easy → 6:52/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>20</strong> run miles</div></div>
+    </div>
+
+    <div class="block-card">
+      <div class="block-head"><div><div class="block-num">Week 39 · Dec 8–11</div><div class="block-name">Race Week</div></div><span class="block-badge badge-taper">Taper</span></div>
+      <div class="block-dates">Dec 8 – Dec 11</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:var(--c-easy)"></div><div class="wk-content"><div class="wk-day">Monday</div><div class="wk-title">Easy Run</div><div class="wk-detail">4–5 miles very easy. Keep blood flowing, nothing more.</div><span class="wk-pace pace-e">9:30–10:00/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-easy)"></div><div class="wk-content"><div class="wk-day">Wednesday</div><div class="wk-title">Shakeout + Strides</div><div class="wk-detail">3 miles easy · 4×20-sec strides. Feel sharp, not tired.</div><span class="wk-pace pace-e">9:30/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:var(--c-easy)"></div><div class="wk-content"><div class="wk-day">Thursday / Friday</div><div class="wk-title">Full Rest</div><div class="wk-detail">Walk, stretch, hydrate, sleep. Eat well. No running. Lay out your gear. Visualize the race.</div><span class="wk-pace pace-r">Rest</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>8</strong> run miles</div></div>
+    </div>
+
+    <!-- RACE DAY -->
+    <div class="block-card race-card">
+      <div class="block-head"><div><div class="block-num">Dec 12, 2026</div><div class="block-name">Race Day 🏁</div></div><span class="block-badge badge-race">Race</span></div>
+      <div class="block-dates">Marathon · Goal: Sub 3:00</div>
+      <div class="workouts-list">
+        <div class="wk"><div class="wk-bar" style="background:#e8d5a3"></div><div class="wk-content"><div class="wk-day">Miles 1–6</div><div class="wk-title">Start Controlled</div><div class="wk-detail">Run 7:00–7:05/mi. Feels easy. That's correct. Hold back.</div><span class="wk-pace" style="background:rgba(232,213,163,0.15);color:#e8d5a3">7:00–7:05/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:#e8d5a3"></div><div class="wk-content"><div class="wk-day">Miles 7–20</div><div class="wk-title">Lock Into Pace</div><div class="wk-detail">Settle to 6:52/mi. Fuel every 30 min. Stay relaxed. Trust every long run you ran.</div><span class="wk-pace" style="background:rgba(232,213,163,0.15);color:#e8d5a3">6:52/mi</span></div></div>
+        <div class="wk"><div class="wk-bar" style="background:#e8d5a3"></div><div class="wk-content"><div class="wk-day">Miles 20–26.2</div><div class="wk-title">Race It Home</div><div class="wk-detail">If you've been disciplined, you have a 10K left in your legs. Start pushing at mile 20. Leave everything on the road.</div><span class="wk-pace" style="background:rgba(232,213,163,0.15);color:#e8d5a3">6:30–6:45/mi</span></div></div>
+      </div>
+      <div class="block-footer"><div class="footer-miles"><strong>26.2</strong> miles · <strong style="color:#e8d5a3">Sub 3:00</strong></div></div>
+    </div>
+
+  </div>
+</div>
+
+</div><!-- /content -->
+
+<script>
+function showPhase(id) {
+  document.querySelectorAll('.phase-section').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.phase-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('visible');
+  event.target.classList.add('active');
+  window.scrollTo({ top: document.querySelector('.phase-nav').offsetTop - 10, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
