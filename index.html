@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sub-3:00 Marathon Plan · Dec 12, 2026</title>
+<title>Training Hub · Sub-3:00 Marathon Plan</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Clash+Display:wght@400;500;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -36,6 +36,710 @@ body {
   background: var(--bg);
   color: var(--ink);
   min-height: 100vh;
+}
+
+/* ── TOP NAV ── */
+.top-nav {
+  background: var(--ink);
+  display: flex;
+  align-items: stretch;
+  padding: 0 48px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.top-nav-logo {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(245,242,236,0.35);
+  display: flex;
+  align-items: center;
+  padding-right: 32px;
+  margin-right: 16px;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  white-space: nowrap;
+}
+
+.top-nav-logo span {
+  color: #e8d5a3;
+  margin-right: 6px;
+}
+
+.top-nav-tabs {
+  display: flex;
+  gap: 0;
+  flex: 1;
+}
+
+.top-tab {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(245,242,236,0.4);
+  padding: 16px 22px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+  position: relative;
+}
+
+.top-tab:hover {
+  color: rgba(245,242,236,0.75);
+  background: rgba(255,255,255,0.03);
+}
+
+.top-tab.active {
+  color: #e8d5a3;
+  border-bottom-color: #e8d5a3;
+}
+
+.top-tab .tab-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 7px;
+  vertical-align: middle;
+  opacity: 0.6;
+}
+
+/* ── TAB PANELS ── */
+.tab-panel { display: none; }
+.tab-panel.tab-active { display: block; }
+
+/* ── ANALYTICS TAB ── */
+.analytics-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 48px 80px;
+}
+
+.analytics-header {
+  margin-bottom: 40px;
+  padding-bottom: 24px;
+  border-bottom: 2px solid var(--ink);
+}
+
+.analytics-header h2 {
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.analytics-header p {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--mid);
+}
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.analytics-kpi {
+  background: var(--card-bg);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  padding: 20px 24px;
+}
+
+.kpi-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 8px;
+}
+
+.kpi-value {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1;
+}
+
+.kpi-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--mid);
+  margin-top: 6px;
+}
+
+.kpi-accent { color: var(--c-easy); }
+.kpi-accent-blue { color: var(--c-long); }
+.kpi-accent-red { color: var(--c-intervals); }
+.kpi-accent-gold { color: #c47a30; }
+
+.analytics-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.analytics-card {
+  background: var(--card-bg);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.analytics-card-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 20px;
+}
+
+.mileage-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 120px;
+  width: 100%;
+}
+
+.mileage-bar-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.mileage-bar {
+  width: 100%;
+  border-radius: 3px 3px 0 0;
+  min-height: 4px;
+  transition: opacity 0.2s;
+  cursor: default;
+  position: relative;
+}
+
+.mileage-bar:hover { opacity: 0.8; }
+
+.mileage-bar-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  color: var(--mid);
+  margin-top: 4px;
+  text-align: center;
+}
+
+.phase-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.phase-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.phase-row-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--mid);
+  width: 80px;
+  flex-shrink: 0;
+}
+
+.phase-bar-track {
+  flex: 1;
+  height: 8px;
+  background: var(--faint);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.phase-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+}
+
+.phase-row-val {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  width: 50px;
+  text-align: right;
+}
+
+.workout-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.split-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.split-swatch {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.split-swatch svg {
+  width: 16px;
+  height: 16px;
+}
+
+.split-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--mid);
+}
+
+.split-pct {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+/* ── CYCLING PLAN TAB ── */
+.cycling-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 48px 80px;
+}
+
+.cycling-hero {
+  background: var(--ink);
+  border-radius: 16px;
+  padding: 40px 48px;
+  margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cycling-hero::before {
+  content: '⟳';
+  position: absolute;
+  right: -20px;
+  top: -40px;
+  font-size: 280px;
+  opacity: 0.03;
+  color: white;
+  pointer-events: none;
+  line-height: 1;
+}
+
+.cycling-hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(245,242,236,0.4);
+  margin-bottom: 12px;
+}
+
+.cycling-hero h2 {
+  font-size: clamp(28px, 4vw, 52px);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  color: var(--bg);
+  margin-bottom: 8px;
+}
+
+.cycling-hero h2 em {
+  font-style: normal;
+  color: #7ec8e3;
+}
+
+.cycling-hero-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  color: rgba(245,242,236,0.4);
+  margin-bottom: 28px;
+}
+
+.cycling-stats {
+  display: flex;
+  gap: 36px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 24px;
+  flex-wrap: wrap;
+}
+
+.cycling-stat-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(245,242,236,0.35);
+  margin-bottom: 4px;
+}
+
+.cycling-stat-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--bg);
+}
+
+.cycling-zones {
+  background: var(--card-bg);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 28px;
+}
+
+.zones-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.zone-card {
+  border-radius: 8px;
+  padding: 14px 16px;
+  border: 1px solid var(--rule);
+}
+
+.zone-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 4px;
+}
+
+.zone-name {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.zone-watts {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--mid);
+}
+
+.cycling-weeks {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.cycling-week-card {
+  background: var(--card-bg);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.cycling-week-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 32px rgba(26,22,18,0.12);
+}
+
+.cycling-week-head {
+  padding: 16px 20px 14px;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.cycling-week-name {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+.cycling-week-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 4px;
+}
+
+.badge-cycling { background: #dbeeff; color: #1d4e89; }
+.badge-cycling-hi { background: #fff0db; color: #9b5a00; }
+.badge-cycling-recovery { background: #ede9fe; color: #6d28d9; }
+
+.ride-item {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--faint);
+  display: flex;
+  gap: 12px;
+}
+
+.ride-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+.ride-bar {
+  width: 3px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  align-self: stretch;
+  min-height: 36px;
+}
+
+.ride-day {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 3px;
+}
+
+.ride-title {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.ride-detail {
+  font-size: 11.5px;
+  color: var(--mid);
+  line-height: 1.5;
+}
+
+.ride-zone {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 7px;
+  border-radius: 3px;
+  margin-top: 4px;
+}
+
+.zone-z2 { background: rgba(45,106,79,0.1); color: var(--c-easy); }
+.zone-z3 { background: rgba(244,162,97,0.15); color: #c47a30; }
+.zone-z4 { background: rgba(230,57,70,0.1); color: var(--c-intervals); }
+.zone-z5 { background: rgba(155,126,202,0.15); color: #7c5cbf; }
+
+.cycling-week-footer {
+  padding: 10px 20px;
+  background: var(--faint);
+  border-top: 1px solid var(--rule);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--mid);
+  display: flex;
+  justify-content: space-between;
+}
+
+.cycling-week-footer strong {
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  color: var(--ink);
+  font-weight: 700;
+}
+
+/* ── ACTIVITIES TAB ── */
+.activities-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 48px 80px;
+}
+
+.activities-header {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 2px solid var(--ink);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.activities-header h2 {
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  line-height: 1;
+}
+
+.activities-header p {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--mid);
+  margin-top: 6px;
+}
+
+.filter-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--rule);
+  background: none;
+  color: var(--mid);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-btn:hover, .filter-btn.active {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+
+.activities-table {
+  background: var(--card-bg);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.act-table-head {
+  display: grid;
+  grid-template-columns: 1fr 80px 80px 80px 90px 100px;
+  gap: 0;
+  padding: 12px 20px;
+  background: var(--faint);
+  border-bottom: 1px solid var(--rule);
+}
+
+.act-col-head {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--mid);
+}
+
+.act-row {
+  display: grid;
+  grid-template-columns: 1fr 80px 80px 80px 90px 100px;
+  gap: 0;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--faint);
+  align-items: center;
+  transition: background 0.15s;
+}
+
+.act-row:last-child { border-bottom: none; }
+.act-row:hover { background: #faf9f7; }
+
+.act-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.act-type-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.act-title-text {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.act-date {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--mid);
+  margin-top: 2px;
+}
+
+.act-cell {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+}
+
+.act-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+
+.act-add-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 14px 20px;
+  border: none;
+  background: none;
+  color: var(--mid);
+  cursor: pointer;
+  width: 100%;
+  border-top: 1px solid var(--faint);
+  transition: background 0.15s;
+}
+
+.act-add-btn:hover { background: var(--faint); color: var(--ink); }
+
+.act-add-btn svg { width: 14px; height: 14px; }
+
+@media (max-width: 900px) {
+  .analytics-grid { grid-template-columns: repeat(2, 1fr); }
+  .analytics-row { grid-template-columns: 1fr; }
+  .zones-grid { grid-template-columns: repeat(3, 1fr); }
+  .act-table-head, .act-row { grid-template-columns: 1fr 80px 90px 100px; }
+  .act-table-head .act-col-head:nth-child(3),
+  .act-table-head .act-col-head:nth-child(4),
+  .act-row .act-cell:nth-child(3),
+  .act-row .act-cell:nth-child(4) { display: none; }
+}
+
+@media (max-width: 700px) {
+  .top-nav { padding: 0 16px; }
+  .top-nav-logo { display: none; }
+  .analytics-page, .cycling-page, .activities-page { padding: 28px 24px 60px; }
+  .analytics-grid { grid-template-columns: repeat(2, 1fr); }
+  .zones-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 /* ── HERO ── */
@@ -469,6 +1173,160 @@ body {
 </style>
 </head>
 <body>
+
+<!-- TOP NAV -->
+<nav class="top-nav">
+  <div class="top-nav-logo"><span>⬡</span> Training Hub</div>
+  <div class="top-nav-tabs">
+    <button class="top-tab" onclick="showTab('analytics')">
+      <span class="tab-dot" style="background:#7ec8e3"></span>Analytics
+    </button>
+    <button class="top-tab active" onclick="showTab('running')">
+      <span class="tab-dot" style="background:var(--c-easy)"></span>Running Plan
+    </button>
+    <button class="top-tab" onclick="showTab('cycling')">
+      <span class="tab-dot" style="background:#7ec8e3"></span>Cycling Plan
+    </button>
+    <button class="top-tab" onclick="showTab('activities')">
+      <span class="tab-dot" style="background:var(--c-intervals)"></span>Activities
+    </button>
+  </div>
+</nav>
+
+<!-- ══ ANALYTICS TAB ══ -->
+<div id="tab-analytics" class="tab-panel">
+  <div class="analytics-page">
+    <div class="analytics-header">
+      <div>
+        <h2>Season Analytics</h2>
+        <p>Mar 16 → Dec 12, 2026 · 39 Weeks · Overview</p>
+      </div>
+    </div>
+
+    <div class="analytics-grid">
+      <div class="analytics-kpi">
+        <div class="kpi-label">Total Run Miles</div>
+        <div class="kpi-value kpi-accent">1,312</div>
+        <div class="kpi-sub">Across 39 weeks</div>
+      </div>
+      <div class="analytics-kpi">
+        <div class="kpi-label">Peak Mileage Week</div>
+        <div class="kpi-value kpi-accent-blue">50 mi</div>
+        <div class="kpi-sub">Phase 4 · Specific</div>
+      </div>
+      <div class="analytics-kpi">
+        <div class="kpi-label">Riding Sessions</div>
+        <div class="kpi-value kpi-accent-gold">117</div>
+        <div class="kpi-sub">~3×/week avg</div>
+      </div>
+      <div class="analytics-kpi">
+        <div class="kpi-label">Goal Pace</div>
+        <div class="kpi-value kpi-accent-red">6:52</div>
+        <div class="kpi-sub">Per mile · Sub 3:00</div>
+      </div>
+    </div>
+
+    <div class="analytics-row">
+      <div class="analytics-card">
+        <div class="analytics-card-title">Weekly Run Mileage · Full Season</div>
+        <div class="mileage-chart" id="mileageChart"></div>
+      </div>
+      <div class="analytics-card">
+        <div class="analytics-card-title">Volume by Phase</div>
+        <div class="phase-breakdown">
+          <div class="phase-row">
+            <div class="phase-row-label">Base I</div>
+            <div class="phase-bar-track"><div class="phase-bar-fill" style="width:52%;background:var(--phase-base)"></div></div>
+            <div class="phase-row-val" style="color:var(--phase-base)">280 mi</div>
+          </div>
+          <div class="phase-row">
+            <div class="phase-row-label">Base II</div>
+            <div class="phase-bar-track"><div class="phase-bar-fill" style="width:60%;background:var(--phase-build)"></div></div>
+            <div class="phase-row-val" style="color:var(--phase-build)">318 mi</div>
+          </div>
+          <div class="phase-row">
+            <div class="phase-row-label">Build</div>
+            <div class="phase-bar-track"><div class="phase-bar-fill" style="width:76%;background:#4a7fbf"></div></div>
+            <div class="phase-row-val" style="color:#4a7fbf">396 mi</div>
+          </div>
+          <div class="phase-row">
+            <div class="phase-row-label">Specific</div>
+            <div class="phase-bar-track"><div class="phase-bar-fill" style="width:100%;background:var(--phase-specific)"></div></div>
+            <div class="phase-row-val" style="color:var(--phase-specific)">258 mi</div>
+          </div>
+          <div class="phase-row">
+            <div class="phase-row-label">Taper</div>
+            <div class="phase-bar-track"><div class="phase-bar-fill" style="width:13%;background:var(--phase-taper)"></div></div>
+            <div class="phase-row-val" style="color:var(--phase-taper)">60 mi</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analytics-row">
+      <div class="analytics-card">
+        <div class="analytics-card-title">Workout Type Distribution</div>
+        <div class="workout-split">
+          <div class="split-item">
+            <div class="split-swatch" style="background:rgba(45,106,79,0.12)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--c-easy)" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            </div>
+            <div><div class="split-label">Easy / Long</div><div class="split-pct">68%</div></div>
+          </div>
+          <div class="split-item">
+            <div class="split-swatch" style="background:rgba(244,162,97,0.15)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#c47a30" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            </div>
+            <div><div class="split-label">Tempo</div><div class="split-pct">15%</div></div>
+          </div>
+          <div class="split-item">
+            <div class="split-swatch" style="background:rgba(230,57,70,0.1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--c-intervals)" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            </div>
+            <div><div class="split-label">Intervals</div><div class="split-pct">12%</div></div>
+          </div>
+          <div class="split-item">
+            <div class="split-swatch" style="background:rgba(155,126,202,0.15)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#7c5cbf" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </div>
+            <div><div class="split-label">Recovery</div><div class="split-pct">5%</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="analytics-card">
+        <div class="analytics-card-title">Key Race Metrics</div>
+        <div style="display:flex;flex-direction:column;gap:16px;margin-top:4px;">
+          <div>
+            <div class="kpi-label" style="margin-bottom:2px">Target Finish</div>
+            <div style="font-size:28px;font-weight:800;letter-spacing:-1px;">2:59:59</div>
+          </div>
+          <div style="height:1px;background:var(--rule)"></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div>
+              <div class="kpi-label" style="margin-bottom:2px">Half Split</div>
+              <div style="font-size:18px;font-weight:700;">1:29:46</div>
+            </div>
+            <div>
+              <div class="kpi-label" style="margin-bottom:2px">Neg Split Target</div>
+              <div style="font-size:18px;font-weight:700;">1:30:13</div>
+            </div>
+            <div>
+              <div class="kpi-label" style="margin-bottom:2px">Mile 1–6 Pace</div>
+              <div style="font-size:18px;font-weight:700;">7:02/mi</div>
+            </div>
+            <div>
+              <div class="kpi-label" style="margin-bottom:2px">Mile 20–26 Pace</div>
+              <div style="font-size:18px;font-weight:700;">6:38/mi</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ RUNNING PLAN TAB ══ -->
+<div id="tab-running" class="tab-panel tab-active">
 
 <!-- HERO -->
 <div class="hero">
@@ -1158,14 +2016,378 @@ body {
 
 </div><!-- /content -->
 
+</div><!-- /tab-running -->
+
+<!-- ══ CYCLING PLAN TAB ══ -->
+<div id="tab-cycling" class="tab-panel">
+  <div class="cycling-page">
+    <div class="cycling-hero">
+      <div class="cycling-hero-eyebrow">Cycling Plan · Full Season</div>
+      <h2>Supporting<br><em>The Engine</em></h2>
+      <div class="cycling-hero-sub">Mar 16, 2026 → Dec 12, 2026 · 3 Rides/Week · FTP-Based Training</div>
+      <div class="cycling-stats">
+        <div>
+          <div class="cycling-stat-label">Assumed FTP</div>
+          <div class="cycling-stat-value">280w</div>
+        </div>
+        <div>
+          <div class="cycling-stat-label">Weekly Hours</div>
+          <div class="cycling-stat-value">4–6 hrs</div>
+        </div>
+        <div>
+          <div class="cycling-stat-label">Primary Goal</div>
+          <div class="cycling-stat-value">Aerobic Support</div>
+        </div>
+        <div>
+          <div class="cycling-stat-label">Taper Protocol</div>
+          <div class="cycling-stat-value">Cut wk 37+</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cycling-zones">
+      <div class="analytics-card-title" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--mid);">Power Zones · Based on 280w FTP</div>
+      <div class="zones-grid">
+        <div class="zone-card" style="background:rgba(45,106,79,0.06);border-color:rgba(45,106,79,0.2)">
+          <div class="zone-num">Zone 1</div>
+          <div class="zone-name" style="color:var(--c-easy)">Active Recovery</div>
+          <div class="zone-watts">&lt; 168w</div>
+        </div>
+        <div class="zone-card" style="background:rgba(29,78,137,0.06);border-color:rgba(29,78,137,0.2)">
+          <div class="zone-num">Zone 2</div>
+          <div class="zone-name" style="color:var(--c-long)">Endurance</div>
+          <div class="zone-watts">168–224w</div>
+        </div>
+        <div class="zone-card" style="background:rgba(244,162,97,0.1);border-color:rgba(244,162,97,0.25)">
+          <div class="zone-num">Zone 3</div>
+          <div class="zone-name" style="color:#c47a30">Tempo</div>
+          <div class="zone-watts">224–252w</div>
+        </div>
+        <div class="zone-card" style="background:rgba(230,57,70,0.07);border-color:rgba(230,57,70,0.2)">
+          <div class="zone-num">Zone 4</div>
+          <div class="zone-name" style="color:var(--c-intervals)">Threshold</div>
+          <div class="zone-watts">252–294w</div>
+        </div>
+        <div class="zone-card" style="background:rgba(155,126,202,0.1);border-color:rgba(155,126,202,0.25)">
+          <div class="zone-num">Zone 5</div>
+          <div class="zone-name" style="color:#7c5cbf">VO₂ Max</div>
+          <div class="zone-watts">294–336w</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--mid);margin-bottom:16px;">Sample Training Blocks</div>
+    <div class="cycling-weeks">
+
+      <div class="cycling-week-card">
+        <div class="cycling-week-head">
+          <div><div class="cycling-week-num">Base Phase · Weeks 1–8</div><div class="cycling-week-name">Aerobic Foundation</div></div>
+          <span class="block-badge badge-cycling">Base</span>
+        </div>
+        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--mid);padding:8px 20px;background:var(--faint);border-bottom:1px solid var(--rule)">3 rides · ~4.5 hrs/week</div>
+        <div style="padding:12px 20px 18px">
+          <div class="ride-item">
+            <div class="ride-bar" style="background:var(--c-long)"></div>
+            <div>
+              <div class="ride-day">Monday</div>
+              <div class="ride-title">Endurance Ride</div>
+              <div class="ride-detail">90 min steady state. Cadence 85–90 rpm. No spikes.</div>
+              <span class="ride-zone zone-z2">Z2 · 168–210w</span>
+            </div>
+          </div>
+          <div class="ride-item">
+            <div class="ride-bar" style="background:#c47a30"></div>
+            <div>
+              <div class="ride-day">Wednesday</div>
+              <div class="ride-title">Sweet Spot</div>
+              <div class="ride-detail">10 min WU · 3×12 min at 88–93% FTP (5 min recovery) · 10 min CD</div>
+              <span class="ride-zone zone-z3">Z3–4 · 246–260w</span>
+            </div>
+          </div>
+          <div class="ride-item">
+            <div class="ride-bar" style="background:var(--c-long)"></div>
+            <div>
+              <div class="ride-day">Friday</div>
+              <div class="ride-title">Long Endurance</div>
+              <div class="ride-detail">2 hrs easy. Keep HR low. Fuel well. Recovery-oriented.</div>
+              <span class="ride-zone zone-z2">Z2 · 168–210w</span>
+            </div>
+          </div>
+        </div>
+        <div class="cycling-week-footer"><span>Weekly load</span><span><strong>~330</strong> TSS</span></div>
+      </div>
+
+      <div class="cycling-week-card">
+        <div class="cycling-week-head">
+          <div><div class="cycling-week-num">Build Phase · Weeks 17–28</div><div class="cycling-week-name">Threshold Work</div></div>
+          <span class="block-badge badge-cycling-hi">Build</span>
+        </div>
+        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--mid);padding:8px 20px;background:var(--faint);border-bottom:1px solid var(--rule)">3 rides · ~5 hrs/week</div>
+        <div style="padding:12px 20px 18px">
+          <div class="ride-item">
+            <div class="ride-bar" style="background:var(--c-long)"></div>
+            <div>
+              <div class="ride-day">Monday</div>
+              <div class="ride-title">Endurance + Openers</div>
+              <div class="ride-detail">75 min Z2 · finish with 4×30-sec high-cadence openers</div>
+              <span class="ride-zone zone-z2">Z2 · 168–210w</span>
+            </div>
+          </div>
+          <div class="ride-item">
+            <div class="ride-bar" style="background:var(--c-intervals)"></div>
+            <div>
+              <div class="ride-day">Wednesday</div>
+              <div class="ride-title">FTP Intervals</div>
+              <div class="ride-detail">10 min WU · 2×20 min at FTP (5 min recovery) · 10 min CD</div>
+              <span class="ride-zone zone-z4">Z4 · 266–280w</span>
+            </div>
+          </div>
+          <div class="ride-item">
+            <div class="ride-bar" style="background:var(--c-long)"></div>
+            <div>
+              <div class="ride-day">Friday</div>
+              <div class="ride-title">Long Ride</div>
+              <div class="ride-detail">2.5 hrs. Z2 with 20 min Z3 in the middle. Fuel every 45 min.</div>
+              <span class="ride-zone zone-z2">Z2–3 · 168–245w</span>
+            </div>
+          </div>
+        </div>
+        <div class="cycling-week-footer"><span>Weekly load</span><span><strong>~420</strong> TSS</span></div>
+      </div>
+
+      <div class="cycling-week-card">
+        <div class="cycling-week-head">
+          <div><div class="cycling-week-num">Specific Phase · Weeks 29–36</div><div class="cycling-week-name">Maintenance</div></div>
+          <span class="block-badge badge-cycling">Specific</span>
+        </div>
+        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--mid);padding:8px 20px;background:var(--faint);border-bottom:1px solid var(--rule)">2–3 rides · ~3.5 hrs/week</div>
+        <div style="padding:12px 20px 18px">
+          <div class="ride-item">
+            <div class="ride-bar" style="background:var(--c-long)"></div>
+            <div>
+              <div class="ride-day">Monday</div>
+              <div class="ride-title">Active Recovery Spin</div>
+              <div class="ride-detail">45–60 min very easy. Flush legs after long run weekend.</div>
+              <span class="ride-zone zone-z2">Z1–2 · &lt;210w</span>
+            </div>
+          </div>
+          <div class="ride-item">
+            <div class="ride-bar" style="background:#c47a30"></div>
+            <div>
+              <div class="ride-day">Wednesday</div>
+              <div class="ride-title">Sweet Spot Maintenance</div>
+              <div class="ride-detail">10 min WU · 2×15 min at 88% FTP (5 min recovery) · CD</div>
+              <span class="ride-zone zone-z3">Z3–4 · 246–260w</span>
+            </div>
+          </div>
+          <div class="ride-item">
+            <div class="ride-bar" style="background:var(--c-long)"></div>
+            <div>
+              <div class="ride-day">Friday</div>
+              <div class="ride-title">Easy Spin (Optional)</div>
+              <div class="ride-detail">60 min very easy. Skip if run legs feel heavy.</div>
+              <span class="ride-zone zone-z2">Z1 · &lt;168w</span>
+            </div>
+          </div>
+        </div>
+        <div class="cycling-week-footer"><span>Weekly load</span><span><strong>~260</strong> TSS</span></div>
+      </div>
+
+      <div class="cycling-week-card">
+        <div class="cycling-week-head">
+          <div><div class="cycling-week-num">Taper · Weeks 37–39</div><div class="cycling-week-name">Easy Spins Only</div></div>
+          <span class="block-badge badge-cycling-recovery">Taper</span>
+        </div>
+        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--mid);padding:8px 20px;background:var(--faint);border-bottom:1px solid var(--rule)">1–2 rides max · 1–1.5 hrs/week</div>
+        <div style="padding:12px 20px 18px">
+          <div class="ride-item">
+            <div class="ride-bar" style="background:var(--c-recovery)"></div>
+            <div>
+              <div class="ride-day">Monday</div>
+              <div class="ride-title">Light Spin</div>
+              <div class="ride-detail">30–45 min very easy. Keep legs moving, nothing more.</div>
+              <span class="ride-zone zone-z2">Z1 · &lt;168w</span>
+            </div>
+          </div>
+          <div class="ride-item">
+            <div class="ride-bar" style="background:var(--c-recovery)"></div>
+            <div>
+              <div class="ride-day">Wednesday (optional)</div>
+              <div class="ride-title">Shakeout Spin</div>
+              <div class="ride-detail">20–30 min. Openers only. No intensity whatsoever.</div>
+              <span class="ride-zone zone-z2">Z1 · &lt;140w</span>
+            </div>
+          </div>
+        </div>
+        <div class="cycling-week-footer"><span>Weekly load</span><span><strong>&lt;80</strong> TSS</span></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══ ACTIVITIES TAB ══ -->
+<div id="tab-activities" class="tab-panel">
+  <div class="activities-page">
+    <div class="activities-header">
+      <div>
+        <h2>Activities</h2>
+        <p>Log and track your completed workouts</p>
+      </div>
+      <div class="filter-row">
+        <button class="filter-btn active" onclick="filterActivities('all', this)">All</button>
+        <button class="filter-btn" onclick="filterActivities('run', this)">Runs</button>
+        <button class="filter-btn" onclick="filterActivities('ride', this)">Rides</button>
+      </div>
+    </div>
+
+    <div class="activities-table">
+      <div class="act-table-head">
+        <div class="act-col-head">Activity</div>
+        <div class="act-col-head">Distance</div>
+        <div class="act-col-head">Time</div>
+        <div class="act-col-head">Pace / Avg W</div>
+        <div class="act-col-head">Phase</div>
+        <div class="act-col-head">Type</div>
+      </div>
+
+      <!-- Sample activities -->
+      <div class="act-row" data-type="run">
+        <div class="act-name">
+          <div class="act-type-dot" style="background:var(--c-intervals)"></div>
+          <div>
+            <div class="act-title-text">6×800m Intervals</div>
+            <div class="act-date">Mar 17, 2026 · Week 1</div>
+          </div>
+        </div>
+        <div class="act-cell">7.5 mi</div>
+        <div class="act-cell">58:20</div>
+        <div class="act-cell">7:46/mi</div>
+        <div class="act-cell"><span class="act-badge" style="background:#dbeafe;color:#1d4e89">Base I</span></div>
+        <div class="act-cell"><span class="act-badge pace-i">Intervals</span></div>
+      </div>
+      <div class="act-row" data-type="run">
+        <div class="act-name">
+          <div class="act-type-dot" style="background:var(--c-easy)"></div>
+          <div>
+            <div class="act-title-text">Medium Long Run</div>
+            <div class="act-date">Mar 19, 2026 · Week 1</div>
+          </div>
+        </div>
+        <div class="act-cell">10 mi</div>
+        <div class="act-cell">1:27:40</div>
+        <div class="act-cell">8:46/mi</div>
+        <div class="act-cell"><span class="act-badge" style="background:#dbeafe;color:#1d4e89">Base I</span></div>
+        <div class="act-cell"><span class="act-badge pace-e">Easy</span></div>
+      </div>
+      <div class="act-row" data-type="ride">
+        <div class="act-name">
+          <div class="act-type-dot" style="background:#7ec8e3"></div>
+          <div>
+            <div class="act-title-text">Endurance Ride</div>
+            <div class="act-date">Mar 16, 2026 · Week 1</div>
+          </div>
+        </div>
+        <div class="act-cell">32 mi</div>
+        <div class="act-cell">1:32:00</div>
+        <div class="act-cell">195w avg</div>
+        <div class="act-cell"><span class="act-badge" style="background:#dbeafe;color:#1d4e89">Base I</span></div>
+        <div class="act-cell"><span class="act-badge zone-z2">Z2 Ride</span></div>
+      </div>
+      <div class="act-row" data-type="run">
+        <div class="act-name">
+          <div class="act-type-dot" style="background:var(--c-long)"></div>
+          <div>
+            <div class="act-title-text">Long Run — 16 mi</div>
+            <div class="act-date">Mar 21, 2026 · Week 1</div>
+          </div>
+        </div>
+        <div class="act-cell">16 mi</div>
+        <div class="act-cell">2:22:08</div>
+        <div class="act-cell">8:53/mi</div>
+        <div class="act-cell"><span class="act-badge" style="background:#dbeafe;color:#1d4e89">Base I</span></div>
+        <div class="act-cell"><span class="act-badge pace-l">Long Run</span></div>
+      </div>
+      <div class="act-row" data-type="ride">
+        <div class="act-name">
+          <div class="act-type-dot" style="background:#7ec8e3"></div>
+          <div>
+            <div class="act-title-text">Sweet Spot Intervals</div>
+            <div class="act-date">Mar 18, 2026 · Week 1</div>
+          </div>
+        </div>
+        <div class="act-cell">28 mi</div>
+        <div class="act-cell">1:18:00</div>
+        <div class="act-cell">248w avg</div>
+        <div class="act-cell"><span class="act-badge" style="background:#dbeafe;color:#1d4e89">Base I</span></div>
+        <div class="act-cell"><span class="act-badge zone-z3">Z3 Ride</span></div>
+      </div>
+
+      <button class="act-add-btn" onclick="addActivityPrompt()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        Log New Activity
+      </button>
+    </div>
+  </div>
+</div>
+
 <script>
+// ── Tab switching ──
+function showTab(tab) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('tab-active'));
+  document.querySelectorAll('.top-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('tab-active');
+  event.currentTarget.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── Phase switching (running plan) ──
 function showPhase(id) {
   document.querySelectorAll('.phase-section').forEach(s => s.classList.remove('visible'));
   document.querySelectorAll('.phase-btn').forEach(b => b.classList.remove('active'));
   document.getElementById(id).classList.add('visible');
   event.target.classList.add('active');
-  window.scrollTo({ top: document.querySelector('.phase-nav').offsetTop - 10, behavior: 'smooth' });
+  window.scrollTo({ top: document.querySelector('.phase-nav').offsetTop - 60, behavior: 'smooth' });
 }
+
+// ── Activity filter ──
+function filterActivities(type, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.act-row').forEach(r => {
+    r.style.display = (type === 'all' || r.dataset.type === type) ? '' : 'none';
+  });
+}
+
+// ── Placeholder for adding activities ──
+function addActivityPrompt() {
+  alert('Activity logging coming soon! Connect your Garmin or Strava to auto-import workouts.');
+}
+
+// ── Analytics mileage chart ──
+(function buildChart() {
+  const miles = [28,30,32,28,34,36,38,32,36,38,40,34,38,42,44,38,42,44,46,40,44,46,50,44,48,50,44,48,50,44,42,40,44,42,44,26,32,20,8];
+  const phases = [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4];
+  const colors = ['var(--phase-base)','var(--phase-build)','#4a7fbf','var(--phase-specific)','var(--phase-taper)'];
+  const max = Math.max(...miles);
+  const chart = document.getElementById('mileageChart');
+  if (!chart) return;
+  miles.forEach((m, i) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'mileage-bar-wrap';
+    const bar = document.createElement('div');
+    bar.className = 'mileage-bar';
+    bar.style.height = (m / max * 100) + '%';
+    bar.style.background = colors[phases[i]];
+    bar.title = `Week ${i+1}: ${m} mi`;
+    const lbl = document.createElement('div');
+    lbl.className = 'mileage-bar-label';
+    lbl.textContent = (i+1) % 4 === 0 ? `W${i+1}` : '';
+    wrap.appendChild(bar);
+    wrap.appendChild(lbl);
+    chart.appendChild(wrap);
+  });
+})();
 </script>
 </body>
 </html>
