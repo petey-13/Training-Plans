@@ -24,7 +24,6 @@ def get_access_token():
     return res.json()["access_token"]
 
 def fetch_all_activities(token):
-    season_start = 1773705600
     activities, page = [], 1
     while True:
         res = requests.get(
