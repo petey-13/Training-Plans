@@ -9,9 +9,9 @@ REFRESH_TOKEN = os.environ["STRAVA_REFRESH_TOKEN"]
 
 def get_access_token():
     res = requests.post("https://www.strava.com/oauth/token", data={
-        "client_id":     CLIENT_ID,
-        "client_secret": CLIENT_SECRET,
-        "refresh_token": REFRESH_TOKEN,
+        "client_id":     STRAVA_CLIENT_ID,
+        "client_secret": STRAVA_CLIENT_SECRET,
+        "refresh_token": STRAVA_REFRESH_TOKEN,
         "grant_type":    "refresh_token"
     })
     res.raise_for_status()
