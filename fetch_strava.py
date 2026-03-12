@@ -1,4 +1,5 @@
 # fetch_strava.py
+print("CLIENT_ID value:", repr(CLIENT_ID))
 import os
 import json
 import requests
