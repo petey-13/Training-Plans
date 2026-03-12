@@ -305,9 +305,9 @@ body { font-family: 'Syne', sans-serif; background: var(--bg); color: var(--ink)
 .activity-stat-val { font-size: 24px; font-weight: 800; letter-spacing: -0.8px; line-height: 1; }
 .activity-stat-sub { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--mid); margin-top: 4px; }
 .activities-table { background: var(--card-bg); border: 1px solid var(--rule); border-radius: 12px; overflow: hidden; }
-.act-table-head { display: grid; grid-template-columns: 1fr 80px 80px 100px 90px 100px; gap: 0; padding: 12px 20px; background: var(--faint); border-bottom: 1px solid var(--rule); }
+.act-table-head { display: grid; grid-template-columns: 1fr 80px 80px 100px 100px; gap: 0; padding: 12px 20px; background: var(--faint); border-bottom: 1px solid var(--rule); }
 .act-col-head { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--mid); }
-.act-row { display: grid; grid-template-columns: 1fr 80px 80px 100px 90px 100px; gap: 0; padding: 14px 20px; border-bottom: 1px solid var(--faint); align-items: center; transition: background 0.15s; }
+.act-row { display: grid; grid-template-columns: 1fr 80px 80px 100px 100px; gap: 0; padding: 14px 20px; border-bottom: 1px solid var(--faint); align-items: center; transition: background 0.15s; }
 .act-row:last-child { border-bottom: none; }
 .act-row:hover { background: #faf9f7; }
 .act-name { display: flex; align-items: center; gap: 10px; }
@@ -463,6 +463,7 @@ body { font-family: 'Syne', sans-serif; background: var(--bg); color: var(--ink)
         <div id="cycle-chart-no-data" style="display:none;text-align:center;padding:24px 0;font-family:'DM Mono',monospace;font-size:10px;color:var(--mid);">No ride data — connect Strava.</div>
         <div id="cycle-chart-x-labels" style="display:flex;gap:3px;margin-top:0;"></div>
       </div>
+    </div>
 
     <!-- Annual totals comparison -->
     <div class="analytics-card" style="margin-bottom:20px;">
@@ -477,12 +478,21 @@ body { font-family: 'Syne', sans-serif; background: var(--bg); color: var(--ink)
       <div id="annualTotalsLabels" style="display:flex;gap:32px;margin-top:6px;"></div>
     </div>
 
-    <!-- Bottom row: phase breakdown + workout split + best efforts -->
+    <!-- Bottom row: cycle HR zones + run type split + best efforts -->
     <div class="analytics-bottom-row">
       <div class="analytics-card">
-        <div class="analytics-card-title">Miles by Phase</div>
-        <div class="phase-breakdown" id="phase-breakdown">
-          <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--mid);" id="phase-breakdown-empty">Connect Strava to see phase breakdown.</div>
+        <div class="analytics-card-title">Cycle Zone Distribution</div>
+        <div id="cycle-zone-breakdown">
+          <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--mid);" id="cycle-zone-empty">Connect Strava to see cycle zone breakdown.</div>
+          <div id="cycle-zone-bars" style="display:none;flex-direction:column;gap:11px;"></div>
+        </div>
+        <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--faint)">
+          <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mid);margin-bottom:8px">HR Thresholds</div>
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <div style="display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:9px"><span style="color:var(--c-long)">● Z1/Z2 Endurance</span><span style="color:var(--mid)">&lt; 136 bpm</span></div>
+            <div style="display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:9px"><span style="color:var(--c-tempo)">● Z3/Z4 Threshold</span><span style="color:var(--mid)">136 – 159 bpm</span></div>
+            <div style="display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:9px"><span style="color:var(--c-intervals)">● VO₂ Max</span><span style="color:var(--mid)">≥ 160 bpm</span></div>
+          </div>
         </div>
       </div>
 
@@ -550,12 +560,12 @@ body { font-family: 'Syne', sans-serif; background: var(--bg); color: var(--ink)
     <div class="activity-stats-strip" id="stats-strip" style="display:none"><div class="activity-stat-card"><div class="activity-stat-label">This Week</div><div class="activity-stat-val" id="stat-weekly" style="color:var(--c-easy)">0 mi</div><div class="activity-stat-sub">of planned 28 mi</div></div><div class="activity-stat-card"><div class="activity-stat-label">Season Total</div><div class="activity-stat-val" id="stat-total" style="color:var(--c-long)">0 mi</div><div class="activity-stat-sub">running miles</div></div><div class="activity-stat-card"><div class="activity-stat-label">Activities</div><div class="activity-stat-val" id="stat-count" style="color:var(--ink)">0</div><div class="activity-stat-sub">logged this season</div></div><div class="activity-stat-card"><div class="activity-stat-label">Avg Pace</div><div class="activity-stat-val" id="stat-pace" style="color:var(--c-intervals)">—</div><div class="activity-stat-sub">last 7 days</div></div></div>
     <div class="activities-loading" id="activities-loading"><div class="loading-label">Importing from Strava</div><div class="loading-bar"><div class="loading-bar-fill"></div></div><div class="loading-label" style="opacity:0.5;margin-top:8px;font-size:9px">Fetching recent activities...</div></div>
     <div class="activities-table" id="activities-table">
-      <div class="act-table-head"><div class="act-col-head">Activity</div><div class="act-col-head">Distance</div><div class="act-col-head">Time</div><div class="act-col-head">Pace / Avg W</div><div class="act-col-head">Phase</div><div class="act-col-head">Type</div></div>
+      <div class="act-table-head"><div class="act-col-head">Activity</div><div class="act-col-head">Distance</div><div class="act-col-head">Time</div><div class="act-col-head">Pace / Avg W</div><div class="act-col-head">Type</div></div>
       <div id="activity-rows">
-        <div class="act-row" data-type="run"><div class="act-name"><div class="act-type-dot" style="background:var(--c-intervals)"></div><div><div class="act-title-row"><div class="act-title-text">6×800m Intervals</div></div><div class="act-date">Mar 17, 2026 · Week 1</div></div></div><div class="act-cell">7.5 mi</div><div class="act-cell">58:20</div><div class="act-cell">7:46/mi</div><div class="act-cell"><span class="act-badge" style="background:#dbeafe;color:#1d4e89">Base I</span></div><div class="act-cell"><span class="act-badge pace-i">Intervals</span></div></div>
-        <div class="act-row" data-type="run"><div class="act-name"><div class="act-type-dot" style="background:var(--c-easy)"></div><div><div class="act-title-row"><div class="act-title-text">Medium Long Run</div></div><div class="act-date">Mar 19, 2026 · Week 1</div></div></div><div class="act-cell">10 mi</div><div class="act-cell">1:27:40</div><div class="act-cell">8:46/mi</div><div class="act-cell"><span class="act-badge" style="background:#dbeafe;color:#1d4e89">Base I</span></div><div class="act-cell"><span class="act-badge pace-e">Easy</span></div></div>
-        <div class="act-row" data-type="ride"><div class="act-name"><div class="act-type-dot" style="background:#7ec8e3"></div><div><div class="act-title-row"><div class="act-title-text">Endurance Ride</div></div><div class="act-date">Jan 6, 2026</div></div></div><div class="act-cell">32 mi</div><div class="act-cell">1:32:00</div><div class="act-cell">195w avg</div><div class="act-cell"><span class="act-badge" style="background:#dbeafe;color:#1d4e89">Base I</span></div><div class="act-cell"><span class="act-badge zone-z2">Z2 Ride</span></div></div>
-        <div class="act-row" data-type="run"><div class="act-name"><div class="act-type-dot" style="background:var(--c-long)"></div><div><div class="act-title-row"><div class="act-title-text">Long Run — 16 mi</div><span class="act-pr-badge">PR</span></div><div class="act-date">Mar 21, 2026 · Week 1</div></div></div><div class="act-cell">16 mi</div><div class="act-cell">2:22:08</div><div class="act-cell">8:53/mi</div><div class="act-cell"><span class="act-badge" style="background:#dbeafe;color:#1d4e89">Base I</span></div><div class="act-cell"><span class="act-badge pace-l">Long Run</span></div></div>
+        <div class="act-row" data-type="run"><div class="act-name"><div class="act-type-dot" style="background:var(--c-intervals)"></div><div><div class="act-title-row"><div class="act-title-text">6×800m Intervals</div></div><div class="act-date">Jan 7, 2026</div></div></div><div class="act-cell">7.5 mi</div><div class="act-cell">58:20</div><div class="act-cell">7:46/mi</div><div class="act-cell"><span class="act-badge pace-i">Intervals</span></div></div>
+        <div class="act-row" data-type="run"><div class="act-name"><div class="act-type-dot" style="background:var(--c-easy)"></div><div><div class="act-title-row"><div class="act-title-text">Medium Long Run</div></div><div class="act-date">Jan 9, 2026</div></div></div><div class="act-cell">10 mi</div><div class="act-cell">1:27:40</div><div class="act-cell">8:46/mi</div><div class="act-cell"><span class="act-badge pace-e">Easy</span></div></div>
+        <div class="act-row" data-type="ride"><div class="act-name"><div class="act-type-dot" style="background:#7ec8e3"></div><div><div class="act-title-row"><div class="act-title-text">Endurance Ride</div></div><div class="act-date">Jan 6, 2026</div></div></div><div class="act-cell">32 mi</div><div class="act-cell">1:32:00</div><div class="act-cell">195w avg</div><div class="act-cell"><span class="act-badge zone-z2">Ride</span></div></div>
+        <div class="act-row" data-type="run"><div class="act-name"><div class="act-type-dot" style="background:var(--c-long)"></div><div><div class="act-title-row"><div class="act-title-text">Long Run — 16 mi</div><span class="act-pr-badge">PR</span></div><div class="act-date">Jan 11, 2026</div></div></div><div class="act-cell">16 mi</div><div class="act-cell">2:22:08</div><div class="act-cell">8:53/mi</div><div class="act-cell"><span class="act-badge pace-e">Easy</span></div></div>
       </div>
       <div class="activities-empty" id="empty-state" style="display:none"><div class="activities-empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><h3>No activities yet</h3><p>Complete a workout and it will appear here automatically within a few minutes.</p></div>
       <button class="act-add-btn" onclick="addActivityPrompt()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>Log Activity Manually</button>
@@ -607,16 +617,9 @@ const YEAR_CONFIG = {
     seasonEnd:   new Date('2026-12-31T23:59:59'),
     weeks: 52,
     subtitle: 'Jan 1 → Dec 31, 2026 · Full Year',
-    phases: [
-      { label: 'Base I',   color: 'var(--phase-base)',     end: new Date('2026-05-10') },
-      { label: 'Base II',  color: 'var(--phase-build)',    end: new Date('2026-07-06') },
-      { label: 'Build',    color: '#4a7fbf',               end: new Date('2026-08-31') },
-      { label: 'Specific', color: 'var(--phase-specific)', end: new Date('2026-11-22') },
-      { label: 'Taper',    color: 'var(--phase-taper)',    end: new Date('2026-12-31') },
-    ]
   }
   // Add future years here:
-  // 2027: { label: '2027', seasonStart: new Date('2027-01-01'), ... }
+  // 2027: { label: '2027', seasonStart: new Date('2027-01-01'), weeks: 52 }
 };
 
 let currentYear = 2026;
@@ -633,10 +636,37 @@ let stravaState = { connected: false, accessToken: null, refreshToken: null, exp
 window.addEventListener('DOMContentLoaded', () => {
   buildYearTabs();
 
-  // Try loading static Strava JSON
+  // OAuth callback check — handle first before any async work
+  const urlParams = new URLSearchParams(window.location.search);
+  const oauthCode = urlParams.get('code');
+  if (oauthCode && urlParams.get('state') === 'strava_auth') {
+    window.history.replaceState({}, document.title, window.location.pathname);
+    exchangeCodeForToken(oauthCode);
+    return;
+  }
+
+  // Check session storage first
+  try {
+    const saved = sessionStorage.getItem('strava_auth');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (parsed && parsed.connected && Array.isArray(parsed.activities) && parsed.activities.length > 0) {
+        stravaState = parsed;
+        showConnectedState(stravaState.athlete);
+        ingestActivities(stravaState.activities);
+        renderActivities(stravaState.activities);
+        updateStats(stravaState.activities);
+        refreshAnalytics();
+        return;
+      }
+    }
+  } catch(e) { console.warn('Session storage error:', e); }
+
+  // Try loading static pre-built Strava JSON
   fetch('./data/strava_data.json')
-    .then(r => r.ok ? r.json() : Promise.reject())
+    .then(r => { if (!r.ok) throw new Error('not found'); return r.json(); })
     .then(activities => {
+      if (!Array.isArray(activities)) throw new Error('invalid');
       ingestActivities(activities);
       showConnectedState(null);
       renderActivities(activities);
@@ -644,30 +674,9 @@ window.addEventListener('DOMContentLoaded', () => {
       refreshAnalytics();
     })
     .catch(() => {
-      // No data — check session storage
-      const saved = sessionStorage.getItem('strava_auth');
-      if (saved) {
-        stravaState = JSON.parse(saved);
-        if (stravaState.connected) {
-          showConnectedState(stravaState.athlete);
-          ingestActivities(stravaState.activities);
-          renderActivities(stravaState.activities);
-          updateStats(stravaState.activities);
-          refreshAnalytics();
-          return;
-        }
-      }
-      // Truly no data — show planned chart
+      // No data — render empty state with planned chart
       refreshAnalytics();
     });
-
-  // OAuth callback check
-  const params = new URLSearchParams(window.location.search);
-  const code = params.get('code');
-  if (code && params.get('state') === 'strava_auth') {
-    window.history.replaceState({}, document.title, window.location.pathname);
-    exchangeCodeForToken(code);
-  }
 });
 
 function buildYearTabs() {
@@ -699,14 +708,6 @@ function ingestActivities(activities) {
 
 function getYearActivities(year) {
   return allActivities[year] || [];
-}
-
-function getPhaseForDate(d, year) {
-  const cfg = YEAR_CONFIG[year];
-  if (!cfg) return { label: '—', color: 'var(--mid)' };
-  const dt = typeof d === 'string' ? new Date(d) : d;
-  for (const p of cfg.phases) { if (dt <= p.end) return p; }
-  return cfg.phases[cfg.phases.length - 1];
 }
 
 function getWeekNumber(dateStr, year) {
@@ -782,7 +783,7 @@ function refreshAnalytics() {
   const peakWkIdx = weeklyRunMi.indexOf(peakRunMi);
   document.getElementById('kpi-peak-week').textContent = hasRunData ? peakRunMi.toFixed(1) + ' mi' : '—';
   document.getElementById('kpi-peak-week-sub').textContent = hasRunData
-    ? `Week ${peakWkIdx+1} · ${getPhaseForDate(new Date(cfg.seasonStart.getTime() + peakWkIdx*7*24*3600*1000), currentYear).label}`
+    ? `Week ${peakWkIdx+1} of ${currentYear}`
     : 'No data yet';
 
   document.getElementById('kpi-activities').textContent = hasAny ? activities.length : '—';
@@ -803,8 +804,8 @@ function refreshAnalytics() {
   buildCycleChart(weeklyRideMi, hasRideData, cfg);
   buildAnnualTotals();
 
-  // ── PHASE BREAKDOWN ─────────────────────────
-  buildPhaseBreakdown(runs, hasRunData);
+  // ── CYCLE HR ZONES ──────────────────────────
+  buildCycleZones(rides, hasRideData);
 
   // ── WORKOUT SPLIT ───────────────────────────
   buildWorkoutSplit(runs);
@@ -835,7 +836,6 @@ function buildRunChart(weeklyMi, weeklyRunCats, hasData, cfg) {
   const weeksLogged = hasData ? (displayData.findLastIndex(m => m > 0) + 1) : 0;
 
   displayData.forEach((total, i) => {
-    const phase = getPhaseForDate(new Date(cfg.seasonStart.getTime() + i*7*24*3600*1000), currentYear);
     const isFuture = hasData && i >= weeksLogged;
     const isPlanned = !hasData;
     const barH = (total / max * 110);
@@ -867,7 +867,7 @@ function buildRunChart(weeklyMi, weeklyRunCats, hasData, cfg) {
       const bar = document.createElement('div');
       bar.className = 'chart-bar';
       bar.style.height = barH + 'px';
-      bar.style.background = isPlanned ? phase.color : (isFuture ? 'var(--faint)' : phase.color);
+      bar.style.background = 'var(--c-easy)';
       bar.style.opacity = isFuture ? '0.2' : (isPlanned ? '0.3' : '1');
       bar.title = `Week ${i+1}: ${total.toFixed(1)} mi${isFuture ? ' (planned)' : isPlanned ? ' (planned)' : ''}`;
       wrap.appendChild(bar);
@@ -993,40 +993,56 @@ function buildAnnualTotals() {
 }
 
 // ═══════════════════════════════════════════════
-// PHASE BREAKDOWN
+// CYCLE HR ZONE BREAKDOWN
+// Z1/Z2: max HR < 136  |  Z3/Z4: 136–159  |  VO2: >= 160
 // ═══════════════════════════════════════════════
-function buildPhaseBreakdown(runs, hasData) {
-  const container = document.getElementById('phase-breakdown');
-  const empty     = document.getElementById('phase-breakdown-empty');
-  const cfg = YEAR_CONFIG[currentYear];
-  if (!cfg) return;
+function buildCycleZones(rides, hasData) {
+  const empty   = document.getElementById('cycle-zone-empty');
+  const bars    = document.getElementById('cycle-zone-bars');
+  if (!empty || !bars) return;
 
-  if (!hasData) { empty.style.display = 'block'; container.querySelectorAll('.phase-row').forEach(r => r.remove()); return; }
+  if (!hasData || rides.length === 0) {
+    empty.style.display = 'block';
+    bars.style.display = 'none';
+    return;
+  }
+
+  // Only count rides that have max_heartrate data
+  const ridesWithHR = rides.filter(r => r.max_heartrate && r.max_heartrate > 0);
+
+  if (ridesWithHR.length === 0) {
+    empty.textContent = 'No HR data found in rides.';
+    empty.style.display = 'block';
+    bars.style.display = 'none';
+    return;
+  }
+
+  const zones = {
+    z12: { label: 'Z1/Z2 Endurance', color: 'var(--c-long)',      count: 0, miles: 0 },
+    z34: { label: 'Z3/Z4 Threshold', color: 'var(--c-tempo)',     count: 0, miles: 0 },
+    vo2: { label: 'VO₂ Max',         color: 'var(--c-intervals)', count: 0, miles: 0 },
+  };
+
+  ridesWithHR.forEach(r => {
+    const mi = r.distance / 1609.344;
+    const hr = r.max_heartrate;
+    if (hr < 136)      { zones.z12.count++; zones.z12.miles += mi; }
+    else if (hr < 160) { zones.z34.count++; zones.z34.miles += mi; }
+    else               { zones.vo2.count++; zones.vo2.miles += mi; }
+  });
+
+  const maxMi = Math.max(...Object.values(zones).map(z => z.miles), 1);
   empty.style.display = 'none';
-
-  const phaseMiles = {};
-  cfg.phases.forEach(p => { phaseMiles[p.label] = 0; });
-  runs.forEach(a => {
-    const p = getPhaseForDate(a.start_date, currentYear);
-    phaseMiles[p.label] = (phaseMiles[p.label] || 0) + a.distance / 1609.344;
-  });
-
-  const maxMi = Math.max(...Object.values(phaseMiles), 1);
-  const existing = container.querySelectorAll('.phase-row');
-  existing.forEach(r => r.remove());
-
-  cfg.phases.forEach(p => {
-    const mi = phaseMiles[p.label] || 0;
-    const pct = (mi / maxMi * 100).toFixed(0);
-    const row = document.createElement('div');
-    row.className = 'phase-row';
-    row.innerHTML = `
-      <div class="phase-row-label">${p.label}</div>
-      <div class="phase-bar-track"><div class="phase-bar-fill" style="width:${pct}%;background:${p.color}"></div></div>
-      <div class="phase-row-val" style="color:${p.color}">${mi.toFixed(0)} mi</div>
-    `;
-    container.appendChild(row);
-  });
+  bars.style.display = 'flex';
+  bars.innerHTML = Object.values(zones).map(z => {
+    const pct = (z.miles / maxMi * 100).toFixed(0);
+    const ridePct = ridesWithHR.length > 0 ? Math.round(z.count / ridesWithHR.length * 100) : 0;
+    return `<div class="phase-row">
+      <div class="phase-row-label" style="width:88px;font-size:8px">${z.label}</div>
+      <div class="phase-bar-track"><div class="phase-bar-fill" style="width:${pct}%;background:${z.color}"></div></div>
+      <div style="font-family:'DM Mono',monospace;font-size:10px;font-weight:500;width:72px;text-align:right;color:${z.color}">${z.miles.toFixed(0)} mi · ${ridePct}%</div>
+    </div>`;
+  }).join('');
 }
 
 // ═══════════════════════════════════════════════
@@ -1245,12 +1261,6 @@ function renderActivities(activities) {
   if (!activities || activities.length === 0) { container.innerHTML = ''; emptyState.style.display = 'flex'; return; }
   emptyState.style.display = 'none';
 
-  function getPhase(dateStr) {
-    const d = new Date(dateStr); const yr = d.getFullYear(); const cfg = YEAR_CONFIG[yr];
-    if (!cfg) return { label:'—', color:'#f3f4f6', text:'#6b7280' };
-    for (const p of cfg.phases) { if (d <= p.end) return { label: p.label, color:'#dbeafe', text:'#1d4e89' }; }
-    return { label:'—', color:'#f3f4f6', text:'#6b7280' };
-  }
   function formatPace(a) {
     if ((a.type==='Ride'||a.type==='VirtualRide') && a.average_watts) return `${Math.round(a.average_watts)}w avg`;
     if (a.average_speed > 0) { const spm = 1609.344/a.average_speed; return secPerMileToStr(spm)+'/mi'; }
@@ -1269,7 +1279,6 @@ function renderActivities(activities) {
   }
 
   const html = [...activities].sort((a,b) => new Date(b.start_date)-new Date(a.start_date)).slice(0,50).map(act => {
-    const phase = getPhase(act.start_date);
     const d = new Date(act.start_date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
     const { cls, lbl } = getBadge(act);
     const prBadge = act.achievement_count > 0 ? '<span class="act-pr-badge">PR</span>' : '';
@@ -1285,7 +1294,6 @@ function renderActivities(activities) {
       <div class="act-cell">${formatDist(act.distance)}</div>
       <div class="act-cell">${formatDur(act.moving_time)}</div>
       <div class="act-cell">${formatPace(act)}</div>
-      <div class="act-cell"><span class="act-badge" style="background:${phase.color};color:${phase.text}">${phase.label}</span></div>
       <div class="act-cell"><span class="act-badge ${cls}">${lbl}</span></div>
     </div>`;
   }).join('');
