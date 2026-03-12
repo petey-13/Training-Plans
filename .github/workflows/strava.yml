@@ -1,0 +1,38 @@
+name: Update Strava Data
+
+on:
+  schedule:
+    - cron: '0 * * * *' # This tells it to run at the top of every hour
+  workflow_dispatch: # This adds a button so you can trigger it manually
+
+permissions:
+  contents: write # Allows the action to save the file to your repo
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install Dependencies
+        run: pip install requests
+
+      - name: Fetch Strava Data
+        env:
+          STRAVA_CLIENT_ID: ${{ secrets.STRAVA_CLIENT_ID }}
+          STRAVA_CLIENT_SECRET: ${{ secrets.STRAVA_CLIENT_SECRET }}
+          STRAVA_REFRESH_TOKEN: ${{ secrets.STRAVA_REFRESH_TOKEN }}
+        run: python fetch_strava.py
+
+      - name: Commit and Push Data
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add strava_data.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update Strava data" && git push)
