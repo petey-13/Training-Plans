@@ -9,11 +9,13 @@ REFRESH_TOKEN = os.environ["STRAVA_REFRESH_TOKEN"]
 
 def get_access_token():
     res = requests.post("https://www.strava.com/oauth/token", data={
-        "client_id":     STRAVA_CLIENT_ID,
-        "client_secret": STRAVA_CLIENT_SECRET,
-        "refresh_token": STRAVA_REFRESH_TOKEN,
+        "client_id":     CLIENT_ID,
+        "client_secret": CLIENT_SECRET,
+        "refresh_token": REFRESH_TOKEN,
         "grant_type":    "refresh_token"
     })
+     print("Status:", res.status_code)
+    print("Response:", res.json())
     res.raise_for_status()
     return res.json()["access_token"]
 
@@ -41,3 +43,15 @@ if __name__ == "__main__":
     with open("data/strava_data.json", "w") as f:
         json.dump(activities, f)
     print(f"Saved {len(activities)} activities.")
+    def get_access_token():
+    res = requests.post("https://www.strava.com/oauth/token", data={
+        "client_id":     CLIENT_ID,
+        "client_secret": CLIENT_SECRET,
+        "refresh_token": REFRESH_TOKEN,
+        "grant_type":    "refresh_token"
+    })
+    print("Status:", res.status_code)
+    print("Response:", res.json())  # ← add this line
+    res.raise_for_status()
+    return res.json()["access_token"]
+
