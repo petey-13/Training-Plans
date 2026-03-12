@@ -14,7 +14,7 @@ def get_access_token():
         "refresh_token": REFRESH_TOKEN,
         "grant_type":    "refresh_token"
     })
-     print("Status:", res.status_code)
+    print("Status:", res.status_code)
     print("Response:", res.json())
     res.raise_for_status()
     return res.json()["access_token"]
