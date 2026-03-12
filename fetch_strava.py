@@ -7,10 +7,6 @@ CLIENT_ID     = os.environ.get("STRAVA_CLIENT_ID", "NOT_FOUND")
 CLIENT_SECRET = os.environ.get("STRAVA_CLIENT_SECRET", "NOT_FOUND")
 REFRESH_TOKEN = os.environ.get("STRAVA_REFRESH_TOKEN", "NOT_FOUND")
 
-print("CLIENT_ID:", repr(CLIENT_ID))
-print("CLIENT_SECRET length:", len(CLIENT_SECRET))
-print("REFRESH_TOKEN length:", len(REFRESH_TOKEN))
-
 def get_access_token():
     res = requests.post("https://www.strava.com/oauth/token", data={
         "client_id":     CLIENT_ID,
@@ -19,7 +15,6 @@ def get_access_token():
         "grant_type":    "refresh_token"
     })
     print("Status:", res.status_code)
-    print("Response:", res.json())
     res.raise_for_status()
     return res.json()["access_token"]
 
@@ -29,8 +24,9 @@ def fetch_all_activities(token):
         res = requests.get(
             "https://www.strava.com/api/v3/athlete/activities",
             headers={"Authorization": f"Bearer {token}"},
-            params={"after": season_start, "per_page": 100, "page": page}
+            params={"per_page": 100, "page": page}
         )
+        print("Activities status:", res.status_code)
         res.raise_for_status()
         batch = res.json()
         if not batch:
