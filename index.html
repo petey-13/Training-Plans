@@ -844,16 +844,26 @@ body { font-family: 'Syne', sans-serif; background: var(--bg); color: var(--ink)
 // STRAVA CONFIG — replace these with your app values
 // See the integration guide below for how to get them
 // ─────────────────────────────────────────────
-const STRAVA_CONFIG = {
-  clientId: 'YOUR_CLIENT_ID',          // From Strava API settings
-  redirectUri: window.location.href.split('?')[0], // Current page URL
-  scope: 'activity:read_all',
-  authUrl: 'https://www.strava.com/oauth/authorize',
-  tokenUrl: 'https://www.strava.com/oauth/token',
-  // ⚠️ Client secret MUST be kept server-side in production
-  // For local/dev use only — never ship clientSecret in public code
-  clientSecret: 'YOUR_CLIENT_SECRET',
-};
+// ─────────────────────────────────────────────
+// STRAVA — loads from pre-built static JSON
+// No OAuth needed. Data refreshed daily by GitHub Actions.
+// ─────────────────────────────────────────────
+
+window.addEventListener('DOMContentLoaded', async () => {
+  try {
+    const res = await fetch('./data/strava_data.json');
+    if (!res.ok) throw new Error(`Could not load Strava data: ${res.status}`);
+    const activities = await res.json();
+
+    renderActivities(activities);
+    updateStats(activities);
+    updateAnalytics(activities);
+    buildMileageChart(activities, true);
+  } catch (err) {
+    console.error('Strava data load error:', err);
+    buildMileageChart([], false); // fall back to planned data only
+  }
+});
 
 // ─────────────────────────────────────────────
 // STATE
