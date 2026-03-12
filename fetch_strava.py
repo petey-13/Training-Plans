@@ -1,12 +1,15 @@
 # fetch_strava.py
-print("CLIENT_ID value:", repr(CLIENT_ID))
 import os
 import json
 import requests
 
-CLIENT_ID     = os.environ["STRAVA_CLIENT_ID"]
-CLIENT_SECRET = os.environ["STRAVA_CLIENT_SECRET"]
-REFRESH_TOKEN = os.environ["STRAVA_REFRESH_TOKEN"]
+CLIENT_ID     = os.environ.get("STRAVA_CLIENT_ID", "NOT_FOUND")
+CLIENT_SECRET = os.environ.get("STRAVA_CLIENT_SECRET", "NOT_FOUND")
+REFRESH_TOKEN = os.environ.get("STRAVA_REFRESH_TOKEN", "NOT_FOUND")
+
+print("CLIENT_ID:", repr(CLIENT_ID))
+print("CLIENT_SECRET length:", len(CLIENT_SECRET))
+print("REFRESH_TOKEN length:", len(REFRESH_TOKEN))
 
 def get_access_token():
     res = requests.post("https://www.strava.com/oauth/token", data={
