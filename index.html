@@ -374,24 +374,27 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--ink);min-hei
   <div class="page">
     <!-- Row 1: KPIs -->
     <div class="grid-5 mb-24" id="dash-kpis">
-      <div class="kpi"><div class="kpi-label">Total Activities</div><div class="kpi-value" id="kpi-total">—</div><div class="kpi-sub">All time</div></div>
-      <div class="kpi"><div class="kpi-label">Total Miles</div><div class="kpi-value" id="kpi-miles">—</div><div class="kpi-sub">All time</div></div>
-      <div class="kpi"><div class="kpi-label">Total Hours</div><div class="kpi-value" id="kpi-hours">—</div><div class="kpi-sub">Moving time</div></div>
-      <div class="kpi accent"><div class="kpi-label">Avg Suffer</div><div class="kpi-value" id="kpi-suffer">—</div><div class="kpi-sub">Per activity</div></div>
+      <div class="kpi" style="border-top:3px solid var(--c-easy)"><div class="kpi-label">Annual Run Miles</div><div class="kpi-value" id="kpi-run-miles">—</div><div class="kpi-sub" id="kpi-run-acts">— runs</div></div>
+      <div class="kpi" style="border-top:3px solid var(--c-cycle)"><div class="kpi-label">Annual Ride Miles</div><div class="kpi-value" id="kpi-ride-miles">—</div><div class="kpi-sub" id="kpi-ride-acts">— rides</div></div>
+      <div class="kpi" style="border-top:3px solid var(--mid)"><div class="kpi-label">Annual Other Miles</div><div class="kpi-value" id="kpi-other-miles">—</div><div class="kpi-sub" id="kpi-other-acts">— activities</div></div>
+      <div class="kpi accent"><div class="kpi-label">Annual Total Miles</div><div class="kpi-value" id="kpi-miles">—</div><div class="kpi-sub" id="kpi-total-acts">— activities</div></div>
       <div class="kpi"><div class="kpi-label">Consistency</div><div class="kpi-value" id="kpi-consistency">—</div><div class="kpi-sub">Days/week avg</div></div>
     </div>
 
-    <!-- Row 2: 12-week volume + weekly targets -->
+    <!-- Row 2: 12-week volume split + weekly targets -->
     <div class="grid-2-1">
-      <div class="chart-card">
-        <div class="chart-card-head">
-          <div><div class="chart-card-title">12-Week Volume</div><div class="chart-card-sub">Miles per week by sport</div></div>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="chart-card">
+          <div class="chart-card-head">
+            <div><div class="chart-card-title">12-Week Running Volume</div><div class="chart-card-sub">Miles per week</div></div>
+          </div>
+          <div class="chart-card-body" style="height:160px"><canvas id="chart-weekly-run"></canvas></div>
         </div>
-        <div class="chart-card-body" style="height:220px"><canvas id="chart-weekly-vol"></canvas></div>
-        <div class="chart-legend">
-          <div class="legend-item"><div class="legend-dot" style="background:var(--c-easy)"></div>Run</div>
-          <div class="legend-item"><div class="legend-dot" style="background:var(--c-cycle)"></div>Ride</div>
-          <div class="legend-item"><div class="legend-dot" style="background:var(--c-swim)"></div>Other</div>
+        <div class="chart-card">
+          <div class="chart-card-head">
+            <div><div class="chart-card-title">12-Week Cycling Volume</div><div class="chart-card-sub">Miles per week</div></div>
+          </div>
+          <div class="chart-card-body" style="height:160px"><canvas id="chart-weekly-ride"></canvas></div>
         </div>
       </div>
       <div class="chart-card">
@@ -402,13 +405,16 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--ink);min-hei
       </div>
     </div>
 
-    <!-- Row 3: Recent + PRs -->
-    <div class="recent-strip">
-      <div class="recent-head">
-        <div class="recent-title">Recent Activities</div>
-        <button class="filter-btn" onclick="switchTab('activities')" style="font-size:9px;padding:5px 12px">View all →</button>
+    <!-- Row 3: Monthly mileage breakdown + PRs -->
+    <div class="chart-card mb-24">
+      <div class="chart-card-head">
+        <div><div class="chart-card-title">Monthly Mileage — Past 6 Months</div><div class="chart-card-sub">Running vs cycling miles by month</div></div>
       </div>
-      <div id="recent-rows"></div>
+      <div class="chart-card-body" style="height:240px"><canvas id="chart-monthly-breakdown"></canvas></div>
+      <div class="chart-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--c-easy)"></div>Running</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--c-cycle)"></div>Cycling</div>
+      </div>
     </div>
 
     <!-- Row 4: PRs + Consistency heatmap -->
@@ -1019,8 +1025,17 @@ function buildDashboard() {
 
   const totDist=arr.reduce((s,a)=>s+(a.distance||0),0);
   const totTime=arr.reduce((s,a)=>s+(a.moving_time||0),0);
-  const sufArr=arr.filter(a=>a.suffer_score);
-  const avgSuffer=sufArr.length?Math.round(sufArr.reduce((s,a)=>s+a.suffer_score,0)/sufArr.length):0;
+
+  // Annual miles by activity
+  const yearStart=new Date(now.getFullYear(),0,1);
+  const yearActs=arr.filter(a=>new Date(a.start_date)>=yearStart);
+  const yearRunActs=yearActs.filter(a=>simplifyType(a.type||a.sport_type||'')==='Run');
+  const yearRideActs=yearActs.filter(a=>simplifyType(a.type||a.sport_type||'')==='Ride');
+  const yearOtherActs=yearActs.filter(a=>!['Run','Ride'].includes(simplifyType(a.type||a.sport_type||'')));
+  const yearRunMi=yearRunActs.reduce((s,a)=>s+mi(a.distance||0),0);
+  const yearRideMi=yearRideActs.reduce((s,a)=>s+mi(a.distance||0),0);
+  const yearOtherMi=yearOtherActs.reduce((s,a)=>s+mi(a.distance||0),0);
+  const yearTotalMi=yearRunMi+yearRideMi+yearOtherMi;
 
   // Consistency: avg days/week over 8 weeks
   const eightWksAgo=new Date(now-56*86400000);
@@ -1028,10 +1043,14 @@ function buildDashboard() {
   const eightWkDays=new Set(eightWkActs.map(a=>new Date(a.start_date).toDateString())).size;
   const consistency=(eightWkDays/8).toFixed(1);
 
-  document.getElementById('kpi-total').textContent=arr.length.toLocaleString();
-  document.getElementById('kpi-miles').textContent=mi(totDist).toFixed(0);
-  document.getElementById('kpi-hours').textContent=Math.round(totTime/3600);
-  document.getElementById('kpi-suffer').textContent=avgSuffer||'—';
+  document.getElementById('kpi-run-miles').textContent=yearRunMi.toFixed(0);
+  document.getElementById('kpi-run-acts').textContent=yearRunActs.length+' runs';
+  document.getElementById('kpi-ride-miles').textContent=yearRideMi.toFixed(0);
+  document.getElementById('kpi-ride-acts').textContent=yearRideActs.length+' rides';
+  document.getElementById('kpi-other-miles').textContent=yearOtherMi.toFixed(0);
+  document.getElementById('kpi-other-acts').textContent=yearOtherActs.length+' activities';
+  document.getElementById('kpi-miles').textContent=yearTotalMi.toFixed(0);
+  document.getElementById('kpi-total-acts').textContent=yearActs.length+' activities';
   document.getElementById('kpi-consistency').textContent=consistency+' /wk';
   document.getElementById('dash-hero-sub').textContent=`${arr.length} activities synced · last updated ${fmtDate(arr[0].start_date)}`;
 
@@ -1039,14 +1058,14 @@ function buildDashboard() {
   const hr=new Date().getHours();
   document.getElementById('greeting-time').textContent=hr<12?'Morning':hr<17?'Afternoon':'Evening';
 
-  // 12-week volume chart
-  buildWeeklyVolChart();
+  // 12-week volume charts (split)
+  buildWeeklyVolCharts();
+
+  // Monthly breakdown chart
+  buildMonthlyBreakdown();
 
   // Week targets
   buildWeekTargets(weekActs);
-
-  // Recent rows
-  buildRecentRows(arr.slice(0,6));
 
   // PRs
   buildPRs(arr);
@@ -1055,8 +1074,9 @@ function buildDashboard() {
   buildHeatmap(arr);
 }
 
-function buildWeeklyVolChart() {
-  destroyChart('weekly-vol');
+function buildWeeklyVolCharts() {
+  destroyChart('weekly-run');
+  destroyChart('weekly-ride');
   const now=new Date();
   const weeks=[];
   for (let i=11;i>=0;i--) {
@@ -1067,26 +1087,61 @@ function buildWeeklyVolChart() {
     const wActs=allActivities.filter(a=>{const d=new Date(a.start_date);return d>=wStart&&d<wEnd;});
     const runMi=wActs.filter(a=>simplifyType(a.type||a.sport_type||'')==='Run').reduce((s,a)=>s+mi(a.distance||0),0);
     const rideMi=wActs.filter(a=>simplifyType(a.type||a.sport_type||'')==='Ride').reduce((s,a)=>s+mi(a.distance||0),0);
-    const otherMi=wActs.filter(a=>!['Run','Ride'].includes(simplifyType(a.type||a.sport_type||''))).reduce((s,a)=>s+mi(a.distance||0),0);
-    weeks.push({label:wStart.toLocaleDateString('en-US',{month:'short',day:'numeric'}),run:runMi,ride:rideMi,other:otherMi});
+    weeks.push({label:wStart.toLocaleDateString('en-US',{month:'short',day:'numeric'}),run:runMi,ride:rideMi});
   }
-  const ctx=document.getElementById('chart-weekly-vol').getContext('2d');
-  chartInstances['weekly-vol']=new Chart(ctx,{
+  const sharedOptions=(color,unit)=>({
+    responsive:true,maintainAspectRatio:false,
+    plugins:{tooltip:{callbacks:{label:ctx=>`${ctx.raw.toFixed(1)} mi`}}},
+    scales:{
+      x:{grid:{display:false},ticks:{font:{size:9}}},
+      y:{grid:{color:'rgba(0,0,0,.05)'},ticks:{font:{size:9},callback:v=>`${v}mi`},beginAtZero:true}
+    }
+  });
+  const runCtx=document.getElementById('chart-weekly-run').getContext('2d');
+  chartInstances['weekly-run']=new Chart(runCtx,{
+    type:'bar',
+    data:{labels:weeks.map(w=>w.label),datasets:[{label:'Run',data:weeks.map(w=>+w.run.toFixed(1)),backgroundColor:'rgba(45,106,79,.75)',borderRadius:4}]},
+    options:sharedOptions('rgba(45,106,79,.75)','mi')
+  });
+  const rideCtx=document.getElementById('chart-weekly-ride').getContext('2d');
+  chartInstances['weekly-ride']=new Chart(rideCtx,{
+    type:'bar',
+    data:{labels:weeks.map(w=>w.label),datasets:[{label:'Ride',data:weeks.map(w=>+w.ride.toFixed(1)),backgroundColor:'rgba(14,165,233,.65)',borderRadius:4}]},
+    options:sharedOptions('rgba(14,165,233,.65)','mi')
+  });
+}
+
+function buildMonthlyBreakdown() {
+  destroyChart('monthly-breakdown');
+  const now=new Date();
+  const months=[];
+  for (let i=5;i>=0;i--) {
+    const mDate=new Date(now.getFullYear(),now.getMonth()-i,1);
+    const mEnd=new Date(mDate.getFullYear(),mDate.getMonth()+1,1);
+    const mActs=allActivities.filter(a=>{const d=new Date(a.start_date);return d>=mDate&&d<mEnd;});
+    const runMi=mActs.filter(a=>simplifyType(a.type||a.sport_type||'')==='Run').reduce((s,a)=>s+mi(a.distance||0),0);
+    const rideMi=mActs.filter(a=>simplifyType(a.type||a.sport_type||'')==='Ride').reduce((s,a)=>s+mi(a.distance||0),0);
+    months.push({label:mDate.toLocaleDateString('en-US',{month:'short',year:'2-digit'}),run:runMi,ride:rideMi});
+  }
+  const ctx=document.getElementById('chart-monthly-breakdown').getContext('2d');
+  chartInstances['monthly-breakdown']=new Chart(ctx,{
     type:'bar',
     data:{
-      labels:weeks.map(w=>w.label),
+      labels:months.map(m=>m.label),
       datasets:[
-        {label:'Run',data:weeks.map(w=>+w.run.toFixed(1)),backgroundColor:'rgba(45,106,79,.75)',borderRadius:3,stack:'a'},
-        {label:'Ride',data:weeks.map(w=>+w.ride.toFixed(1)),backgroundColor:'rgba(14,165,233,.65)',borderRadius:3,stack:'a'},
-        {label:'Other',data:weeks.map(w=>+w.other.toFixed(1)),backgroundColor:'rgba(107,99,88,.4)',borderRadius:3,stack:'a'},
+        {label:'Running',data:months.map(m=>+m.run.toFixed(1)),backgroundColor:'rgba(45,106,79,.8)',borderRadius:5,barPercentage:.4,categoryPercentage:.8},
+        {label:'Cycling',data:months.map(m=>+m.ride.toFixed(1)),backgroundColor:'rgba(14,165,233,.7)',borderRadius:5,barPercentage:.4,categoryPercentage:.8},
       ]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
-      plugins:{tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.raw} mi`}}},
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.raw} mi`}}
+      },
       scales:{
-        x:{grid:{display:false},ticks:{font:{size:9}}},
-        y:{grid:{color:'rgba(0,0,0,.05)'},ticks:{font:{size:9},callback:v=>`${v}mi`}}
+        x:{grid:{display:false},ticks:{font:{size:10}}},
+        y:{grid:{color:'rgba(0,0,0,.05)'},ticks:{font:{size:9},callback:v=>`${v}mi`},beginAtZero:true}
       }
     }
   });
