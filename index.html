@@ -222,11 +222,11 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--ink);min-hei
 
 /* ═══ ACTIVITY TABLE ══════════════════════════════════════════════════════ */
 .activity-table{background:var(--card-bg);border:1px solid var(--rule);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
-.act-head{display:grid;grid-template-columns:260px 90px 80px 110px 80px 80px 120px;padding:11px 20px;background:var(--faint);border-bottom:2px solid var(--rule);gap:8px}
+.act-head{display:grid;grid-template-columns:240px 90px 80px 110px 80px 130px 120px;padding:11px 20px;background:var(--faint);border-bottom:2px solid var(--rule);gap:8px}
 .act-col-head{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--mid);cursor:pointer;user-select:none;display:flex;align-items:center;gap:4px}
 .act-col-head:hover{color:var(--ink)}
 .act-col-head.sorted{color:var(--ink)}
-.act-row{display:grid;grid-template-columns:260px 90px 80px 110px 80px 80px 120px;padding:13px 20px;border-bottom:1px solid var(--faint);align-items:center;gap:8px;transition:background .12s;cursor:pointer}
+.act-row{display:grid;grid-template-columns:240px 90px 80px 110px 80px 130px 120px;padding:13px 20px;border-bottom:1px solid var(--faint);align-items:center;gap:8px;transition:background .12s;cursor:pointer}
 .act-row:last-child{border-bottom:none}
 .act-row:hover{background:#faf9f7}
 .act-name-cell{display:flex;align-items:center;gap:10px;min-width:0}
@@ -352,7 +352,7 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--ink);min-hei
   .pr-grid-power{grid-template-columns:repeat(3,1fr)}
   .pr-grid-run{grid-template-columns:repeat(3,1fr)}
   .act-head,.act-row{grid-template-columns:1fr 80px 80px 100px}
-  .col-hr,.col-watts,.col-suffer{display:none}
+  .col-hr,.col-watts,.col-perf{display:none}
 }
 @media(max-width:768px){
   .top-nav{padding:0 16px;min-height:49px}
@@ -373,7 +373,7 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--ink);min-hei
   .pr-grid-run{grid-template-columns:repeat(2,1fr)}
   .pr-grid-power{grid-template-columns:repeat(3,1fr)}
   .act-head,.act-row{grid-template-columns:1fr 70px 80px}
-  .col-hr,.col-watts,.col-suffer,.col-effort{display:none}
+  .col-hr,.col-watts,.col-perf,.col-effort{display:none}
   .search-input{width:100%;min-width:0}
   .controls-right{flex-wrap:wrap;width:100%}
   .controls-bar{flex-direction:column;align-items:stretch}
@@ -596,7 +596,6 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--ink);min-hei
             <option value="date-desc">Date ↓</option>
             <option value="date-asc">Date ↑</option>
             <option value="dist-desc">Distance ↓</option>
-            <option value="suffer-desc">Suffer ↓</option>
             <option value="hr-desc">Avg HR ↓</option>
           </select>
           <div class="result-count" id="result-count"></div>
@@ -609,7 +608,7 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--ink);min-hei
           <div class="act-col-head">Time</div>
           <div class="act-col-head col-watts">Pace / Watts</div>
           <div class="act-col-head col-hr">Avg HR</div>
-          <div class="act-col-head col-suffer">Suffer</div>
+          <div class="act-col-head col-perf">Best Effort</div>
           <div class="act-col-head col-effort">Effort Tag</div>
         </div>
         <div id="table-body"></div>
@@ -1039,11 +1038,34 @@ function renderRow(act) {
   const tag=getEffortTag(act);
   const t=simplifyType(act.type||act.sport_type||'Other');
   const hr=act.average_heartrate?Math.round(act.average_heartrate):null;
-  const suffer=act.suffer_score||null;
   const pw=getPaceOrWatts(act);
   const hrPct=hr?Math.min(100,((hr-50)/150)*100):0;
   const hrCol=hr?(hr>170?'var(--c-intervals)':hr>155?'var(--c-tempo)':hr>140?'#f4a261':'var(--c-easy)'):'#ccc';
-  const sufCol=suffer?(suffer>=200?'var(--c-intervals)':suffer>=100?'var(--c-tempo)':suffer>=50?'var(--c-easy)':'var(--mid)'):'var(--mid)';
+
+  // Best effort cell: ride → 5min W / 20min W, run → best 1-mile pace
+  let bestEffortHtml = '<span class="muted">—</span>';
+  if (t === 'Ride') {
+    const p5  = act.best_5min_watts  ? Math.round(act.best_5min_watts)  : null;
+    const p20 = act.best_20min_watts ? Math.round(act.best_20min_watts) : (act.weighted_average_watts ? Math.round(act.weighted_average_watts) : null);
+    if (p5 || p20) {
+      bestEffortHtml = `<span style="font-size:11px;line-height:1.5">` +
+        (p5  ? `<span style="color:var(--c-intervals);font-weight:600">${p5}W</span><span style="color:var(--mid);font-size:9px"> 5m</span>` : '') +
+        (p5 && p20 ? '<br>' : '') +
+        (p20 ? `<span style="color:var(--c-cycle);font-weight:600">${p20}W</span><span style="color:var(--mid);font-size:9px"> 20m</span>` : '') +
+        `</span>`;
+    }
+  } else if (t === 'Run') {
+    // Estimate best 1-mile from max speed (use max_speed if available, else average)
+    const maxSpd = act.max_speed || act.average_speed;
+    if (maxSpd && maxSpd > 0) {
+      const mileS = Math.round(1609.344 / maxSpd);
+      // Only show if it's a plausible mile pace (3:30–12:00)
+      if (mileS >= 210 && mileS <= 720) {
+        bestEffortHtml = `<span style="font-weight:600">${Math.floor(mileS/60)}:${String(mileS%60).padStart(2,'0')}</span><span style="color:var(--mid);font-size:9px"> /mi</span>`;
+      }
+    }
+  }
+
   return `<div class="act-row">
     <div class="act-name-cell">
       <div class="act-type-dot" style="background:${typeDotColor(act.type||act.sport_type||'')}"></div>
@@ -1056,7 +1078,7 @@ function renderRow(act) {
     <div class="act-cell">${fmtTime(act.moving_time||act.elapsed_time)}</div>
     <div class="act-cell col-watts">${pw}</div>
     <div class="act-cell col-hr hr-cell">${hr?`<span>${hr}</span><div class="hr-bar"><div class="hr-fill" style="width:${hrPct}%;background:${hrCol}"></div></div>`:'<span class="muted">—</span>'}</div>
-    <div class="act-cell col-suffer">${suffer?`<span style="color:${sufCol}">${suffer}</span>`:'<span class="muted">—</span>'}</div>
+    <div class="act-cell col-perf">${bestEffortHtml}</div>
     <div class="act-cell col-effort"><span class="effort-tag ${tag.cls}"><span class="tag-dot"></span>${tag.label}</span></div>
   </div>`;
 }
@@ -1239,14 +1261,13 @@ function buildPRs(arr) {
   const powerRides = rides.filter(a => a.device_watts || a.weighted_average_watts || a.average_watts);
 
   function bestPowerField(field, fallbackField) {
-    const candidates = powerRides.filter(a => a[field] != null);
+    const candidates = powerRides.filter(a => a[field] != null && a[field] > 0);
     if (candidates.length) {
-      return Math.round(candidates.reduce((best,a) => a[field] > best ? a[field] : best, 0));
+      return Math.round(Math.max(...candidates.map(a => a[field])));
     }
-    // fallback
     if (fallbackField) {
-      const fb = powerRides.filter(a => a[fallbackField] != null);
-      if (fb.length) return Math.round(fb.reduce((best,a) => a[fallbackField] > best ? a[fallbackField] : best, 0));
+      const fb = powerRides.filter(a => a[fallbackField] != null && a[fallbackField] > 0);
+      if (fb.length) return Math.round(Math.max(...fb.map(a => a[fallbackField])));
     }
     return null;
   }
