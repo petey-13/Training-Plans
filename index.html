@@ -70,6 +70,45 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--ink);min-hei
 .nav-dot{width:6px;height:6px;border-radius:50%;background:var(--strava);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
 
+/* ═══ MOBILE NAV ═════════════════════════════════════════════════════════ */
+.hamburger{
+  display:none;flex-direction:column;justify-content:center;align-items:center;
+  gap:5px;padding:12px;margin-left:auto;cursor:pointer;background:none;border:none;
+}
+.hamburger span{
+  display:block;width:20px;height:2px;background:rgba(245,242,236,.6);
+  border-radius:2px;transition:all .25s;
+}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+.mobile-menu{
+  display:none;position:fixed;top:49px;left:0;right:0;bottom:0;
+  background:var(--ink);z-index:199;flex-direction:column;
+  padding:16px;gap:4px;overflow-y:auto;
+}
+.mobile-menu.open{display:flex}
+.mobile-tab{
+  font-family:'DM Mono',monospace;font-size:13px;letter-spacing:2px;
+  text-transform:uppercase;color:rgba(245,242,236,.55);
+  padding:16px 20px;background:none;border:none;cursor:pointer;
+  border-radius:8px;text-align:left;display:flex;align-items:center;gap:12px;
+  transition:all .15s;
+}
+.mobile-tab:hover,.mobile-tab.active{background:rgba(255,255,255,.07);color:var(--gold)}
+.mobile-tab .tab-dot{width:7px;height:7px;opacity:.8}
+.mobile-divider{height:1px;background:rgba(255,255,255,.07);margin:8px 0}
+.mobile-upload-btn{
+  font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1.5px;
+  text-transform:uppercase;color:rgba(245,242,236,.6);
+  padding:14px 20px;margin-top:8px;
+  border:1px solid rgba(255,255,255,.15);border-radius:8px;
+  background:none;cursor:pointer;transition:all .2s;
+  display:flex;align-items:center;gap:8px;
+}
+.mobile-upload-btn:hover{border-color:var(--strava);color:var(--strava)}
+
 /* ═══ TAB PANELS ══════════════════════════════════════════════════════════ */
 .tab-panel{display:none}
 .tab-panel.active{display:block}
@@ -88,7 +127,7 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--ink);min-hei
 .hero h1{font-size:clamp(32px,5vw,64px);font-weight:800;line-height:1;letter-spacing:-2px;margin-bottom:6px}
 .hero h1 em{font-style:normal;color:var(--gold)}
 .hero-sub{font-family:'DM Mono',monospace;font-size:12px;opacity:.4;margin-top:12px;margin-bottom:32px}
-.hero-stats{display:flex;gap:0;border-top:1px solid rgba(255,255,255,.1);padding-top:24px;flex-wrap:wrap}
+.hero-stats{display:flex;gap:0;border-top:1px solid rgba(255,255,255,.1);padding-top:24px;flex-wrap:wrap;gap:0}
 .stat{padding:0 36px 0 0;margin-right:36px;border-right:1px solid rgba(255,255,255,.1)}
 .stat:last-child{border-right:none}
 .stat-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;opacity:.38;margin-bottom:4px}
@@ -135,29 +174,29 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--ink);min-hei
 .legend-item{display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:10px;color:var(--mid)}
 .legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 
-/* ═══ RECENT ACTIVITY STRIP ═══════════════════════════════════════════════ */
-.recent-strip{background:var(--card-bg);border:1px solid var(--rule);border-radius:12px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:24px}
-.recent-head{padding:14px 20px;border-bottom:1px solid var(--faint);display:flex;justify-content:space-between;align-items:center}
-.recent-title{font-size:14px;font-weight:700;letter-spacing:-.3px}
-.recent-row{display:grid;grid-template-columns:1fr 80px 80px 100px 120px;padding:12px 20px;border-bottom:1px solid var(--faint);align-items:center;gap:8px;transition:background .12s;cursor:pointer}
-.recent-row:last-child{border-bottom:none}
-.recent-row:hover{background:#faf9f7}
-.recent-name-cell{display:flex;align-items:center;gap:10px;min-width:0}
-.recent-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.recent-title-text{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.recent-date{font-family:'DM Mono',monospace;font-size:10px;color:var(--mid);margin-top:1px}
-.recent-cell{font-family:'DM Mono',monospace;font-size:12px;color:var(--ink)}
-.recent-cell.muted{color:var(--mid)}
+/* ═══ PR SECTION ══════════════════════════════════════════════════════════ */
+.pr-section{margin-bottom:24px}
+.pr-section-label{
+  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--mid);margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;
+}
+.pr-section-label::after{content:'';flex:1;height:1px;background:var(--rule)}
 
-/* ═══ PR CARDS ════════════════════════════════════════════════════════════ */
-.pr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
-.pr-card{background:var(--card-bg);border:1px solid var(--rule);border-radius:10px;padding:16px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+/* Running PRs — 3 col */
+.pr-grid-run{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+/* Power PRs — 5 col */
+.pr-grid-power{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+
+.pr-card{background:var(--card-bg);border:1px solid var(--rule);border-radius:10px;padding:14px 16px;box-shadow:var(--shadow);position:relative;overflow:hidden}
 .pr-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
 .pr-card.run::before{background:var(--c-easy)}
 .pr-card.ride::before{background:var(--c-cycle)}
 .pr-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--mid);margin-bottom:6px}
-.pr-value{font-size:22px;font-weight:800;letter-spacing:-.5px;line-height:1.1}
+.pr-value{font-size:20px;font-weight:800;letter-spacing:-.5px;line-height:1.1}
 .pr-sub{font-family:'DM Mono',monospace;font-size:10px;color:var(--mid);margin-top:4px}
+/* Compact power cards */
+.pr-card.power .pr-value{font-size:17px}
 
 /* ═══ STATUS CARD ═════════════════════════════════════════════════════════ */
 .status-card{background:var(--ink);color:var(--bg);border-radius:12px;padding:24px;box-shadow:var(--shadow);position:relative;overflow:hidden}
@@ -310,21 +349,45 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--ink);min-hei
 @media(max-width:1100px){
   .grid-5{grid-template-columns:repeat(3,1fr)}
   .grid-2-1,.grid-1-2{grid-template-columns:1fr}
-  .pr-grid{grid-template-columns:repeat(2,1fr)}
+  .pr-grid-power{grid-template-columns:repeat(3,1fr)}
+  .pr-grid-run{grid-template-columns:repeat(3,1fr)}
   .act-head,.act-row{grid-template-columns:1fr 80px 80px 100px}
   .col-hr,.col-watts,.col-suffer{display:none}
 }
-@media(max-width:700px){
-  .top-nav{padding:0 16px}
+@media(max-width:768px){
+  .top-nav{padding:0 16px;min-height:49px}
   .top-nav-logo{display:none}
-  .page{padding:24px 16px 60px}
-  .hero{padding:36px 16px 28px}
+  .top-nav-tabs{display:none}
+  .nav-upload-btn{display:none}
+  .hamburger{display:flex}
+  .page{padding:20px 16px 60px}
+  .hero{padding:28px 16px 24px}
+  .hero h1{font-size:clamp(28px,8vw,48px)}
+  .hero-stats{gap:16px 0}
+  .hero-stats .stat{padding:0 20px 0 0;margin-right:20px}
+  .hero-stats .stat:nth-child(n+4){display:none}
   .grid-3,.grid-2{grid-template-columns:1fr}
   .grid-4{grid-template-columns:repeat(2,1fr)}
-  .pr-grid{grid-template-columns:1fr}
-  .recent-row{grid-template-columns:1fr 70px 100px}
-  .recent-cell.hide-sm{display:none}
-  .hero-stats .stat:nth-child(n+4){display:none}
+  .grid-5{grid-template-columns:repeat(2,1fr)}
+  .grid-2-1,.grid-1-2{grid-template-columns:1fr}
+  .pr-grid-run{grid-template-columns:repeat(2,1fr)}
+  .pr-grid-power{grid-template-columns:repeat(3,1fr)}
+  .act-head,.act-row{grid-template-columns:1fr 70px 80px}
+  .col-hr,.col-watts,.col-suffer,.col-effort{display:none}
+  .search-input{width:100%;min-width:0}
+  .controls-right{flex-wrap:wrap;width:100%}
+  .controls-bar{flex-direction:column;align-items:stretch}
+  .controls-left{flex-wrap:wrap}
+  .result-count{margin-left:0}
+  .dist-donut-wrap{flex-direction:column;align-items:flex-start}
+  .streak-months,.streak-cell{width:12px}
+  .streak-months{display:none}
+}
+@media(max-width:480px){
+  .pr-grid-run{grid-template-columns:1fr 1fr}
+  .pr-grid-power{grid-template-columns:1fr 1fr}
+  .grid-4{grid-template-columns:1fr 1fr}
+  .grid-5{grid-template-columns:1fr 1fr}
 }
 </style>
 </head>
@@ -350,7 +413,32 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--ink);min-hei
   <button class="nav-upload-btn" onclick="document.getElementById('file-input').click()">
     <span class="nav-dot"></span> Load Strava Data
   </button>
+  <!-- Hamburger (mobile only) -->
+  <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- Mobile slide-down menu -->
+<div class="mobile-menu" id="mobile-menu">
+  <button class="mobile-tab active" id="m-tab-dashboard" onclick="switchTab('dashboard');closeMobileMenu()">
+    <span class="tab-dot" style="background:#e8d5a3"></span>Dashboard
+  </button>
+  <button class="mobile-tab" id="m-tab-activities" onclick="switchTab('activities');closeMobileMenu()">
+    <span class="tab-dot" style="background:#2d6a4f"></span>Activities
+  </button>
+  <button class="mobile-tab" id="m-tab-load" onclick="switchTab('load');closeMobileMenu()">
+    <span class="tab-dot" style="background:#0ea5e9"></span>Training Load
+  </button>
+  <button class="mobile-tab" id="m-tab-analysis" onclick="switchTab('analysis');closeMobileMenu()">
+    <span class="tab-dot" style="background:#f4a261"></span>Analysis
+  </button>
+  <div class="mobile-divider"></div>
+  <button class="mobile-upload-btn" onclick="document.getElementById('file-input').click();closeMobileMenu()">
+    <span class="nav-dot"></span> Load Strava Data
+  </button>
+</div>
+
 <input type="file" id="file-input" accept=".json"/>
 
 <!-- ═══════════════════════════════════════════════════════════════════════
@@ -405,15 +493,19 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--ink);min-hei
       </div>
     </div>
 
-    <!-- Row 3: Monthly mileage breakdown + PRs -->
-    <div class="chart-card mb-24">
-      <div class="chart-card-head">
-        <div><div class="chart-card-title">Monthly Mileage — Past 6 Months</div><div class="chart-card-sub">Running vs cycling miles by month</div></div>
+    <!-- Row 3: Monthly mileage — TWO separate charts -->
+    <div class="grid-2 mb-24">
+      <div class="chart-card">
+        <div class="chart-card-head">
+          <div><div class="chart-card-title">Monthly Run Miles</div><div class="chart-card-sub">Past 6 months</div></div>
+        </div>
+        <div class="chart-card-body" style="height:200px"><canvas id="chart-monthly-run"></canvas></div>
       </div>
-      <div class="chart-card-body" style="height:240px"><canvas id="chart-monthly-breakdown"></canvas></div>
-      <div class="chart-legend">
-        <div class="legend-item"><div class="legend-dot" style="background:var(--c-easy)"></div>Running</div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--c-cycle)"></div>Cycling</div>
+      <div class="chart-card">
+        <div class="chart-card-head">
+          <div><div class="chart-card-title">Monthly Ride Miles</div><div class="chart-card-sub">Past 6 months</div></div>
+        </div>
+        <div class="chart-card-body" style="height:200px"><canvas id="chart-monthly-ride"></canvas></div>
       </div>
     </div>
 
@@ -423,15 +515,30 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--ink);min-hei
         <div class="section-header" style="margin-bottom:16px;padding-bottom:12px">
           <div><div class="section-eyebrow">Personal Records</div></div>
         </div>
-        <div class="pr-grid" style="grid-template-columns:1fr 1fr">
-          <div class="pr-card run"><div class="pr-label">5K Pace</div><div class="pr-value" id="pr-5k">—</div><div class="pr-sub">Best estimated</div></div>
-          <div class="pr-card run"><div class="pr-label">10K Pace</div><div class="pr-value" id="pr-10k">—</div><div class="pr-sub">Best estimated</div></div>
-          <div class="pr-card run"><div class="pr-label">Long Run</div><div class="pr-value" id="pr-long-run">—</div><div class="pr-sub">Longest run</div></div>
-          <div class="pr-card ride"><div class="pr-label">Best Power</div><div class="pr-value" id="pr-power">—</div><div class="pr-sub">Peak weighted watts</div></div>
-          <div class="pr-card ride"><div class="pr-label">Longest Ride</div><div class="pr-value" id="pr-long-ride">—</div><div class="pr-sub">Distance</div></div>
-          <div class="pr-card ride"><div class="pr-label">Top HR</div><div class="pr-value" id="pr-hr">—</div><div class="pr-sub">Max avg heart rate</div></div>
+
+        <!-- Running PRs -->
+        <div class="pr-section">
+          <div class="pr-section-label">🏃 Running</div>
+          <div class="pr-grid-run">
+            <div class="pr-card run"><div class="pr-label">5K Pace</div><div class="pr-value" id="pr-5k">—</div><div class="pr-sub">Best estimated</div></div>
+            <div class="pr-card run"><div class="pr-label">10K Pace</div><div class="pr-value" id="pr-10k">—</div><div class="pr-sub">Best estimated</div></div>
+            <div class="pr-card run"><div class="pr-label">Half Pace</div><div class="pr-value" id="pr-half">—</div><div class="pr-sub">Best half marathon</div></div>
+          </div>
+        </div>
+
+        <!-- Power PRs -->
+        <div class="pr-section">
+          <div class="pr-section-label">🚴 Power</div>
+          <div class="pr-grid-power">
+            <div class="pr-card ride power"><div class="pr-label">5 sec</div><div class="pr-value" id="pr-p5s">—</div><div class="pr-sub">Peak sprint</div></div>
+            <div class="pr-card ride power"><div class="pr-label">1 min</div><div class="pr-value" id="pr-p1m">—</div><div class="pr-sub">1 min best</div></div>
+            <div class="pr-card ride power"><div class="pr-label">5 min</div><div class="pr-value" id="pr-p5m">—</div><div class="pr-sub">5 min best</div></div>
+            <div class="pr-card ride power"><div class="pr-label">10 min</div><div class="pr-value" id="pr-p10m">—</div><div class="pr-sub">10 min best</div></div>
+            <div class="pr-card ride power"><div class="pr-label">20 min</div><div class="pr-value" id="pr-p20m">—</div><div class="pr-sub">FTP proxy</div></div>
+          </div>
         </div>
       </div>
+
       <div class="chart-card">
         <div class="chart-card-head">
           <div><div class="chart-card-title">Training Consistency</div><div class="chart-card-sub">Last 16 weeks · one cell = one day</div></div>
@@ -503,7 +610,7 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--ink);min-hei
           <div class="act-col-head col-watts">Pace / Watts</div>
           <div class="act-col-head col-hr">Avg HR</div>
           <div class="act-col-head col-suffer">Suffer</div>
-          <div class="act-col-head">Effort Tag</div>
+          <div class="act-col-head col-effort">Effort Tag</div>
         </div>
         <div id="table-body"></div>
       </div>
@@ -532,7 +639,6 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--ink);min-hei
     </div>
   </div>
   <div class="page">
-    <!-- Status + Ramp -->
     <div class="grid-2 mb-24" style="grid-template-columns:1.4fr 1fr">
       <div class="status-card" id="status-card">
         <div class="status-badge fresh" id="status-badge"><span>●</span> Fresh</div>
@@ -563,7 +669,6 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--ink);min-hei
       </div>
     </div>
 
-    <!-- Fitness Curve Chart -->
     <div class="chart-card mb-24">
       <div class="chart-card-head">
         <div><div class="chart-card-title">Fitness Curve — CTL vs ATL</div><div class="chart-card-sub">42-day chronic load vs 7-day acute load · shaded area = form (TSB)</div></div>
@@ -576,7 +681,6 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--ink);min-hei
       </div>
     </div>
 
-    <!-- Weekly TSS stacked -->
     <div class="grid-2">
       <div class="chart-card">
         <div class="chart-card-head">
@@ -589,7 +693,6 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--ink);min-hei
           <div class="legend-item"><div class="legend-dot" style="background:var(--mid)"></div>Other</div>
         </div>
       </div>
-      <!-- Highest load weeks table -->
       <div class="chart-card">
         <div class="chart-card-head">
           <div><div class="chart-card-title">Highest Load Weeks</div><div class="chart-card-sub">Peak TSS weeks all time</div></div>
@@ -622,8 +725,6 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--ink);min-hei
     </div>
   </div>
   <div class="page">
-
-    <!-- Time range selector -->
     <div style="display:flex;align-items:center;justify-content:flex-end;margin-bottom:20px;gap:8px">
       <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--mid);letter-spacing:1px">TIME RANGE</span>
       <div class="time-pills">
@@ -634,8 +735,7 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--ink);min-hei
       </div>
     </div>
 
-    <!-- Row 1: Pace trend + HR trend -->
-    <div class="grid-2 mb-24" style="margin-bottom:24px">
+    <div class="grid-2 mb-24">
       <div class="chart-card">
         <div class="chart-card-head">
           <div><div class="chart-card-title">Run Pace Trend</div><div class="chart-card-sub">Average pace per run over time (lower = faster)</div></div>
@@ -650,57 +750,38 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--ink);min-hei
       </div>
     </div>
 
-    <!-- Row 2: Effort distribution donuts + sport balance -->
     <div class="grid-3 mb-24">
       <div class="chart-card">
-        <div class="chart-card-head">
-          <div><div class="chart-card-title">Run Effort Mix</div><div class="chart-card-sub">By tag category</div></div>
-        </div>
+        <div class="chart-card-head"><div><div class="chart-card-title">Run Effort Mix</div><div class="chart-card-sub">By tag category</div></div></div>
         <div class="chart-card-body">
           <div class="dist-donut-wrap">
-            <div class="donut-canvas-wrap">
-              <canvas id="chart-run-donut" width="160" height="160"></canvas>
-              <div class="donut-center"><div class="donut-center-val" id="run-donut-total">—</div><div class="donut-center-lbl">Runs</div></div>
-            </div>
+            <div class="donut-canvas-wrap"><canvas id="chart-run-donut" width="160" height="160"></canvas><div class="donut-center"><div class="donut-center-val" id="run-donut-total">—</div><div class="donut-center-lbl">Runs</div></div></div>
             <div class="donut-legend" id="run-donut-legend"></div>
           </div>
         </div>
       </div>
       <div class="chart-card">
-        <div class="chart-card-head">
-          <div><div class="chart-card-title">Ride Effort Mix</div><div class="chart-card-sub">By zone category</div></div>
-        </div>
+        <div class="chart-card-head"><div><div class="chart-card-title">Ride Effort Mix</div><div class="chart-card-sub">By zone category</div></div></div>
         <div class="chart-card-body">
           <div class="dist-donut-wrap">
-            <div class="donut-canvas-wrap">
-              <canvas id="chart-ride-donut" width="160" height="160"></canvas>
-              <div class="donut-center"><div class="donut-center-val" id="ride-donut-total">—</div><div class="donut-center-lbl">Rides</div></div>
-            </div>
+            <div class="donut-canvas-wrap"><canvas id="chart-ride-donut" width="160" height="160"></canvas><div class="donut-center"><div class="donut-center-val" id="ride-donut-total">—</div><div class="donut-center-lbl">Rides</div></div></div>
             <div class="donut-legend" id="ride-donut-legend"></div>
           </div>
         </div>
       </div>
       <div class="chart-card">
-        <div class="chart-card-head">
-          <div><div class="chart-card-title">Sport Balance</div><div class="chart-card-sub">% of total activities</div></div>
-        </div>
+        <div class="chart-card-head"><div><div class="chart-card-title">Sport Balance</div><div class="chart-card-sub">% of total activities</div></div></div>
         <div class="chart-card-body">
           <div class="dist-donut-wrap">
-            <div class="donut-canvas-wrap">
-              <canvas id="chart-sport-donut" width="160" height="160"></canvas>
-              <div class="donut-center"><div class="donut-center-val" id="sport-donut-total">—</div><div class="donut-center-lbl">Total</div></div>
-            </div>
+            <div class="donut-canvas-wrap"><canvas id="chart-sport-donut" width="160" height="160"></canvas><div class="donut-center"><div class="donut-center-val" id="sport-donut-total">—</div><div class="donut-center-lbl">Total</div></div></div>
             <div class="donut-legend" id="sport-donut-legend"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Row 3: Month table -->
     <div class="chart-card mb-24">
-      <div class="chart-card-head">
-        <div><div class="chart-card-title">Month-by-Month Breakdown</div><div class="chart-card-sub">Distance, time, suffer score and activity count</div></div>
-      </div>
+      <div class="chart-card-head"><div><div class="chart-card-title">Month-by-Month Breakdown</div><div class="chart-card-sub">Distance, time, suffer score and activity count</div></div></div>
       <div class="chart-card-body" style="padding:0">
         <table class="month-table" id="month-table">
           <thead><tr><th>Month</th><th>Acts</th><th>Miles</th><th>Hours</th><th>Avg Suffer</th><th>Runs</th><th>Rides</th></tr></thead>
@@ -709,12 +790,9 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--ink);min-hei
       </div>
     </div>
 
-    <!-- Row 4: Best efforts -->
     <div class="grid-2">
       <div class="chart-card">
-        <div class="chart-card-head">
-          <div><div class="chart-card-title">Best Run Efforts</div><div class="chart-card-sub">Estimated from activity pace</div></div>
-        </div>
+        <div class="chart-card-head"><div><div class="chart-card-title">Best Run Efforts</div><div class="chart-card-sub">Estimated from activity pace</div></div></div>
         <div class="chart-card-body" style="padding:0">
           <table class="be-table" id="run-be-table">
             <thead><tr><th>Distance</th><th>Best Pace</th><th>Date</th></tr></thead>
@@ -723,9 +801,7 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--ink);min-hei
         </div>
       </div>
       <div class="chart-card">
-        <div class="chart-card-head">
-          <div><div class="chart-card-title">Best Ride Efforts</div><div class="chart-card-sub">Peak weighted average watts</div></div>
-        </div>
+        <div class="chart-card-head"><div><div class="chart-card-title">Best Ride Efforts</div><div class="chart-card-sub">Peak weighted average watts</div></div></div>
         <div class="chart-card-body" style="padding:0">
           <table class="be-table" id="ride-be-table">
             <thead><tr><th>Duration</th><th>Best Watts</th><th>Date</th></tr></thead>
@@ -734,7 +810,6 @@ body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--ink);min-hei
         </div>
       </div>
     </div>
-
   </div>
 </div>
 
@@ -751,16 +826,13 @@ let currentPage   = 1;
 let activeFilter  = 'all';
 let activeSort    = 'date-desc';
 let searchQuery   = '';
-let analysisRange = 180; // days
+let analysisRange = 180;
 let chartInstances = {};
 
 // ═══════════════════════════════════════════════════════════════════════
 // UTILS
 // ═══════════════════════════════════════════════════════════════════════
 const mi = m => m / 1609.344;
-const fmt2 = n => n.toFixed(2);
-const fmt0 = n => Math.round(n);
-
 function fmtDist(m) { return m ? mi(m).toFixed(1)+' mi' : '—'; }
 function fmtTime(s) {
   if (!s) return '—';
@@ -818,16 +890,12 @@ function getEffortTag(act) {
   }
   return {label:'Other',cls:'tag-other'};
 }
-
-// Simplified TSS from suffer score (or estimate from HR/time)
 function estimateTSS(act) {
   if (act.suffer_score) return act.suffer_score * 1.5;
   const t=act.moving_time||0;
   const hr=act.average_heartrate||130;
   return Math.round((t/3600) * (hr/140) * 60);
 }
-
-// Week key: Monday-anchored
 function weekKey(date) {
   const d=new Date(date);
   const day=d.getDay();
@@ -835,15 +903,28 @@ function weekKey(date) {
   d.setDate(diff);
   return d.toISOString().slice(0,10);
 }
-
 function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-// Chart.js defaults
 Chart.defaults.font.family = "'DM Mono', monospace";
 Chart.defaults.color = '#6b6358';
 Chart.defaults.plugins.legend.display = false;
-
 function destroyChart(id) { if (chartInstances[id]) { chartInstances[id].destroy(); delete chartInstances[id]; } }
+
+// ═══════════════════════════════════════════════════════════════════════
+// MOBILE MENU
+// ═══════════════════════════════════════════════════════════════════════
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const ham  = document.getElementById('hamburger');
+  const open = menu.classList.toggle('open');
+  ham.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+}
+function closeMobileMenu() {
+  document.getElementById('mobile-menu').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+  document.body.style.overflow = '';
+}
 
 // ═══════════════════════════════════════════════════════════════════════
 // TAB SWITCHING
@@ -851,9 +932,12 @@ function destroyChart(id) { if (chartInstances[id]) { chartInstances[id].destroy
 function switchTab(tab) {
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.top-tab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.mobile-tab').forEach(b=>b.classList.remove('active'));
   document.getElementById('tab-'+tab).classList.add('active');
   const tabs=['dashboard','activities','load','analysis'];
   document.querySelectorAll('.top-tab')[tabs.indexOf(tab)].classList.add('active');
+  const mTab=document.getElementById('m-tab-'+tab);
+  if (mTab) mTab.classList.add('active');
   if (allActivities.length) {
     if (tab==='dashboard') buildDashboard();
     if (tab==='load')      buildLoad();
@@ -871,7 +955,6 @@ function loadData(data) {
   buildAll();
   showToast(`✓ Loaded ${data.length.toLocaleString()} activities`);
 }
-
 function buildAll() {
   updateActivityHero();
   applyFiltersAndSort();
@@ -944,7 +1027,6 @@ function renderPage() {
   b+=`<button class="page-btn" onclick="goPage(${currentPage+1})" ${currentPage===pages?'disabled':''}>Next →</button>`;
   bc.innerHTML=b;
 }
-
 function getPageRange(cur,tot) {
   if (tot<=7) return Array.from({length:tot},(_,i)=>i+1);
   if (cur<=4) return [1,2,3,4,5,'…',tot];
@@ -975,10 +1057,9 @@ function renderRow(act) {
     <div class="act-cell col-watts">${pw}</div>
     <div class="act-cell col-hr hr-cell">${hr?`<span>${hr}</span><div class="hr-bar"><div class="hr-fill" style="width:${hrPct}%;background:${hrCol}"></div></div>`:'<span class="muted">—</span>'}</div>
     <div class="act-cell col-suffer">${suffer?`<span style="color:${sufCol}">${suffer}</span>`:'<span class="muted">—</span>'}</div>
-    <div class="act-cell"><span class="effort-tag ${tag.cls}"><span class="tag-dot"></span>${tag.label}</span></div>
+    <div class="act-cell col-effort"><span class="effort-tag ${tag.cls}"><span class="tag-dot"></span>${tag.label}</span></div>
   </div>`;
 }
-
 function getPaceOrWatts(act) {
   const t=simplifyType(act.type||act.sport_type||'');
   if (t==='Run') { const p=paceSecsFromSpeed(act.average_speed); return p?fmtPace(p):'—'; }
@@ -986,7 +1067,6 @@ function getPaceOrWatts(act) {
   return '—';
 }
 
-// Controls
 document.querySelectorAll('.filter-btn').forEach(b=>{
   b.addEventListener('click',()=>{
     document.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active'));
@@ -1004,29 +1084,20 @@ function buildDashboard() {
   const now=new Date();
   const startOfWeek=new Date(now); startOfWeek.setDate(now.getDate()-(now.getDay()===0?6:now.getDay()-1)); startOfWeek.setHours(0,0,0,0);
   const startOfMonth=new Date(now.getFullYear(),now.getMonth(),1);
-
   const weekActs=arr.filter(a=>new Date(a.start_date)>=startOfWeek);
   const monthActs=arr.filter(a=>new Date(a.start_date)>=startOfMonth);
-
   const weekDist=weekActs.reduce((s,a)=>s+(a.distance||0),0);
   const weekTime=weekActs.reduce((s,a)=>s+(a.moving_time||0),0);
   const monthDist=monthActs.reduce((s,a)=>s+(a.distance||0),0);
-
-  // Streak (consecutive days)
   const daySet=new Set(arr.map(a=>new Date(a.start_date_local||a.start_date).toDateString()));
   let streak=0, d=new Date();
   while(daySet.has(d.toDateString())){streak++;d.setDate(d.getDate()-1);}
-
   document.getElementById('d-week-dist').textContent=mi(weekDist).toFixed(1)+' mi';
   document.getElementById('d-week-hrs').textContent=(weekTime/3600).toFixed(1)+' hrs';
   document.getElementById('d-week-acts').textContent=weekActs.length;
   document.getElementById('d-month-dist').textContent=mi(monthDist).toFixed(1)+' mi';
   document.getElementById('d-streak').textContent=streak+' days';
 
-  const totDist=arr.reduce((s,a)=>s+(a.distance||0),0);
-  const totTime=arr.reduce((s,a)=>s+(a.moving_time||0),0);
-
-  // Annual miles by activity
   const yearStart=new Date(now.getFullYear(),0,1);
   const yearActs=arr.filter(a=>new Date(a.start_date)>=yearStart);
   const yearRunActs=yearActs.filter(a=>simplifyType(a.type||a.sport_type||'')==='Run');
@@ -1036,8 +1107,6 @@ function buildDashboard() {
   const yearRideMi=yearRideActs.reduce((s,a)=>s+mi(a.distance||0),0);
   const yearOtherMi=yearOtherActs.reduce((s,a)=>s+mi(a.distance||0),0);
   const yearTotalMi=yearRunMi+yearRideMi+yearOtherMi;
-
-  // Consistency: avg days/week over 8 weeks
   const eightWksAgo=new Date(now-56*86400000);
   const eightWkActs=arr.filter(a=>new Date(a.start_date)>=eightWksAgo);
   const eightWkDays=new Set(eightWkActs.map(a=>new Date(a.start_date).toDateString())).size;
@@ -1054,23 +1123,13 @@ function buildDashboard() {
   document.getElementById('kpi-consistency').textContent=consistency+' /wk';
   document.getElementById('dash-hero-sub').textContent=`${arr.length} activities synced · last updated ${fmtDate(arr[0].start_date)}`;
 
-  // Greeting
   const hr=new Date().getHours();
   document.getElementById('greeting-time').textContent=hr<12?'Morning':hr<17?'Afternoon':'Evening';
 
-  // 12-week volume charts (split)
   buildWeeklyVolCharts();
-
-  // Monthly breakdown chart
-  buildMonthlyBreakdown();
-
-  // Week targets
+  buildMonthlyCharts();
   buildWeekTargets(weekActs);
-
-  // PRs
   buildPRs(arr);
-
-  // Heatmap
   buildHeatmap(arr);
 }
 
@@ -1089,7 +1148,7 @@ function buildWeeklyVolCharts() {
     const rideMi=wActs.filter(a=>simplifyType(a.type||a.sport_type||'')==='Ride').reduce((s,a)=>s+mi(a.distance||0),0);
     weeks.push({label:wStart.toLocaleDateString('en-US',{month:'short',day:'numeric'}),run:runMi,ride:rideMi});
   }
-  const sharedOptions=(color,unit)=>({
+  const sharedOpts=(color)=>({
     responsive:true,maintainAspectRatio:false,
     plugins:{tooltip:{callbacks:{label:ctx=>`${ctx.raw.toFixed(1)} mi`}}},
     scales:{
@@ -1097,22 +1156,22 @@ function buildWeeklyVolCharts() {
       y:{grid:{color:'rgba(0,0,0,.05)'},ticks:{font:{size:9},callback:v=>`${v}mi`},beginAtZero:true}
     }
   });
-  const runCtx=document.getElementById('chart-weekly-run').getContext('2d');
-  chartInstances['weekly-run']=new Chart(runCtx,{
+  chartInstances['weekly-run']=new Chart(document.getElementById('chart-weekly-run').getContext('2d'),{
     type:'bar',
     data:{labels:weeks.map(w=>w.label),datasets:[{label:'Run',data:weeks.map(w=>+w.run.toFixed(1)),backgroundColor:'rgba(45,106,79,.75)',borderRadius:4}]},
-    options:sharedOptions('rgba(45,106,79,.75)','mi')
+    options:sharedOpts()
   });
-  const rideCtx=document.getElementById('chart-weekly-ride').getContext('2d');
-  chartInstances['weekly-ride']=new Chart(rideCtx,{
+  chartInstances['weekly-ride']=new Chart(document.getElementById('chart-weekly-ride').getContext('2d'),{
     type:'bar',
     data:{labels:weeks.map(w=>w.label),datasets:[{label:'Ride',data:weeks.map(w=>+w.ride.toFixed(1)),backgroundColor:'rgba(14,165,233,.65)',borderRadius:4}]},
-    options:sharedOptions('rgba(14,165,233,.65)','mi')
+    options:sharedOpts()
   });
 }
 
-function buildMonthlyBreakdown() {
-  destroyChart('monthly-breakdown');
+// ─── Two separate monthly charts ───────────────────────────────────────
+function buildMonthlyCharts() {
+  destroyChart('monthly-run');
+  destroyChart('monthly-ride');
   const now=new Date();
   const months=[];
   for (let i=5;i>=0;i--) {
@@ -1123,27 +1182,23 @@ function buildMonthlyBreakdown() {
     const rideMi=mActs.filter(a=>simplifyType(a.type||a.sport_type||'')==='Ride').reduce((s,a)=>s+mi(a.distance||0),0);
     months.push({label:mDate.toLocaleDateString('en-US',{month:'short',year:'2-digit'}),run:runMi,ride:rideMi});
   }
-  const ctx=document.getElementById('chart-monthly-breakdown').getContext('2d');
-  chartInstances['monthly-breakdown']=new Chart(ctx,{
-    type:'bar',
-    data:{
-      labels:months.map(m=>m.label),
-      datasets:[
-        {label:'Running',data:months.map(m=>+m.run.toFixed(1)),backgroundColor:'rgba(45,106,79,.8)',borderRadius:5,barPercentage:.4,categoryPercentage:.8},
-        {label:'Cycling',data:months.map(m=>+m.ride.toFixed(1)),backgroundColor:'rgba(14,165,233,.7)',borderRadius:5,barPercentage:.4,categoryPercentage:.8},
-      ]
-    },
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      plugins:{
-        legend:{display:false},
-        tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.raw} mi`}}
-      },
-      scales:{
-        x:{grid:{display:false},ticks:{font:{size:10}}},
-        y:{grid:{color:'rgba(0,0,0,.05)'},ticks:{font:{size:9},callback:v=>`${v}mi`},beginAtZero:true}
-      }
+  const sharedOpts=(color,label)=>({
+    responsive:true,maintainAspectRatio:false,
+    plugins:{tooltip:{callbacks:{label:ctx=>`${label}: ${ctx.raw} mi`}}},
+    scales:{
+      x:{grid:{display:false},ticks:{font:{size:10}}},
+      y:{grid:{color:'rgba(0,0,0,.05)'},ticks:{font:{size:9},callback:v=>`${v}mi`},beginAtZero:true}
     }
+  });
+  chartInstances['monthly-run']=new Chart(document.getElementById('chart-monthly-run').getContext('2d'),{
+    type:'bar',
+    data:{labels:months.map(m=>m.label),datasets:[{label:'Running',data:months.map(m=>+m.run.toFixed(1)),backgroundColor:'rgba(45,106,79,.8)',borderRadius:6,barPercentage:.6}]},
+    options:sharedOpts('rgba(45,106,79,.8)','Running')
+  });
+  chartInstances['monthly-ride']=new Chart(document.getElementById('chart-monthly-ride').getContext('2d'),{
+    type:'bar',
+    data:{labels:months.map(m=>m.label),datasets:[{label:'Cycling',data:months.map(m=>+m.ride.toFixed(1)),backgroundColor:'rgba(14,165,233,.7)',borderRadius:6,barPercentage:.6}]},
+    options:sharedOpts('rgba(14,165,233,.7)','Cycling')
   });
 }
 
@@ -1166,52 +1221,52 @@ function buildWeekTargets(weekActs) {
   `).join('');
 }
 
-function buildRecentRows(acts) {
-  document.getElementById('recent-rows').innerHTML=acts.map(a=>{
-    const tag=getEffortTag(a);
-    return `<div class="recent-row">
-      <div class="recent-name-cell">
-        <div class="recent-dot" style="background:${typeDotColor(a.type||a.sport_type||'')}"></div>
-        <div>
-          <div class="recent-title-text">${esc(a.name||'Untitled')}</div>
-          <div class="recent-date">${fmtDate(a.start_date_local||a.start_date,true)}</div>
-        </div>
-      </div>
-      <div class="recent-cell">${fmtDist(a.distance)}</div>
-      <div class="recent-cell hide-sm">${fmtTime(a.moving_time||a.elapsed_time)}</div>
-      <div class="recent-cell hide-sm">${getPaceOrWatts(a)}</div>
-      <div class="recent-cell"><span class="effort-tag ${tag.cls}"><span class="tag-dot"></span>${tag.label}</span></div>
-    </div>`;
-  }).join('');
-}
-
+// ─── UPDATED PRs: running (5K/10K/Half) + power (5s/1m/5m/10m/20m) ──
 function buildPRs(arr) {
   const runs=arr.filter(a=>simplifyType(a.type||a.sport_type||'')==='Run'&&a.average_speed>0);
   const rides=arr.filter(a=>simplifyType(a.type||a.sport_type||'')==='Ride');
 
-  // Fastest short runs (proxy for 5K/10K pace = fastest pace on runs 3–7mi)
-  const shortRuns=runs.filter(a=>mi(a.distance||0)>=3&&mi(a.distance||0)<=7);
-  const bestPace=shortRuns.sort((a,b)=>b.average_speed-a.average_speed)[0];
-  const medRuns=runs.filter(a=>mi(a.distance||0)>=6&&mi(a.distance||0)<=12);
-  const best10k=medRuns.sort((a,b)=>b.average_speed-a.average_speed)[0];
-  const longRun=runs.sort((a,b)=>(b.distance||0)-(a.distance||0))[0];
-  const bestPower=rides.sort((a,b)=>(b.weighted_average_watts||b.average_watts||0)-(a.weighted_average_watts||a.average_watts||0))[0];
-  const longRide=rides.sort((a,b)=>(b.distance||0)-(a.distance||0))[0];
-  const bestHR=arr.filter(a=>a.average_heartrate).sort((a,b)=>b.average_heartrate-a.average_heartrate)[0];
+  // Running PRs — best pace in distance windows
+  const best5k  = runs.filter(a=>{ const d=mi(a.distance||0); return d>=2.8&&d<=3.5; }).sort((a,b)=>b.average_speed-a.average_speed)[0];
+  const best10k  = runs.filter(a=>{ const d=mi(a.distance||0); return d>=5.8&&d<=7.0; }).sort((a,b)=>b.average_speed-a.average_speed)[0];
+  const bestHalf = runs.filter(a=>{ const d=mi(a.distance||0); return d>=12&&d<=14.5; }).sort((a,b)=>b.average_speed-a.average_speed)[0];
 
-  document.getElementById('pr-5k').textContent=bestPace?fmtPace(paceSecsFromSpeed(bestPace.average_speed)):'—';
-  document.getElementById('pr-10k').textContent=best10k?fmtPace(paceSecsFromSpeed(best10k.average_speed)):'—';
-  document.getElementById('pr-long-run').textContent=longRun?mi(longRun.distance||0).toFixed(1)+' mi':'—';
-  document.getElementById('pr-power').textContent=bestPower?(bestPower.weighted_average_watts||bestPower.average_watts)+' W':'—';
-  document.getElementById('pr-long-ride').textContent=longRide?mi(longRide.distance||0).toFixed(1)+' mi':'—';
-  document.getElementById('pr-hr').textContent=bestHR?Math.round(bestHR.average_heartrate)+' bpm':'—';
+  document.getElementById('pr-5k').textContent   = best5k  ? fmtPace(paceSecsFromSpeed(best5k.average_speed))   : '—';
+  document.getElementById('pr-10k').textContent  = best10k  ? fmtPace(paceSecsFromSpeed(best10k.average_speed))  : '—';
+  document.getElementById('pr-half').textContent = bestHalf ? fmtPace(paceSecsFromSpeed(bestHalf.average_speed)) : '—';
+
+  // Power PRs — use stream fields if available, fall back to weighted_average_watts for 20-min proxy
+  const powerRides = rides.filter(a => a.device_watts || a.weighted_average_watts || a.average_watts);
+
+  function bestPowerField(field, fallbackField) {
+    const candidates = powerRides.filter(a => a[field] != null);
+    if (candidates.length) {
+      return Math.round(candidates.reduce((best,a) => a[field] > best ? a[field] : best, 0));
+    }
+    // fallback
+    if (fallbackField) {
+      const fb = powerRides.filter(a => a[fallbackField] != null);
+      if (fb.length) return Math.round(fb.reduce((best,a) => a[fallbackField] > best ? a[fallbackField] : best, 0));
+    }
+    return null;
+  }
+
+  const p5s  = bestPowerField('best_5sec_watts');
+  const p1m  = bestPowerField('best_1min_watts');
+  const p5m  = bestPowerField('best_5min_watts');
+  const p10m = bestPowerField('best_10min_watts');
+  const p20m = bestPowerField('best_20min_watts', 'weighted_average_watts');
+
+  document.getElementById('pr-p5s').textContent  = p5s  ? p5s+'W'  : '—';
+  document.getElementById('pr-p1m').textContent  = p1m  ? p1m+'W'  : '—';
+  document.getElementById('pr-p5m').textContent  = p5m  ? p5m+'W'  : '—';
+  document.getElementById('pr-p10m').textContent = p10m ? p10m+'W' : '—';
+  document.getElementById('pr-p20m').textContent = p20m ? p20m+'W' : '—';
 }
 
 function buildHeatmap(arr) {
   const now=new Date();
-  // 16 weeks back
   const start=new Date(now); start.setDate(now.getDate()-111); start.setHours(0,0,0,0);
-  // map date → types
   const dayMap={};
   arr.forEach(a=>{
     const d=new Date(a.start_date_local||a.start_date);
@@ -1219,10 +1274,7 @@ function buildHeatmap(arr) {
     if (!dayMap[k]) dayMap[k]=[];
     dayMap[k].push(simplifyType(a.type||a.sport_type||'Other'));
   });
-
-  // Build 16 weeks × 7 grid
   let html='';
-  // Month labels row
   const months=[]; let lastM=-1;
   for (let w=0;w<16;w++) {
     const wDate=new Date(start); wDate.setDate(start.getDate()+w*7);
@@ -1231,8 +1283,6 @@ function buildHeatmap(arr) {
     lastM=m;
   }
   html+=`<div class="streak-months">${months.map(m=>`<div class="streak-month-lbl">${m}</div>`).join('')}</div>`;
-
-  // Day cells (7 rows = days of week, 16 cols = weeks)
   html+='<div style="display:grid;grid-template-columns:repeat(16,14px);grid-template-rows:repeat(7,14px);gap:3px">';
   for (let day=0;day<7;day++) {
     for (let week=0;week<16;week++) {
@@ -1264,23 +1314,17 @@ function buildHeatmap(arr) {
 function buildLoad() {
   const arr=allActivities;
   if (!arr.length) return;
-
-  // Build daily TSS map
   const sorted=[...arr].sort((a,b)=>new Date(a.start_date)-new Date(b.start_date));
   const dayTSS={};
   sorted.forEach(a=>{
     const k=new Date(a.start_date).toISOString().slice(0,10);
     dayTSS[k]=(dayTSS[k]||0)+estimateTSS(a);
   });
-
-  // Compute CTL/ATL/TSB rolling over last 120 days
-  const today=new Date().toISOString().slice(0,10);
   const days120=[];
   for (let i=119;i>=0;i--) {
     const d=new Date(); d.setDate(d.getDate()-i);
     days120.push(d.toISOString().slice(0,10));
   }
-
   let ctl=0,atl=0;
   const ctlDecay=Math.exp(-1/42),atlDecay=Math.exp(-1/7);
   const curve=days120.map(k=>{
@@ -1289,14 +1333,13 @@ function buildLoad() {
     atl=atl*atlDecay+tss*(1-atlDecay);
     return {date:k,ctl:+ctl.toFixed(1),atl:+atl.toFixed(1),tsb:+(ctl-atl).toFixed(1),tss};
   });
-
   const latest=curve[curve.length-1];
   const tsb=latest.tsb;
   let statusLabel,statusCls,statusTitle,statusSub;
-  if (tsb>10)       {statusLabel='Fresh';statusCls='fresh';statusTitle="You're Fresh & Ready";statusSub="Positive form — ideal for a race or key workout. Fitness is solid and fatigue is low.";}
-  else if (tsb>0)   {statusLabel='Neutral';statusCls='neutral';statusTitle='Neutral Form';statusSub="Balanced state — good for training. Neither too tired nor too fresh.";}
-  else if (tsb>-15) {statusLabel='Fatigued';statusCls='fatigued';statusTitle='Accumulating Fatigue';statusSub="Normal build-phase fatigue. Respect recovery days — fitness is being built.";}
-  else              {statusLabel='Very Fatigued';statusCls='very-fatigued';statusTitle='High Fatigue Load';statusSub="Significant fatigue. Prioritise sleep, nutrition, and easy sessions.";}
+  if (tsb>10)       {statusLabel='Fresh';statusCls='fresh';statusTitle="You're Fresh & Ready";statusSub="Positive form — ideal for a race or key workout.";}
+  else if (tsb>0)   {statusLabel='Neutral';statusCls='neutral';statusTitle='Neutral Form';statusSub="Balanced state — good for training.";}
+  else if (tsb>-15) {statusLabel='Fatigued';statusCls='fatigued';statusTitle='Accumulating Fatigue';statusSub="Normal build-phase fatigue. Respect recovery days.";}
+  else              {statusLabel='Very Fatigued';statusCls='very-fatigued';statusTitle='High Fatigue Load';statusSub="Significant fatigue. Prioritise sleep and easy sessions.";}
 
   document.getElementById('status-badge').className=`status-badge ${statusCls}`;
   document.getElementById('status-badge').innerHTML=`<span>●</span> ${statusLabel}`;
@@ -1309,7 +1352,6 @@ function buildLoad() {
   document.getElementById('atl-val').textContent=latest.atl.toFixed(0);
   document.getElementById('tsb-val').textContent=(tsb>0?'+':'')+tsb.toFixed(0);
 
-  // Ramp rate
   const now=new Date();
   const startThisWk=new Date(now); startThisWk.setDate(now.getDate()-(now.getDay()===0?6:now.getDay()-1)); startThisWk.setHours(0,0,0,0);
   const startLastWk=new Date(startThisWk); startLastWk.setDate(startThisWk.getDate()-7);
@@ -1329,24 +1371,18 @@ function buildLoad() {
   document.getElementById('ramp-fill').style.background=rampColor;
   document.getElementById('ramp-sub').textContent=rampChange>8?'High ramp rate — injury risk increases above +8 TSS/week.':rampChange<-10?'Significant deload week — intentional rest?':'Safe zone is +3 to +8 TSS/week for steady fitness gains.';
 
-  // Fitness chart
   buildFitnessChart(curve);
-
-  // Weekly TSS stacked
   buildTSSWeeklyChart(dayTSS,arr);
-
-  // Peak weeks table
   buildPeakWeeksTable(arr);
 }
 
 function buildFitnessChart(curve) {
   destroyChart('fitness');
   const ctx=document.getElementById('chart-fitness').getContext('2d');
-  const labels=curve.map(c=>c.date.slice(5));
   chartInstances['fitness']=new Chart(ctx,{
     type:'line',
     data:{
-      labels,
+      labels:curve.map(c=>c.date.slice(5)),
       datasets:[
         {label:'CTL',data:curve.map(c=>c.ctl),borderColor:'#1d4e89',backgroundColor:'rgba(29,78,137,.08)',borderWidth:2,tension:.3,pointRadius:0,fill:false},
         {label:'ATL',data:curve.map(c=>c.atl),borderColor:'#e63946',backgroundColor:'rgba(230,57,70,.06)',borderWidth:2,tension:.3,pointRadius:0,fill:false},
@@ -1355,7 +1391,7 @@ function buildFitnessChart(curve) {
     },
     options:{
       responsive:true,maintainAspectRatio:false,
-      plugins:{tooltip:{mode:'index',intersect:false,callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.raw}`}}},
+      plugins:{tooltip:{mode:'index',intersect:false}},
       scales:{
         x:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:9},maxTicksLimit:12}},
         y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:9}}}
@@ -1372,13 +1408,14 @@ function buildTSSWeeklyChart(dayTSS,arr) {
     const wStart=new Date(now); wStart.setDate(now.getDate()-now.getDay()+1-i*7); wStart.setHours(0,0,0,0);
     const wEnd=new Date(wStart); wEnd.setDate(wStart.getDate()+7);
     const wActs=arr.filter(a=>{const d=new Date(a.start_date);return d>=wStart&&d<wEnd;});
-    const runTSS=wActs.filter(a=>simplifyType(a.type||a.sport_type||'')==='Run').reduce((s,a)=>s+estimateTSS(a),0);
-    const rideTSS=wActs.filter(a=>simplifyType(a.type||a.sport_type||'')==='Ride').reduce((s,a)=>s+estimateTSS(a),0);
-    const otherTSS=wActs.filter(a=>!['Run','Ride'].includes(simplifyType(a.type||a.sport_type||''))).reduce((s,a)=>s+estimateTSS(a),0);
-    weeks.push({label:wStart.toLocaleDateString('en-US',{month:'short',day:'numeric'}),run:runTSS,ride:rideTSS,other:otherTSS});
+    weeks.push({
+      label:wStart.toLocaleDateString('en-US',{month:'short',day:'numeric'}),
+      run:wActs.filter(a=>simplifyType(a.type||a.sport_type||'')==='Run').reduce((s,a)=>s+estimateTSS(a),0),
+      ride:wActs.filter(a=>simplifyType(a.type||a.sport_type||'')==='Ride').reduce((s,a)=>s+estimateTSS(a),0),
+      other:wActs.filter(a=>!['Run','Ride'].includes(simplifyType(a.type||a.sport_type||''))).reduce((s,a)=>s+estimateTSS(a),0),
+    });
   }
-  const ctx=document.getElementById('chart-tss-weekly').getContext('2d');
-  chartInstances['tss-weekly']=new Chart(ctx,{
+  chartInstances['tss-weekly']=new Chart(document.getElementById('chart-tss-weekly').getContext('2d'),{
     type:'bar',
     data:{
       labels:weeks.map(w=>w.label),
@@ -1409,8 +1446,7 @@ function buildPeakWeeksTable(arr) {
     weekMap[k].time+=(a.moving_time||0);
   });
   const peaks=Object.entries(weekMap).sort((a,b)=>b[1].tss-a[1].tss).slice(0,8);
-  const tbody=document.querySelector('#peak-weeks-table tbody');
-  tbody.innerHTML=peaks.map(([k,v],i)=>`<tr>
+  document.querySelector('#peak-weeks-table tbody').innerHTML=peaks.map(([k,v],i)=>`<tr>
     <td>${i===0?'<span class="be-medal">🏆</span>':''}<span style="font-family:'Syne',sans-serif;font-weight:600">${new Date(k).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</span></td>
     <td><strong>${Math.round(v.tss)}</strong></td>
     <td>${mi(v.dist).toFixed(1)}</td>
@@ -1424,26 +1460,21 @@ function buildPeakWeeksTable(arr) {
 function buildAnalysis() {
   const cutoff=analysisRange>0?new Date(Date.now()-analysisRange*86400000):new Date(0);
   const arr=allActivities.filter(a=>new Date(a.start_date)>=cutoff);
-
   const runs=arr.filter(a=>simplifyType(a.type||a.sport_type||'')==='Run'&&a.average_speed>0);
   const rides=arr.filter(a=>simplifyType(a.type||a.sport_type||'')==='Ride');
-
   const avgPace=runs.length?paceSecsFromSpeed(runs.reduce((s,a)=>s+a.average_speed,0)/runs.length):null;
   const avgWatts=rides.filter(a=>a.weighted_average_watts||a.average_watts).length?
     Math.round(rides.reduce((s,a)=>s+(a.weighted_average_watts||a.average_watts||0),0)/rides.length):null;
   const hrRuns=runs.filter(a=>a.average_heartrate);
   const avgHR=hrRuns.length?Math.round(hrRuns.reduce((s,a)=>s+a.average_heartrate,0)/hrRuns.length):null;
-
   const hardTags=['Tempo','Threshold','Intervals','VO2'];
   const hardSessions=arr.filter(a=>hardTags.includes(getEffortTag(a).label)).length;
   const easySessions=arr.filter(a=>['Easy','Recovery','Z1/Z2'].includes(getEffortTag(a).label)).length;
-
   document.getElementById('an-avg-pace').textContent=avgPace?fmtPace(avgPace):'—';
   document.getElementById('an-avg-watts').textContent=avgWatts?avgWatts+' W':'—';
   document.getElementById('an-avg-hr').textContent=avgHR?avgHR+' bpm':'—';
   document.getElementById('an-hard').textContent=hardSessions;
   document.getElementById('an-easy').textContent=easySessions;
-
   buildPaceTrendChart(runs);
   buildHRTrendChart(runs);
   buildRunDonut(runs);
@@ -1456,14 +1487,12 @@ function buildAnalysis() {
 function buildPaceTrendChart(runs) {
   destroyChart('pace-trend');
   const sorted=[...runs].sort((a,b)=>new Date(a.start_date)-new Date(b.start_date));
-  const ctx=document.getElementById('chart-pace-trend').getContext('2d');
-  chartInstances['pace-trend']=new Chart(ctx,{
+  chartInstances['pace-trend']=new Chart(document.getElementById('chart-pace-trend').getContext('2d'),{
     type:'scatter',
     data:{datasets:[{
       data:sorted.map(a=>({x:new Date(a.start_date).toLocaleDateString('en-US',{month:'short',day:'numeric'}),y:paceSecsFromSpeed(a.average_speed)})),
       borderColor:'var(--c-easy)',backgroundColor:'rgba(45,106,79,.15)',
-      pointRadius:3,pointHoverRadius:5,
-      showLine:true,tension:.3,borderWidth:1.5,
+      pointRadius:3,pointHoverRadius:5,showLine:true,tension:.3,borderWidth:1.5,
     }]},
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -1479,14 +1508,12 @@ function buildPaceTrendChart(runs) {
 function buildHRTrendChart(runs) {
   destroyChart('hr-trend');
   const sorted=[...runs].filter(a=>a.average_heartrate).sort((a,b)=>new Date(a.start_date)-new Date(b.start_date));
-  const ctx=document.getElementById('chart-hr-trend').getContext('2d');
-  chartInstances['hr-trend']=new Chart(ctx,{
+  chartInstances['hr-trend']=new Chart(document.getElementById('chart-hr-trend').getContext('2d'),{
     type:'scatter',
     data:{datasets:[{
       data:sorted.map(a=>({x:new Date(a.start_date).toLocaleDateString('en-US',{month:'short',day:'numeric'}),y:Math.round(a.average_heartrate)})),
       borderColor:'#e63946',backgroundColor:'rgba(230,57,70,.12)',
-      pointRadius:3,pointHoverRadius:5,
-      showLine:true,tension:.3,borderWidth:1.5,
+      pointRadius:3,pointHoverRadius:5,showLine:true,tension:.3,borderWidth:1.5,
     }]},
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -1505,14 +1532,8 @@ function buildDonut(canvasId,data,legendId,centerCountId) {
   const total=data.reduce((s,d)=>s+d.count,0);
   chartInstances[canvasId]=new Chart(ctx,{
     type:'doughnut',
-    data:{
-      labels:data.map(d=>d.label),
-      datasets:[{data:data.map(d=>d.count),backgroundColor:data.map(d=>d.color),borderWidth:2,borderColor:'#ffffff',hoverOffset:4}]
-    },
-    options:{
-      responsive:false,cutout:'68%',
-      plugins:{tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${ctx.raw} (${((ctx.raw/total)*100).toFixed(0)}%)`}}}
-    }
+    data:{labels:data.map(d=>d.label),datasets:[{data:data.map(d=>d.count),backgroundColor:data.map(d=>d.color),borderWidth:2,borderColor:'#ffffff',hoverOffset:4}]},
+    options:{responsive:false,cutout:'68%',plugins:{tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${ctx.raw} (${((ctx.raw/total)*100).toFixed(0)}%)`}}}}
   });
   if (centerCountId) document.getElementById(centerCountId).textContent=total;
   if (legendId) {
@@ -1530,24 +1551,19 @@ function buildRunDonut(runs) {
   const tagColors={'Recovery':'#9b7eca','Easy':'#2d6a4f','Tempo':'#f4a261','Threshold':'#fc4c02','Intervals':'#e63946'};
   const counts={};
   runs.forEach(a=>{const t=getEffortTag(a).label;counts[t]=(counts[t]||0)+1;});
-  const data=Object.entries(counts).map(([l,c])=>({label:l,count:c,color:tagColors[l]||'#999'}));
-  buildDonut('chart-run-donut',data,'run-donut-legend','run-donut-total');
+  buildDonut('chart-run-donut',Object.entries(counts).map(([l,c])=>({label:l,count:c,color:tagColors[l]||'#999'})),'run-donut-legend','run-donut-total');
 }
-
 function buildRideDonut(rides) {
   const tagColors={'Z1/Z2':'#0ea5e9','Tempo':'#f4a261','Threshold':'#fc4c02','VO2':'#e63946'};
   const counts={};
   rides.forEach(a=>{const t=getEffortTag(a).label;counts[t]=(counts[t]||0)+1;});
-  const data=Object.entries(counts).map(([l,c])=>({label:l,count:c,color:tagColors[l]||'#999'}));
-  buildDonut('chart-ride-donut',data,'ride-donut-legend','ride-donut-total');
+  buildDonut('chart-ride-donut',Object.entries(counts).map(([l,c])=>({label:l,count:c,color:tagColors[l]||'#999'})),'ride-donut-legend','ride-donut-total');
 }
-
 function buildSportDonut(arr) {
   const colors={Run:'#2d6a4f',Ride:'#0ea5e9',Swim:'#0077b6',Walk:'#6b6358',Other:'#d4cfc6'};
   const counts={};
   arr.forEach(a=>{const t=simplifyType(a.type||a.sport_type||'Other');counts[t]=(counts[t]||0)+1;});
-  const data=Object.entries(counts).sort((a,b)=>b[1]-a[1]).map(([l,c])=>({label:l,count:c,color:colors[l]||'#999'}));
-  buildDonut('chart-sport-donut',data,'sport-donut-legend','sport-donut-total');
+  buildDonut('chart-sport-donut',Object.entries(counts).sort((a,b)=>b[1]-a[1]).map(([l,c])=>({label:l,count:c,color:colors[l]||'#999'})),'sport-donut-legend','sport-donut-total');
 }
 
 function buildMonthTable(arr) {
@@ -1556,78 +1572,58 @@ function buildMonthTable(arr) {
     const k=fmtMonthKey(a.start_date_local||a.start_date);
     if (!months[k]) months[k]={count:0,dist:0,time:0,sufferSum:0,sufferCount:0,runs:0,rides:0};
     const m=months[k];
-    m.count++;
-    m.dist+=(a.distance||0);
-    m.time+=(a.moving_time||0);
+    m.count++; m.dist+=(a.distance||0); m.time+=(a.moving_time||0);
     if (a.suffer_score){m.sufferSum+=a.suffer_score;m.sufferCount++;}
     const t=simplifyType(a.type||a.sport_type||'');
-    if (t==='Run')  m.runs++;
-    if (t==='Ride') m.rides++;
+    if (t==='Run') m.runs++; if (t==='Ride') m.rides++;
   });
-  const rows=Object.entries(months).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,18);
-  const tbody=document.querySelector('#month-table tbody');
-  tbody.innerHTML=rows.map(([k,v])=>{
+  document.querySelector('#month-table tbody').innerHTML=Object.entries(months).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,18).map(([k,v])=>{
     const [y,m]=k.split('-');
-    const label=new Date(y,m-1,1).toLocaleDateString('en-US',{month:'long',year:'numeric'});
     return `<tr>
-      <td>${label}</td>
-      <td>${v.count}</td>
-      <td>${mi(v.dist).toFixed(1)}</td>
-      <td>${(v.time/3600).toFixed(1)}h</td>
+      <td>${new Date(y,m-1,1).toLocaleDateString('en-US',{month:'long',year:'numeric'})}</td>
+      <td>${v.count}</td><td>${mi(v.dist).toFixed(1)}</td><td>${(v.time/3600).toFixed(1)}h</td>
       <td>${v.sufferCount?Math.round(v.sufferSum/v.sufferCount):'—'}</td>
-      <td>${v.runs}</td>
-      <td>${v.rides}</td>
+      <td>${v.runs}</td><td>${v.rides}</td>
     </tr>`;
   }).join('');
 }
 
 function buildBestEfforts(arr) {
-  // Run: best pace for different distance buckets
   const runBuckets=[
     {label:'~5K',min:2.5,max:3.5},{label:'~10K',min:5.5,max:7},{label:'~15K',min:8,max:11},
     {label:'~Half',min:11,max:15},{label:'~Marathon',min:24,max:28},{label:'Long (30+mi)',min:30,max:999},
   ];
   const runs=arr.filter(a=>simplifyType(a.type||a.sport_type||'')==='Run'&&a.average_speed>0);
   const runRows=runBuckets.map(b=>{
-    const candidates=runs.filter(a=>{const d=mi(a.distance||0);return d>=b.min&&d<=b.max;});
-    if (!candidates.length) return null;
-    const best=candidates.sort((a,b2)=>b2.average_speed-a.average_speed)[0];
+    const best=runs.filter(a=>{const d=mi(a.distance||0);return d>=b.min&&d<=b.max;}).sort((a,b2)=>b2.average_speed-a.average_speed)[0];
+    if (!best) return null;
     return {label:b.label,pace:fmtPace(paceSecsFromSpeed(best.average_speed)),date:fmtDate(best.start_date_local||best.start_date,true)};
   }).filter(Boolean);
-
   document.querySelector('#run-be-table tbody').innerHTML=runRows.map((r,i)=>`<tr>
     <td><span class="be-medal">${i===0?'🥇':i===1?'🥈':i===2?'🥉':''}</span><span class="be-dist">${r.label}</span></td>
-    <td><strong>${r.pace}</strong></td>
-    <td style="color:var(--mid)">${r.date}</td>
+    <td><strong>${r.pace}</strong></td><td style="color:var(--mid)">${r.date}</td>
   </tr>`).join('');
 
-  // Ride: best weighted average watts
   const rides=arr.filter(a=>simplifyType(a.type||a.sport_type||'')==='Ride'&&(a.weighted_average_watts||a.average_watts));
   const rideDurations=[
     {label:'Short (<1hr)',min:0,max:3600},{label:'Medium (1–2hr)',min:3600,max:7200},
     {label:'Long (2–3hr)',min:7200,max:10800},{label:'Epic (3hr+)',min:10800,max:999999},
   ];
   const rideRows=rideDurations.map(b=>{
-    const candidates=rides.filter(a=>{const t=a.moving_time||0;return t>=b.min&&t<b.max;});
-    if (!candidates.length) return null;
-    const best=candidates.sort((a,b2)=>(b2.weighted_average_watts||b2.average_watts||0)-(a.weighted_average_watts||a.average_watts||0))[0];
+    const best=rides.filter(a=>{const t=a.moving_time||0;return t>=b.min&&t<b.max;}).sort((a,b2)=>(b2.weighted_average_watts||b2.average_watts||0)-(a.weighted_average_watts||a.average_watts||0))[0];
+    if (!best) return null;
     return {label:b.label,watts:(best.weighted_average_watts||best.average_watts)+' W',date:fmtDate(best.start_date_local||best.start_date,true)};
   }).filter(Boolean);
-
   document.querySelector('#ride-be-table tbody').innerHTML=rideRows.map((r,i)=>`<tr>
     <td><span class="be-medal">${i===0?'🥇':i===1?'🥈':i===2?'🥉':''}</span><span class="be-dist">${r.label}</span></td>
-    <td><strong>${r.watts}</strong></td>
-    <td style="color:var(--mid)">${r.date}</td>
+    <td><strong>${r.watts}</strong></td><td style="color:var(--mid)">${r.date}</td>
   </tr>`).join('');
 }
 
-// Time range pills
 document.querySelectorAll('.time-pill').forEach(p=>{
   p.addEventListener('click',()=>{
     document.querySelectorAll('.time-pill').forEach(x=>x.classList.remove('active'));
-    p.classList.add('active');
-    analysisRange=+p.dataset.range;
-    buildAnalysis();
+    p.classList.add('active'); analysisRange=+p.dataset.range; buildAnalysis();
   });
 });
 
@@ -1637,10 +1633,7 @@ document.querySelectorAll('.time-pill').forEach(p=>{
 function handleFile(file) {
   if (!file||!file.name.endsWith('.json')){showToast('⚠ Please upload a .json file');return;}
   const reader=new FileReader();
-  reader.onload=e=>{
-    try { loadData(JSON.parse(e.target.result)); }
-    catch { showToast('⚠ Could not parse JSON'); }
-  };
+  reader.onload=e=>{try{loadData(JSON.parse(e.target.result));}catch{showToast('⚠ Could not parse JSON');}};
   reader.readAsText(file);
 }
 document.getElementById('file-input').addEventListener('change',e=>{if(e.target.files[0])handleFile(e.target.files[0])});
@@ -1658,14 +1651,13 @@ function showToast(msg){
   setTimeout(()=>t.classList.remove('show'),2800);
 }
 
-// ═══════════════════════════════════════════════════════════════════════
-// EXPOSE GLOBALS
-// ═══════════════════════════════════════════════════════════════════════
 window.goPage=goPage;
 window.switchTab=switchTab;
+window.toggleMobileMenu=toggleMobileMenu;
+window.closeMobileMenu=closeMobileMenu;
 
 // ═══════════════════════════════════════════════════════════════════════
-// INIT WITH DEMO DATA
+// DEMO DATA + INIT
 // ═══════════════════════════════════════════════════════════════════════
 function makeDemoData(){
   const types=['Run','Run','Run','Run','Ride','Ride','Swim','Walk'];
@@ -1681,8 +1673,7 @@ function makeDemoData(){
     const date=new Date(now-i*1.5*86400000+Math.random()*43200000);
     const type=types[Math.floor(Math.random()*types.length)];
     const nameArr=names[type]||['Activity'];
-    const name=nameArr[Math.floor(Math.random()*nameArr.length)];
-    let act={name,type,sport_type:type,start_date:date.toISOString(),start_date_local:date.toISOString()};
+    let act={name:nameArr[Math.floor(Math.random()*nameArr.length)],type,sport_type:type,start_date:date.toISOString(),start_date_local:date.toISOString()};
     if(type==='Run'){
       act.distance=(3+Math.random()*15)*1609.344;
       const paceSecs=360+Math.random()*300;
@@ -1695,6 +1686,14 @@ function makeDemoData(){
       act.average_speed=8+Math.random()*7;
       act.moving_time=Math.round(act.distance/act.average_speed);
       act.weighted_average_watts=Math.round(130+Math.random()*230);
+      act.average_watts=Math.round(act.weighted_average_watts*0.9);
+      act.device_watts=true;
+      // Demo power stream bests
+      act.best_5sec_watts  = Math.round(600+Math.random()*400);
+      act.best_1min_watts  = Math.round(350+Math.random()*200);
+      act.best_5min_watts  = Math.round(250+Math.random()*120);
+      act.best_10min_watts = Math.round(220+Math.random()*100);
+      act.best_20min_watts = Math.round(200+Math.random()*80);
       act.average_heartrate=120+Math.round(Math.random()*60);
       act.suffer_score=Math.round(15+Math.random()*230);
     } else if(type==='Swim'){
@@ -1716,13 +1715,8 @@ function makeDemoData(){
 document.addEventListener('DOMContentLoaded', () => {
   fetch('./data/strava_data.json')
     .then(r => { if (!r.ok) throw new Error('not found'); return r.json(); })
-    .then(activities => {
-      if (!Array.isArray(activities)) throw new Error('invalid');
-      loadData(activities);
-    })
-    .catch(() => {
-      loadData(makeDemoData()); // fallback to demo if no data found
-    });
+    .then(activities => { if (!Array.isArray(activities)) throw new Error('invalid'); loadData(activities); })
+    .catch(() => { loadData(makeDemoData()); });
 });
 </script>
 </body>
